@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>transition1</title>
+<style>
+img {
+	position: relative;
+	left: 0;
+}
+img.move {
+	left: 800px;
+}
+.img1 {
+	-webkit-transition-duration: 1s;
+	-moz-transition-duration: 1s;
+	-o-transition-duration: 1s;
+	-ms-transition-duration: 1s;
+	transition-duration: 1s;
+}
+.img2 {
+	-webkit-transition-duration: 2s;
+	-moz-transition-duration: 2s;
+	-o-transition-duration: 2s;
+	-ms-transition-duration: 2s;
+	transition-duration: 2s;
+}
+pre {
+	background: #EFEFEF;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 10px;
+	font-size: 1.4em;
+}
+</style>
+</head>
+<body>
+<div class="box">
+<p><button class="add">Run</button> <button class="remove">Back</button></p>
+
+<div><img src="img.png" alt="" class="img1"></div>
+<div><img src="img.png" alt="" class="img2"></div>
+
+<pre><code>img {
+    position: relative;
+    left: 0;
+}
+img.move {
+    left: 800px;
+}
+.img1 {
+    transition-duration: 1s;
+}
+.img2 {
+    transition-duration: 2s;
+}</code></pre>
+</div>
+
+<script src="jquery.js"></script>
+<script>
+$(".box").each(function() {
+	var $imgs = $(this).find("img");
+	$(".add", this).click(function() {
+		$imgs.addClass("move");
+	});
+	$(".remove", this).click(function() {
+		$imgs.removeClass("move");
+	});
+});
+</script>
+</body>
+</html>

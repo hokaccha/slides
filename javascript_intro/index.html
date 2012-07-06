@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>JavaScript入門講座</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<script src='asset/js/jquery.js'></script>
+<script src='asset/js/slide.js'></script>
+<script src='js/custom.js'></script>
+</head>
+<body>
+<div class='wrapper'>
+
+<div class='page top'><div>
+    <h1>JavaScript入門講座</h1>
+    <p class='author'>Kazuhito Hokamura (<a href='http://twitter.com/hokaccha'>@hokaccha</a>)</p>
+    <p class='date'>2010/11/20</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>今日の内容</h2>
+    <ul>
+        <li>JavaScriptを勉強し始めくらいの人を対象にしたJavaScript入門講座的なもの</li>
+        <li>文法とかは調べればわかるのでふれません</li>
+        <li>一人で勉強してもわからなそうな概念などを重点的に説明します</li>
+        <li>ライブコーディングするのでJavaScriptってこんな感じて作るんだなーというのがわかってもらえればと</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>アジェンダ</h2>
+    <ul>
+        <li>JavaScriptを勉強する前に</li>
+        <li>JavaScriptの基礎知識</li>
+        <li>ライブコーディング part1</li>
+        <li>jQueryの基礎知識</li>
+        <li>ライブコーディング part2</li>
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>JavaScriptを<br>勉強する前に</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>JavaScriptの必要性</h2>
+    <ul>
+        <li>サーバーサイドは同じことをするのに自分が好きな言語を選択できる</li>
+        <li>クライアントサイドはJavaScript一択</li>
+        <li>覚えてないとウェブアプリ書けない</li>
+        <li>個人サービスとかでウェブサービスつくるときとかはほぼ必須</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>JavaScriptを覚えるメリット</h2>
+    <ul>
+        <li>ブラウザ上で動くアプリ（このスライドのツールとか）をちゃちゃっと書けるようになる</li>
+        <li>マークアップに色々お役立ち（もはや最近はMEには必須な感じも）</li>
+        <li>Bookmarkletとかブラウザのプラグインを書けるようになるので日常が便利になる</li>
+        <li>最近はiPhoneアプリとかAndroidアプリもJavaScriptで書ける</li>
+        <li>サーバーサイドJavaScriptも最近結構きてるので将来的にはJavaScriptだけ書ければOKという可能性も</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>JavaScriptは勉強しやすい</h2>
+    <ul>
+        <li>ブラウザとテキストエディタだけあればプログラムが動く</li>
+        <li>コンパイルとかコマンドラインとか一切必要なし</li>
+        <li>情報が豊富（だたしゴミ情報も多い）</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>勉強方法</h2>
+    <ul>
+        <li>コードを書く</li>
+        <li>コードを読む</li>
+        <li>本を読む</li>
+    </ul>
+    <p>とにかく書くべし。本は最初に読んでもあんまりわからないと思うのである程度わかってきてから読むのがいいと思う</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>オススメの勉強方法</h2>
+    <ul>
+        <li>JavaScriptは勉強したいけど特に書きたいもの思い浮かばない人は<strong>車輪の再発明</strong>がおすすめ</li>
+        <li>既存のライブラリを自分で再実装してみる</li>
+        <li>コードをみないで書いてみて後で答え合わせでコードを見る</li>
+        <li>コードを書く、コードを読むを合わせて実施できる</li>
+        <li>自分が普段使ってるライブラリ（例えばロールオーバーとか）を再発明すると、自分好みにカスタマイズできるようになるので無駄にならない</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>オススメの勉強方法2（ただの宣伝）</h2>
+    <ul>
+        <li>来月くらいからgihyo.jpとjsdo.itのコラボ連載が始まります</li>
+        <li>マークアップエンジニアあたりを対象に書く予定</li>
+        <li>こうご期待</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>調べ方</h2>
+    <ul>
+        <li>ググると古い情報が多い</li>
+        <li>リファレンス的なものは<a href='https://developer.mozilla.org/ja/JavaScript'>Mozilla Developer Center(MDC)</a>がおすすめ</li></li>
+        <li>ECMAの仕様的なものは<a href='http://www2u.biglobe.ne.jp/~oz-07ams/prog/ecma262r3/'>仕様書の和訳</a>を見るとよい</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>デバッグ方法</h2>
+    <ul>
+        <li>alert</li>
+        <li>console.log</li>
+        <li>Firebug的なものを使う</li>
+        <li>最近はChromeのDeveloper Toolもかなりよい</li>
+        <li>ひたすらブラウザをリロード</li>
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>JavaScriptの<br>基礎知識</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>これだけは抑えておきたい概念</h2>
+    <ul>
+        <li>DOM</li>
+        <li>イベント</li>
+        <li>スコープ</li>
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>DOM</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>DOMとは</h2>
+    <ul>
+        <li>Document Object Model</li>
+        <li>HTMLやXMLを操作するためのAPI</li>
+        <li>HTML文章自体を指してDOMということもあり、意味が広義なのでわかりづらい</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>DOMの例</h2>
+    <pre><code>&lt;p id='foo'&gt;hoge&lt;/p&gt;
+&lt;p id='bar'&gt;hoge&lt;/p&gt;</code></pre>
+    <pre><code>document.getElementsByTagName('p');
+//=> すべてのp要素を取得
+
+document.getElementById('foo');
+//=> idがfooの要素を取得</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>DOMとscript</h2>
+    <p>DOM構築前にはそのDOMは取得できない</p>
+<pre><code>&lt;script&gt;
+document.getElementById('foo'); // <em>NG</em>
+&lt;/script&gt;
+<em>&lt;p id='foo'&gt;foo&lt;/p&gt;</em></code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>DOMとscript</h2>
+    <p>これだとOK</p>
+<pre><code><em>&lt;p id='foo'&gt;foo&lt;/p&gt;</em>
+&lt;script&gt;
+document.getElementById('foo'); // <em>OK</em>
+&lt;/script&gt;</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>DOMContentLoaded</h2>
+    <p>DOMが構築し終わったあとに発生するイベントを使う</p>
+    <pre><code>document.addEventListener('<em>DOMContentLoaded</em>', function() { 
+    // ここにメインの処理
+}, false);</code></pre>
+    <p>ただしIEでこのイベントがないのでwindowのonloadイベントを使うのが簡単（画像などの読み込みをまつので発火が遅いのが欠点）</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>windowとかdocumentとか何なの</h2>
+    <ul>
+        <li>windowはブラウザのwindowそのもの</li>
+        <li>documentはHTML文書</li>
+        <li>windowの中のdocumentなので window.document と書くのが正しい</li>
+        <li>ただしwindowは省略可なので単にdocumentと書いてもいい</li>
+        <li>URLなどの情報が入ったlocationや、履歴を管理するhistoryなどもすべてwindowに属する</li>
+        <li>windowはJavaScriptの一番上の起点にあるオブジェクト</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>windowの図</h2>
+    <p class='center'><img src='./img/window.png' alt='window'></p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>windowの例</h2>
+    <pre><code>window.alert('foo');</code></pre>
+    <p>このウィンドウにアラートを出せという意味</p>
+    <pre><code>alert('foo');</code></pre>
+    <p>windowは省略してもOK</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>windowの例</h2>
+    <pre><code>window.document.getElementById('foo');</code></pre>
+    <p>ウィンドウのドキュメント（HTML）の中にあるfooというidの要素をとってこいということ</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>windowの例</h2>
+    <p>jQueryも例外ではない。windowを省略しなければこうなる。</p>
+    <pre><code>window.$('#foo')</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>イベント</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>イベントとは</h2>
+    <ul>
+        <li>何かが起きたときに何かする</li>
+        <li>クリックされたらalertする</li>
+        <li>JavaScriptとイベントはとても密接に関係している</li>
+        <li>クリックやキー入力、ウィンドウのリサイズなど様々なイベントが定義されている</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>イベントの例</h2>
+    <p id='btn1' class='btn'>#btn1</p>
+    <pre><code>function click_handler() {
+    alert('clicked!')
+}
+var btn1 = document.getElementById('btn1');
+<em>btn1.addEventListener('click', click_handler, false);</em></code></pre>
+    <script>
+        (function() {
+            function click_handler(e) {
+                e.stopPropagation();
+                alert('clicked!')
+            }
+            var btn1 = document.getElementById('btn1');
+            btn1.addEventListener('click', click_handler, false);
+        })();
+    </script>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>イベントの例</h2>
+    <p>無名関数という名前のない関数を使えるので以下のように書くことも可能</p>
+    <pre><code>var btn1 = document.getElementById('btn1');
+btn1.addEventListener('click', <em>function() {
+    alert('clicked!');
+}</em>, false);</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>イベントの例</h2>
+    <p>もしくはonclick属性に書いてもいい</p>
+    <pre><code>&lt;p <em>onclick='alert("clicked!")'</em>&gt;#btn1&lt;/p&gt;</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>スコープ</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>スコープとは</h2>
+    <ul>
+        <li>変数の有効範囲のこと</li>
+        <li><strong>JavaScriptではfunctionでスコープをつくる</strong></li>
+        <li>変数宣言時にvarつけるとそのスコープのローカル変数になる</li>
+        <li>varをつけないとどこでつくった変数だろうと問答無用でグローバル変数になる</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>スコープとは</h2>
+    <p>functionでスコープをつくるので、varをつけて宣言した変数にはfunctionの外からアクセスできない</p>
+    <pre><code>function foo() {
+    <em>var</em> x = 'hoge';
+}
+console.log(x); //=&gt; <em>undefined</em></code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>スコープとは</h2>
+    <p>varをつけないとグローバル変数になるのでfunctionの外からでもアクセスできる</p>
+    <pre><code>function foo() {
+    x = 'hoge';
+}
+console.log(x); //=&gt; <em>hoge</em></code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>スコープチェイン</h2>
+    <p>functionの外側で宣言された変数にはfunctionの中から参照できる。</p>
+    <pre><code><em>var x = 'hoge';</em>
+function foo() {
+    <em>console.log(x);</em>
+}
+foo(); //=&gt; hoge</code></pre>
+    <p>現在のスコープを探して変数が存在しなければ外側のスコープに探しにいく。これを<strong>スコープチェイン</strong>といいます</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>スコープチェイン</h2>
+    <p>スコープチェインでたどるとき、関数実行時の変数の値が参照される</p>
+    <pre><code><em>var x = 'hoge';</em>
+function foo() {
+    <em>console.log(x);</em>
+}
+<em>x = 'fuga';</em>
+foo(); //=> fuga</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>スコープとは</h2>
+    <pre><code>(function() {
+    ...
+})();</code></pre>
+    <p>こんなコード見たことないですか？</p>
+    <p>単にスコープを作りたいときに使う。</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>(function() {})() の意味</h2>
+    <p>例えば以下のように書くと、変数fooはグローバル変数になり、他のコードに影響を及ぼしたりしてよろしくない</p>
+    <pre><code>&lt;script&gt;
+var foo = 'hoge';
+// なんか処理
+&lt;/script&gt;</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>(function() {})() の意味</h2>
+    <p>こう書けば変数fooはこの外では参照されないので安全</p>
+    <pre><code><em>(function() {</em>
+    var foo = 'hoge';
+    // なんか処理
+<em>})();</em>
+// ここではfooにアクセスできない</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>クロージャ</h2>
+    <p>fooはどこからもアクセスできなくなるはずだが、clickのコールバック関数の中でのみ参照される。これを<strong>クロージャ</strong>といいます</p>
+    <pre><code>(function() {
+    var foo = 'bar';
+    hoge.addEventListener('click', <em>function() {
+        alert(foo); //=> bar
+    }</em>, false);
+})();</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>ライブコーディング</h2>
+    <p>ロールオーバーのJavaScriptをライブコーディングします</p>
+    <p><a href='./demo/index1.html'>できたもの</a></p>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>jQuery入門</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryのいいところ</h2>
+    <ul>
+        <li>直感的にJavaScriptを書ける</li>
+        <li>CSSセレクタ互換の記述で要素を取得できる</li>
+        <li>拡張しやすい</li>
+        <li>クロスブラウザを（あまり）考えなくていい</li>
+        <li>アニメーションやAjaxなど実装が面倒だけどよく使うものが簡単に使える</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryのいいところ</h2>
+    <p>特定のclass名の要素をとってくるだけで、クロスブラウザ対応してちゃんと書こうとすると数十行になる（面倒なのでコード書きません）</p>
+    <p>jQueryを使うとこう。超簡単。</p>
+    <pre><code>$('.foo');</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>$ってなんぞ</h2>
+    <ul>
+        <li><strong>$がjQuery</strong>です</li>
+        <li>jQueryを読み込むと$とjQueryというものだけ使えるようになります</li>
+        <li>$ = jQueryなのでどっちを使っても同じです</li>
+        <li>普通は短いので$を使います</li>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryで大事なこと</h2>
+    <p><strong>HTMLの要素をとってきて、それに対して何か操作をする</strong></p>
+    <p>これが超基本でほとんどすべて</p>
+<pre><code>var p = $('p'); // すべてのp要素をとってきて
+p.remove();     // 全部削除する</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryの簡単な例 1</h2>
+    <p>要素を取得する</p>
+    <pre><code>$('#foo'); // idがfooな要素
+$('.foo'); // classがfooな要素
+$('div');  // div要素全部
+$('ul li:nth-child(3)'); // CSS3なセレクタだって使えちゃう
+$(':checked'); // checked属性がついている要素（独自セレクタ）</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryの簡単な例 2</h2>
+    <p>取得したものに対して操作する</p>
+    <pre><code>var foo = $('.foo');
+foo.hide();               // fooを非表示にする
+foo.show();               // fooを表示する
+foo.css('color', '#F00'); // fooにcssを適用する
+foo.html('&lt;p&gt;xxx&lt;/p&gt;');   // fooの中のHTMLを書き換える
+foo.remove();             // fooを削除する</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryの簡単な例 3</h2>
+    <p>つなげて書いてもOK（メソッドチェーン）</p>
+    <pre><code>$('.foo').css('color', '#F00').html('hoge').show();</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryの簡単な例 4</h2>
+    <p>jQueryでイベントを設定する。直感的でわかりやすい。</p>
+<pre><code>$('.foo').<em>click</em>(function() {
+    alert('hoge');
+});</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryの簡単な例 5</h2>
+    <div id='animateBox'>click!</div>
+    <pre><code>$('.foo').<em>animate</em>({
+    left: '1000px', // <em>leftの値を1000pxに</em>
+    opacity: 0      // <em>opacityの値を0に</em>
+}, 2000);           // <em>2000msかけて変化させる</em>
+</code></pre>
+<script>
+$('#animateBox').click(function(e) {
+    e.stopPropagation();
+    $(this).animate({ left: 1000, opacity: 0 }, 2000);
+});
+</script>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryの簡単な例 6</h2>
+    <p>新しい要素を作ってHTMLに追加</p>
+    <pre><code>var div = $('&lt;div&gt;').html('hoge');
+$('.foo').<em>append</em>(div); </code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>jQueryの簡単な例 7</h2>
+    <p>jQueryで簡単にHTTP Request</p>
+    <pre><code>$.ajax({
+    type: 'GET',
+    url: '/api/user',
+    success: function() { ... },
+    error: function() { ... }
+});</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>DOMContentLoaded的なもの</h2>
+    <p>DOMContentLoaded的なものを以下の書き方で書ける。もちろんIEでもOK</p>
+    <pre><code>$(function() {
+    // ここにメインの処理
+});</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>ライブコーディング part2</h2>
+    <p>さっき書いたロールオーバーをjQueryに書きかえます</p>
+    <p><a href='./demo/index2.html'>できたもの</a></p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>まとめ</h2>
+    <ul>
+        <li>JavaScriptを覚えると色々ハッピーになるかも</li>
+        <li>車輪の再発明すると勉強になると思います</li>
+        <li>jQueryを使えば簡単にJavaScriptが書けるので敷居が低くなってます</li>
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>終わり</h2>
+</div></div>
+
+</body>
+</html>

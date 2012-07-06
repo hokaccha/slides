@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>CSSによるアニメーションとイージング</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<script src='asset/js/jquery.js'></script>
+<script src='asset/js/slide.js'></script>
+<script src='js/custom.js'></script>
+</head>
+<body>
+<div class='wrapper'>
+
+<div class='page top'><div>
+    <h1>CSSによるアニメーションとイージング</h1>
+    <p class='author'>外村 和仁（ピクセルグリッド）</p>
+    <p class='date'>2011.05.28</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>自己紹介</h2>
+    <ul class="list">
+        <li>外村和仁（ほかむら かずひと）</li>
+        <li>株式会社ピクセルグリッド</li>
+        <li>フロントエンドエンジニア</li>
+        <li>Twitter: <a href="http:/wtwitter.com/hokaccha">@hokaccha</a></li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>自己紹介</h2>
+    <div class="books">
+    <img src="img/html5_book.jpg" height="380">
+    <img src="img/CSS3_cover_0429.png" height="380">
+    <img src="img/mdn.png" height="380">
+    <img src="img/hatena.png" height="380">
+    </div>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>今日の内容</h2>
+    <ol>
+        <li><span>1</span>CSSによるアニメーション
+            <ol>
+                <li><span>1.1</span>Transitions</li>
+                <li><span>1.2</span>Animations</li>
+            </ol>
+        </li>
+        <li><span>2</span>イージング
+            <ol>
+                <li><span>2.1</span>イージングとは？</li>
+                <li><span>2.2</span>JavaScriptによるアニメーション</li>
+                <li><span>2.3</span>CSSでのイージング</li>
+                <li><span>2.4</span>3次ベジェ関数について</li>
+            </ol>
+        </li>
+    </ol>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>CSSによるアニメーション</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>TransitionsとAnimations</h2>
+    <ul class="list">
+        <li>CSSでアニメーションするにはTransitionsとAnimationsの二つの手段がある</li>
+        <li>Transitionsは時間的変化を指定してアニメーションさせる</li>
+        <li>Animationsはキーフレームを指定してアニメーションさせる</li>
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>Transitions</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>Transitionsの例</h2>
+    <div class="demo1"></div>
+<pre><code>.demo1 {
+    width: 100px;
+    height: 100px;
+    background: red;
+    <strong>transition: width 1s;</strong> /* 実際にはprefixが必要 */
+}
+.demo1:hover {
+    width: 800px;
+}</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>対応ブラウザ</h2>
+    <div class="browsers">
+        <img src="img/ie_disable.png" alt="ie（未対応）">
+        <img src="img/firefox.png" alt="firefox">
+        <img src="img/opera.png" alt="opera">
+        <img src="img/chrome.png" alt="chrome">
+        <img src="img/safari.png" alt="safari">
+    </div>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>Transitionsのプロパティ</h2>
+    <ul class="list">
+        <li>transition-duration</li>
+        <li>transition-property</li>
+        <li>transition-timing-function</li>
+        <li>transition-delay</li>
+        <li>transition</li>
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>Animations</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>Animationsの例</h2>
+    <div class="demo2"></div>
+    <pre><code>.demo2 {
+    width: 100px;
+    height: 100px;
+    background: red;
+    <strong>animation: demo2 1s infinite alternate;</strong>
+}
+<strong>@keyframes demo2</strong> {
+    0%   { width: 100px }
+    100% { width: 800px }
+}</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>対応ブラウザ</h2>
+    <div class="browsers">
+        <img src="img/ie_disable.png" alt="ie（未対応）">
+        <img src="img/firefox_disable.png" alt="firefox（未対応）">
+        <img src="img/opera_disable.png" alt="opera（未対応）">
+        <img src="img/chrome.png" alt="chrome">
+        <img src="img/safari.png" alt="safari">
+    </div>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>Animations関連のプロパティ</h2>
+    <ul class="list">
+        <li>animation-name</li>
+        <li>animation-duration</li>
+        <li>animation-timing-function</li>
+        <li>animation-iteration-count</li>
+        <li>animation-direction</li>
+        <li>animation-play-state</li>
+        <li>animation-delay</li>
+        <li>animation</li>
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>イージング</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>イージングとは？</h2>
+    <ul class="list">
+        <li>アニメーションの動き方を指定する関数のこと
+        <li>「ずっと等速」、「最初はゆっくり、あとで高速」など
+        <li>CSSでのイージングは3次ベジェ関数というものを使うことができる
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>JavaScriptにおける<br>アニメーション</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>なぜJavaScriptが関係あるのか</h2>
+    <ul class="list">
+        <li>アニメーションとイージングの仕組みをJavaScriptで再現してみる</li>
+        <li>FlashなどもでいいけどJavaScriptが得意なので</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>JavaScriptでのアニメーション</h2>
+    <div style="text-align:center;"><img src="img/pic1.png" alt="A->Bまで1000px"></div>
+    <p>A地点からB地点まで500pxの距離を1秒かけてアニメーションするケースを考える</p>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>Demo</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>CSSによるイージング</h2>
+    <ul class="list">
+        <li>CSSには時間や変化量を元に複雑な計算することはできない</li>
+        <li>代わりに3次ベジェ関数でイージングを設定できる</li>
+        <li>というかこれしか使えない</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>CSSでのイージングの指定</h2>
+    <h3>3次ベジェ関数</h3>
+    <pre><code>transition-timing-function: cubic-bezier(n, n, n, n);</code></pre>
+    <p>※ n: 0〜1 の数値</p>
+    <h3>キーワード</h3>
+    <pre><code>transition-timing-function: ease-in-out;</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>指定可能なキーワード</h2>
+    <table class="table1">
+        <col style="width:20%">
+        <col style="width:41%">
+        <col style="width:39%">
+        <tbody>
+        <tr>
+            <th>ease<br>（デフォルト）</th>
+            <td>cubic-bezier(0.25, 0.1, 0.25, 1.0)</td>
+            <td>徐々に加速し、終わりに減速する</td>
+        </tr>
+        <tr>
+            <th>linear</th>
+            <td>cubic-bezier(0.0, 0.0, 1.0, 1.0)</td>
+            <td>常に等速で移動する</td>
+        </tr>
+        <tr>
+            <th>ease-in</th>
+            <td>cubic-bezier(0.42, 0, 1.0, 1.0)</td>
+            <td>ゆっくり始まる</td>
+        </tr>
+        <tr>
+            <th>ease-out</th>
+            <td>cubic-bezier(0, 0, 0.58, 1.0)</td>
+            <td>ゆっくり終わる</td>
+        </tr>
+        <tr>
+            <th>ease-in-out</th>
+            <td>cubic-bezier(0.42, 0, 0.58, 1.0)</td>
+            <td>ゆっくり始まりゆっくり終わる</td>
+        </tr>
+        </tbody>
+    </table>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>cubic-bezierって何？</h2>
+    <div class="timingfunc">
+        <img src="img/TimingFunction.png" alt="3次ベジェ曲線" width="350">
+    </div>
+    <ul class="list" style="font-size:0.88em">
+        <li>3次ベジェ曲線でイージングを指定する</li>
+        <li>4つのコントロールポイント<br>（P0、P1、P2、P3）で定義される</li>
+        <li>P0は0,0 P3は1,1に固定</li>
+        <li>P1の x , y とP2の x , y を指定する</li>
+        <li>詳しくは<a href="http://ja.wikipedia.org/wiki/%E3%83%99%E3%82%B8%E3%82%A7%E6%9B%B2%E7%B7%9A">Wikipediaのベジェ曲線</a>を見るべし</li>
+		<li><a href="http://www.roblaplaca.com/examples/bezierBuilder/">3次ベジェ曲線ジェネレーター</a></li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>JavaScriptでcubic-bezierを実装する</h2>
+	<p>P1x、P1y、P2x、P2yを入力値としてイージングの関数を返す関数を実装する</p>
+
+<pre><code>function cubicBezier(p1x, p1y, p2x, p2y) {
+    return function(x, t, b, c, d) {
+        // なんか小難しい処理
+    }
+}</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>Demo</h2>
+</div></div>
+
+
+<div class='page plain'><div>
+	<h2>まとめ</h2>
+	<ul class="list">
+		<li>CSSのアニメーションはとっても簡単</li>
+		<li>イージングはちょっと難しい</li>
+		<li>3次ベジェ曲線とかしらなくてもCSSは書けます</li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2 style="font-size: 1.2em;">ありがとうございました</h2>
+</div></div>
+
+</body>
+</html>

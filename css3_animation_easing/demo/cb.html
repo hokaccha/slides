@@ -1,0 +1,10 @@
+
+function cubicBezier(P1x, P1y, P2x, P2y) {
+	return function(x, t, b, c, d) {
+		var t = t/d;
+		var x,k=((1-t)*(1-t)*(1-t));
+		x=P1x*(3*t*t*(1-t))+P2x*(3*t*(1-t)*(1-t))+k;
+		y=P1y*(3*t*t*(1-t))+P2y*(3*t*(1-t)*(1-t))+k;
+		return {x:Math.abs(x),y:Math.abs(y)};
+	};
+}

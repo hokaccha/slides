@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Slide Controller</title>
+<style>
+div {
+	margin: 1em;
+}
+button {
+	font-size: 30px;
+	width: 100%;
+}
+</style>
+</head>
+<body>
+<div><button id="prev">Prev</button></div>
+<div><button id="next">Next</button></div>
+<script src="jquery.js"></script>
+<script>
+var ws = new WebSocket("ws://" + location.hostname + ":8080/test");
+$("#prev").click(function() {
+	ws.send("prev");
+});
+$("#next").click(function() {
+	ws.send("next");
+});
+</script>
+</body>
+</html>

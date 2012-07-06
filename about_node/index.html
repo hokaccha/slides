@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>some site</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
+<script src='asset/js/jquery.js'></script>
+<script src='asset/js/slide.js'></script>
+<script src='js/highlight.min.js'></script>
+<script src='js/custom.js'></script>
+</head>
+<body>
+<div class='wrapper'>
+
+<div class='page top'><div>
+	<h1>Node.js的な話し</h1>
+	<p class='author'>外村 和仁（ピクセルグリッド）</p>
+	<p class='date'>2011.11.12</p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>あじぇんだ</h2>
+	<ul class="list">
+		<li>CodeGridの構成とか</li>
+		<li>ルーティングとか</li>
+		<li>DBとモデルとか</li>
+		<li>connectとか</li>
+		<li>フロー制御とか</li>
+		<li>テストとか</li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>CodeGridの構成とか</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<div style="padding-top:50px;" class="center"><img src="img/Server.png"></div>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>アプリの設計で気を付けたこと</h2>
+	<ul class="list">
+		<li>ある程度規模が大きくなってもメンテできるように</li>
+		<li>規模というのはアクセス数じゃなくてアプリの大きさ</li>
+		<li>expressの欠点は自由すぎるところ</li>
+		<li>できるだけルールを決めてファイルを分割</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>ディレクトリ構成</h2>
+<pre><code>.
+├── app.backend.js
+├── app.frontend.js
+└── lib
+    └── codegrid
+        ├── index.js
+        ├── config
+        │   ├── config.js
+        │   ├── config.local.js
+        │   ├── index.js
+        │   └── test.js
+        ├── controller
+        │   ├── backend
+        │   │   ├── root.js
+        │   │   ├── entry.js
+        │   │   ├── user.js
+        │   │   └── etc...
+        │   ├── frontend
+        │   │   ├── root.js
+        │   │   ├── entry.js
+        │   │   ├── user.js
+        │   │   └── etc...
+        │   └── index.js
+        ├── model
+        │   ├── index.js
+        │   ├── models
+        │   │   ├── entry.js
+        │   │   ├── user.js
+        │   │   └── etc...
+        │   └── validator.js
+        ├── setting
+        │   ├── backend.js
+        │   ├── frontend.js
+        │   └── index.js
+        ├── test.js
+        └── utils.js</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>ルーティングとか</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>解決したい問題</h2>
+	<ul class="list">
+		<li>ルーティングのマップ一覧が一目で見れるようにしたい</li>
+		<li>ファイルを分割したい</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>方法1</h2>
+	<p>ルーティングマップを書いてパースする</p>
+	<p><a href='https://gist.github.com/1354601'>https://gist.github.com/1354601</a></p>
+
+<pre><code>var routesMap = {
+    'GET  /'      : 'root:index'
+  , 'GET  /about' : 'about:index'
+  , 'GET  /entry' : 'entry:index'
+  , 'POST /entry' : 'entry:create'
+};</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>方法2</h2>
+	<ul class="list">
+		<li>特定ディレクトリのファイルを全部読み込む</li>
+		<li>今回採用した方法</li>
+		<li>ルーティング一覧が見れないのスクリプトで対応した</li>
+	<ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>DBとモデルとか</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>MongoDBという選択</h2>
+	<ul class="list">
+		<li>単純に使ってみたかっただけ</li>
+		<li>node.jsとの相性はいい</li>
+		<li>スケーラブルで大きいデータを扱うのが得意だけど今回は関係ない</li>
+		<li>データ構造が柔軟なところ、JSでクエリが書けるところが利点</li>
+		<li>今のところ困るのはJOINがないのとトランザクションがないことくらい</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>Mongooseという選択</h2>
+	<ul class="list">
+		<li>たぶん一番使われてるMongoDBのORM</li>
+		<li>LearnBoost謹製</li>
+		<li>RDB（SQL）ほどORMの必要性は感じない</li>
+		<li>けどある程度大きくなったらやっぱあったほうがいい気も</li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>connectとか</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>connectとはなんぞや</h2>
+	<ul class="list">
+		<li>middleware framework</li>
+		<li>リクエストの処理に様々なmiddlewareを差し込める</li>
+		<li>expressはconnectをベースにしてつくられてる</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>通常のHTTP Server</h2>
+	<pre><code>var http = require('http');
+
+http.createServer(function(req, res) {
+  res.end('hoge');
+}).listen(3000);</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>connectを使った場合</h2>
+<pre><code>var connect = require('connect');
+
+var app = connect.createServer();
+app.use(function(req, res, next) {
+  if (req.url === '/') {
+    next();
+  }
+  else {
+    res.end('not found');
+  }
+});
+
+app.use(function(req, res, next) {
+  res.end('hoge');
+});
+
+app.listen(3000);</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>様々なmiddleware</h2>
+	<ul class="list">
+		<li>bodyParser</li>
+		<li>static</li>
+		<li>vhost</li>
+		<li>basicAuth</li>
+		<li>logger</li>
+		<li>csrf</li>
+		<li>cookieParser</li>
+		<li>session</li>
+		<li>compiler</li>
+		<li>methodOverride</li>
+		<li>responseTime</li>
+		<li>router</li>
+		<li>staticCache</li>
+		<li>directory</li>
+		<li>favicon</li>
+		<li>limit</li>
+		<li>profiler</li>
+		<li>query</li>
+		<li>errorHandler</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>expressから使う場合</h2>
+	<pre><code>var express = require('express');
+var app = express.createServer();
+
+app.use(express.methodOverride());
+app.use(express.bodyParser());
+app.use(express.static(__dirname + '/public'));
+
+app.get('/', function(req, res) {
+  ...
+});
+</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>CSSとJS</h2>
+	<ul class="list">
+		<li>connectのmiddlewareでlessをコンパイルして返す</li>
+		<li>jsは複数ファイルをつなげて一ファイルにして返す</li>
+		<li>本番ではメモリキャッシュするので速度的にはたぶん問題ない</li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>フロー制御とか</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>これよめばおｋ</h2>
+	<p><a href="http://www.slideshare.net/koichik/node1">http://www.slideshare.net/koichik/node1</a></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>二つの非同期処理</h2>
+	<ul class="list">
+		<li>イベントリスナ</li>
+		<li>コールバック</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>イベントリスナ</h2>
+<pre><code>var ret = asyncFunc();
+
+ret.on('data', function() {
+  ...
+});
+
+ret.on('hoge', function() {
+  ...
+});
+
+ret.on('error', function() {
+  ...
+});</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>コールバック</h2>
+<pre><code>var fs = require('fs');
+
+fs.readFile('./hoge.html', 'utf8', function(err, file) {
+  console.log(file);
+});</code></pre>
+<ul class="list">
+	<li>callback関数を受け取る関数は、引数の最後にcallback関数を受け取る</li>
+	<li>callback関数の最初の引数はエラ−（なければnull）</li>
+	<li>たまにそうなってないのもある</li>
+</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>二つの違いとか</h2>
+	<ul class="list">
+		<li>通知すべきイベント1つで一回しか発生しないものはcallback、そうでないならEventEmitterというのが普通かも？</li>
+		<li>両方対応してるやつも</li>
+		<li>EventEmitterの場合は置いておいて、callbackの問題を扱う</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>Node.jsで困ること</h2>
+<pre><code>var fs = require('fs');
+var path = './hoge.txt';
+
+fs.writeFile(path, "hello", function (err) {
+  if (err) return console.error(err);  
+  fs.open(path, "a", 0644, function (err, file) {
+    if (err) return console.error(err);  
+    fs.write(file, " world", null, "utf-8", function (err) {
+      if (err) return console.error(err);  
+      fs.close(file, function (err) {
+        if (err) return console.error(err);  
+        fs.readFile(path, "utf-8", function (err, data) {
+          if (err) return console.error(err);  
+          console.log(data);
+        });
+      });
+    });
+  });
+});</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>Deferredを使った場合</h2>
+<pre><code>var fs = require('fs');
+var Deferred = require('jsdeferred').Deferred;
+var path = "./hoge.txt";
+
+Deferred.next(function() {
+  var deferred = new Deferred();
+  fs.writeFile(path, "hello", function(err) {
+    if (err) return deferred.fail(err);    
+    deferred.call();
+  });
+  return deferred;
+})
+.next(function() {
+  var deferred = new Deferred();
+  fs.open(path, "a", 0666, function(err, file) {
+    if (err) return deferred.fail(err);    
+    deferred.call(file);
+  });
+  return deferred;
+})
+.next(function(file) {
+  var deferred = new Deferred();
+  fs.write(file, " world", null, "utf-8", function(err) {
+    if (err) return deferred.fail(err);    
+    deferred.call(file);
+  });
+  return deferred;
+})
+.next(function(file) {
+  var deferred = new Deferred();
+  fs.close(file, function(err) {
+    if (err) return deferred.fail(err);    
+    deferred.call();
+  });
+  return deferred;
+})
+.next(function() {
+  fs.readFile(path, "utf-8", function(err, data) {
+    if (err) return deferred.fail(err);    
+    console.log(data);
+  });
+})
+.error(function(err) {
+  console.error(err);
+});</code></pre>
+
+</div></div>
+
+<div class='page plain'><div>
+	<h2>様々なフローコントロールモジュール</h2>
+	<p><a href="https://github.com/joyent/node/wiki/modules#wiki-async-flow">https://github.com/joyent/node/wiki/modules#wiki-async-flow</a></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>chain-tiny</h2>
+	<ul class="list">
+		<li>Flow controllの仕組みを理解したくて書いてみた</li>
+		<li>個人的には気に入ってる</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>chain-tinyで書いてみる</h2>
+<pre><code>var fs = require('fs');
+var chain = require('chain-tiny');
+var path = "./hoge.txt";
+
+chain(function(next) {
+  fs.writeFile(path, "hello", next);
+})
+.chain(function(next) {
+  fs.open(path, "a", 0644, next);
+})
+.chain(function(file, next) {
+  fs.write(file, " world", null, "utf-8", function(err) {
+    next(err, file);
+  });
+})
+.chain(function(file, next) {
+  fs.close(file, next);
+})
+.chain(function(next) {
+  fs.readFile(path, "utf-8", next);
+})
+.end(function(err, data) {
+  if (err) console.error(err);
+  console.log(data);
+});</code></pre>
+
+</div></div>
+
+<div class='page plain'><div>
+	<h2>テストとか</h2>
+	<ul class="list">
+		<li>nodeunitでテスト書いてる</li>
+		<li>モデル中心にコントローラーのテストも正常なレスポンスが返るか程度はやってる</li>
+		<li>ホントは昨日の夜Jenkiins入れてCIのデモしたかったかけど拡張つくるのに時間もっていかれた</li>
+		<li>のでTravis CIの紹介</li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>おわり</h2>
+</div></div>
+
+</body>
+</html>

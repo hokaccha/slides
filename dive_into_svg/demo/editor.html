@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>SVG Demo</title>
+<link rel="stylesheet" href="css/redmond/jquery-ui-1.8.16.custom.css" type="text/css" media="all" />
+<script src="js/jquery-1.6.2.min.js"></script>
+<script src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.box {
+	display: -webkit-box;
+}
+
+h1 {
+	margin: 20px 10px;
+	padding-bottom: 10px;
+	border-bottom: 2px solid #999;
+}
+
+h1 .url {
+	margin-left: 20px;
+	color: #b55037;
+}
+
+.code, .result {
+	position: relative;
+	margin: 0 10px;
+}
+
+.btns {
+	position: absolute;
+	top: 5px;
+	left: 80px;
+	margin: 0;
+	padding: 0;
+}
+
+.code textarea {
+	width: 520px;
+	height: 480px;
+	font-size: 22px;
+	line-height: 1.4;
+	padding: 10px;
+}
+
+.canvas {
+	border: 1px solid #000;
+	background: url(bg.png);
+}
+
+svg {
+	vertical-align: bottom;
+}
+
+.dialog-help {
+	font-size: 14px;
+	display: none;
+}
+
+.dialog-help .content {
+	display: none;
+}
+
+.dialog-help .content.index {
+	display: block;
+}
+
+.dialog-help .index ul {
+	margin: 10px 20px;
+	padding: 0;
+}
+
+.dialog-help .index li {
+	list-style: square;
+	font-size: 16px;
+	margin: 10px 0;
+}
+.dialog-help span[data-target] ,
+.dialog-help span[data-source] {
+	cursor: pointer;
+	color: #00F;
+	text-decoration: underline;
+}
+.dialog-help table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.dialog-help table th {
+	width: 50px;
+	white-space: nowrap;
+}
+.dialog-help table th,
+.dialog-help table td {
+	border-bottom: 1px solid #4297d7;
+	padding: 7px;
+}
+.dialog-help table tr:last-child th,
+.dialog-help table tr:last-child td {
+	border-bottom: none;
+}
+.dialog-help h3 {
+	border-left: 5px solid #4297D7;
+	padding: 3px 10px;
+	margin-top: 30px;
+}
+
+.dialog-help .snippet li {
+	list-style: circle;
+}
+
+.snippets {
+	display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="all">
+<h1>
+	<span class="title">SVG Demo</span>
+</h1>
+
+<div class="box">
+<div class="code">
+<h2>Code</h2>
+<p class="btns">
+<button class="draw">draw</button>
+<button class="help">help</button>
+</p>
+<textarea><svg width="500" height="500">
+<circle cx="200" cy="200" r="100" fill="red"/>
+</svg></textarea>
+</div>
+
+<div class="result">
+<h2>Result</h2>
+<div class="canvas">
+</div>
+</div>
+
+</div>
+
+<div class="dialog-help" title="Help">
+	<div class="content index">
+		<h2>Index</h2>
+		<ul>
+			<li><span data-target="rect">rect</span></li>
+			<li><span data-target="circle">circle</span></li>
+			<li><span data-target="ellipse">ellipse</span></li>
+			<li><span data-target="line">line</span></li>
+			<li><span data-target="polyline">polyline</span></li>
+			<li><span data-target="polygon">polygon</span></li>
+			<li><span data-target="path">path</span></li>
+		</ul>
+	</div>
+
+	<div class="content rect">
+		<p class="back"><span data-target="index">&laquo; back</span></p>
+
+		<h2>&lt;rect&gt;</h2>
+		<p>平行な矩形を定義する。</p>
+
+		<div class="snippet">
+			<h3>Snippet</h3>
+			<ul>
+				<li><span data-source="rect1">基本図形</span></li>
+				<li><span data-source="rect2">角丸</span></li>
+				<li><span data-source="rect3">ストローク</span></li>
+			</ul>
+		</div>
+
+		<div class="attrs">
+			<h3>主要属性</h3>
+			<table>
+				<tr>
+					<th>x</th>
+					<td>矩形の左右端のX座標</td>
+				</tr>
+				<tr>
+					<th>y</th>
+					<td>矩形の左右端のY座標</td>
+				</tr>
+				<tr>
+					<th>width</th>
+					<td>矩形の幅</td>
+				</tr>
+				<tr>
+					<th>height</th>
+					<td>矩形の高さ</td>
+				</tr>
+				<tr>
+					<th>rx</th>
+					<td>矩形の角を丸めるために用いられる楕円の X 軸半径の長さ</td>
+				</tr>
+				<tr>
+					<th>ry</th>
+					<td>矩形の角を丸めるために用いられる楕円の Y 軸半径の長さ</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="content circle">
+		<p class="back"><span data-target="index">&laquo; back</span></p>
+
+		<h2>&lt;circle&gt;</h2>
+		<p>中心点と半径をもとに円を定義する。</p>
+
+		<div class="snippet">
+			<h3>Snippet</h3>
+			<ul>
+				<li><span data-source="circle1">基本図形</span></li>
+				<li><span data-source="circle2">opacity</span></li>
+			</ul>
+		</div>
+
+		<div class="attrs">
+			<h3>主要属性</h3>
+			<table>
+				<tr>
+					<th>cx</th>
+					<td>円の中心のＸ座標</td>
+				</tr>
+				<tr>
+					<th>cy</th>
+					<td>円の中心のＹ座標</td>
+				</tr>
+				<tr>
+					<th>r</th>
+					<td>円の半径</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="content ellipse">
+		<p class="back"><span data-target="index">&laquo; back</span></p>
+
+		<h2>&lt;ellipse&gt;</h2>
+		<p>中心と二つの半径の長さをもとに楕円を定義する。</p>
+
+		<div class="snippet">
+			<h3>Snippet</h3>
+			<ul>
+				<li><span data-source="ellipse1">基本図形</span></li>
+			</ul>
+		</div>
+
+		<div class="attrs">
+			<h3>主要属性</h3>
+			<table>
+				<tr>
+					<th>cx</th>
+					<td>円の中心のＸ座標</td>
+				</tr>
+				<tr>
+					<th>cy</th>
+					<td>円の中心のＹ座標</td>
+				</tr>
+				<tr>
+					<th>rx</th>
+					<td>楕円のＸ軸半径の長さ</td>
+				</tr>
+				<tr>
+					<th>ry</th>
+					<td>楕円のＹ軸半径の長さ</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="content line">
+		<p class="back"><span data-target="index">&laquo; back</span></p>
+
+		<h2>&lt;line&gt;</h2>
+		<p>点から点への線分を定義する。</p>
+
+		<div class="snippet">
+			<h3>Snippet</h3>
+			<ul>
+				<li><span data-source="line1">基本図形</span></li>
+			</ul>
+		</div>
+
+		<div class="attrs">
+			<h3>主要属性</h3>
+			<table>
+				<tr>
+					<th>x1</th>
+					<td>線分の始点のＸ座標</td>
+				</tr>
+				<tr>
+					<th>y1</th>
+					<td>線分の始点のＹ座標</td>
+				</tr>
+				<tr>
+					<th>x2</th>
+					<td>線分の終点のＸ座標</td>
+				</tr>
+				<tr>
+					<th>y2</th>
+					<td>線分の終点のＹ座標</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="content polyline">
+		<p class="back"><span data-target="index">&laquo; back</span></p>
+
+		<h2>&lt;polyline&gt;</h2>
+		<p>１本以上の線分がつなげられた折線を定義する。</p>
+
+		<div class="snippet">
+			<h3>Snippet</h3>
+			<ul>
+				<li><span data-source="polyline1">折れ線グラフ</span></li>
+				<li><span data-source="polyline2">矩形グラフ</span></li>
+			</ul>
+		</div>
+
+		<div class="attrs">
+			<h3>主要属性</h3>
+			<table>
+				<tr>
+					<th>points</th>
+					<td>折線を構成する一連の点</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="content polygon">
+		<p class="back"><span data-target="index">&laquo; back</span></p>
+
+		<h2>&lt;polygon&gt;</h2>
+		<p>複数のつながった線分で構成される多角形を定義する。</p>
+
+		<div class="snippet">
+			<h3>Snippet</h3>
+			<ul>
+				<li><span data-source="polygon1">基本図形</span></li>
+				<li><span data-source="polygon2">星</span></li>
+			</ul>
+		</div>
+
+		<div class="attrs">
+			<h3>主要属性</h3>
+			<table>
+				<tr>
+					<th>points</th>
+					<td>多角形を構成する一連の点</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="content path">
+		<p class="back"><span data-target="index">&laquo; back</span></p>
+
+		<h2>&lt;path&gt;</h2>
+		<p>様々な図形をパスデータで汎用的に描画する</p>
+
+		<div class="snippet">
+			<h3>Snippet</h3>
+			<ul>
+				<li><span data-source="path1">直線</span></li>
+				<li><span data-source="path2">ベジェ曲線</span></li>
+				<li><span data-source="path3">円</span></li>
+			</ul>
+		</div>
+
+		<div class="attrs">
+			<h3>主要属性</h3>
+			<table>
+				<tr>
+					<th>d</th>
+					<td>図形の外形線の定義</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="method">
+			<h3>d属性値で使用する命令</h3>
+			<table>
+				<tr>
+					<th>M</th>
+					<td>moveto: 指定した座標から新しく部分パスを開始させることを指示する</td>
+				</tr>
+				<tr>
+					<th>Z</th>
+					<td>closepath: 現在の点から現在の部分パスの始点まで直線を描き、部分パスを閉じる</td>
+				</tr>
+				<tr>
+					<th>L</th>
+					<td>lineto: 現在の点から指定した座標へ直線を描き、その座標を新しく現在の点とする</td>
+				</tr>
+				<tr>
+					<th>H</th>
+					<td>horizontal lineto: 現在の点から指定した座標へ水平線を描く</td>
+				</tr>
+				<tr>
+					<th>V</th>
+					<td>vertical lineto: 現在の点から指定した座標へ垂直線を描く</td>
+				</tr>
+				<tr>
+					<th>C</th>
+					<td>curveto: 現在の点から指定した座標へ三次ベジェ曲線を描く</td>
+				</tr>
+				<tr>
+					<th>S</th>
+					<td>shorthand/smooth curveto: 現在の点から指定した座標へ三次ベジェ曲線を描く</td>
+				</tr>
+				<tr>
+					<th>Q</th>
+					<td>quadratic Bezier curveto: 現在の点から制御点を用いて指定した座標へ二次ベジェ曲線を描く</td>
+				</tr>
+				<tr>
+					<th>T</th>
+					<td>Shorthand/smooth quadratic Bezier curveto: 現在の点から指定した座標へ二次ベジェ曲線を描く</td>
+				</tr>
+				<tr>
+					<th>A</th>
+					<td>elliptical arc: 現在の点から指定した点へ楕円形の弧を描く</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="snippets">
+<script class="rect1" type="x-snippet">
+<svg width="500" height="500">
+<rect x="100" y="100" width="200" height="100" fill="red"/>
+</svg>
+</script>
+
+<script class="rect2" type="x-snippet">
+<svg width="500" height="500">
+<rect x="100" y="100" width="200" height="100" rx="50" ry="100" fill="red"/>
+</svg>
+</script>
+
+<script class="rect3" type="x-snippet">
+<svg width="500" height="500">
+<rect x="100" y="100" width="200" height="100" fill="red" stroke="blue" stroke-width="5"/> 
+</svg>
+</script>
+
+<script class="circle1" type="x-snippet">
+<svg width="500" height="500">
+<circle cx="200" cy="200" r="100" fill="red"/>
+</svg>
+</script>
+
+<script class="circle2" type="x-snippet">
+<svg width="500" height="500">
+<circle cx="250" cy="200" r="100" fill="red" fill-opacity="0.7"/>
+<circle cx="180" cy="300" r="100" fill="blue" fill-opacity="0.7"/>
+<circle cx="320" cy="300" r="100" fill="green" fill-opacity="0.7"/>
+</svg>
+</script>
+
+<script class="ellipse1" type="x-snippet">
+<svg width="500" height="500">
+<ellipse cx="200" cy="200" rx="200" ry="100" fill="lime" stroke="blue" stroke-width="5"/>
+</svg>
+</script>
+
+<script class="line1" type="x-snippet">
+<svg width="500" height="500">
+<line x1="100" y1="100" x2="400" y2="200" stroke="red" stroke-width="5"/>
+</svg>
+</script>
+
+<script class="polyline1" type="x-snippet">
+<svg width="500" height="500">
+<polyline points="0,300 100,100, 200,400 300,000 400,200 500,50" stroke-width="5" stroke="red" fill="none"/>
+</svg>
+</script>
+
+<script class="polyline2" type="x-snippet">
+<svg width="500" height="500">
+<polyline fill="none" stroke="blue" stroke-width="10" points="0,375 50,375 50,325 100,325 100,375 150,375 150,250 200,250 200,375 250,375 250,175 300,175 300,375 350,375 350,100 400,100 400,375 450,375 450,25 500,25 500,375"/>
+</svg>
+</script>
+
+<script class="polygon1" type="x-snippet">
+<svg width="500" height="500">
+<polygon fill="lime" stroke="blue" stroke-width="10" points="250,100 358,162 358,287 250,350 142,287 142,162"/>
+</svg>
+</script>
+
+<script class="polygon2" type="x-snippet">
+<svg width="500" height="500">
+<polygon fill="red" stroke="blue" stroke-width="10" points="250,100 279,186 369,186 297,240 323,326 250,275 177,326 203,240 131,186 221,186"/>
+</svg>
+</script>
+
+<script class="path1" type="x-snippet">
+<svg width="500" height="500">
+<path d="M100,100 L400,200 v200 h-200 z" stroke="red" stroke-width="5" fill="none"/>
+</svg>
+</script>
+
+<script class="path2" type="x-snippet">
+<svg width="500" height="500">
+<path d="M100,200 C100,100 250,100 250,200 S400,300 400,200" stroke="red" stroke-width="5" fill="none"/>
+</svg>
+</script>
+
+<script class="path3" type="x-snippet">
+<svg width="500" height="500">
+<path d="M250,250 v-150 a150,150,0,1,0,150,150 z" stroke="red" stroke-width="5" fill="none"/>
+</svg>
+</script>
+
+<script class="polygon2" type="x-snippet">
+</script>
+
+</div>
+
+<script>
+var $canvas = $(".canvas");
+var $textarea = $("textarea");
+var $help = $(".dialog-help");
+function draw(html) {
+	if (html) {
+		$textarea.val(html);
+	}
+	$canvas.html( $textarea.val() );
+}
+
+$textarea.keydown(function(e) {
+	if ((e.metaKey || e.ctrlKey) && e.keyCode == 13) {
+		e.preventDefault();
+		draw();
+	}
+});
+
+var $helpContent = $help.find(".content");
+$help.find("[data-target]").click(function() {
+	var target = $(this).data("target");
+	var $target = $helpContent.filter("." + target);
+	var $current = $helpContent.filter(":visible");
+	$current.fadeOut(function() {
+		$target.fadeIn();
+	});
+});
+
+var $snippets = $(".snippets script");
+$help.find("[data-source]").click(function() {
+	var target = $(this).data("source");
+	draw( $snippets.filter("." + target).text().trim() );
+});
+
+$(".draw").click(function() { draw() }).trigger("click");
+$(".help").click(function() {
+	$help.dialog({ width: 400, height: 600 });
+});
+</script>
+
+</body>
+</html>

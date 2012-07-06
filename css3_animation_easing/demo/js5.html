@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>demo js5</title>
+<style>
+.circle {
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	background: #C00;
+	position: relative;
+	left: 0;
+	top: 500px;
+	z-index: 1;
+}
+pre {
+	background: #EFEFEF;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 10px;
+	font-size: 1.4em;
+}
+.graph {
+	width: 500px;
+	height: 500px;
+	border-left: 2px solid #000;
+	border-bottom: 2px solid #000;
+	position: relative;
+	bottom: 13px;
+	left: 13px;
+}
+</style>
+</head>
+<body>
+<p><button>Run</button></p>
+<div class="circle"></div>
+<div class="graph"></div>
+
+<pre>animate(circle, 'left', 0, 500, 1000, linear);
+animate(circle, 'top', 500, 0, 1000, jQuery.easing.easeOutBounce);</code></pre>
+
+<script src="jquery.js"></script>
+<script src="jquery.easing.js"></script>
+<script>
+var circle = document.querySelector(".circle");
+var btn = document.querySelector("button");
+
+// アニメーション関数
+function animate(element, property, from, to, duration, easing) {
+	var begin = +new Date; // 開始時間
+	var timer = setInterval(function() {
+		var time = new Date - begin; // 経過時間
+		var pos, now;
+		if (time > duration) {
+			clearInterval(timer);
+			now = to;
+		}
+		else {
+			pos = easing(null, time, 0, 1, duration);
+			now = pos * (to - from) + from;
+		}
+		element.style[property] = now + "px";
+	}, 10);
+}
+
+function linear(x, t, b, c, d) {
+	return t/d;
+}
+
+// アニメーション
+btn.addEventListener("click", function() {
+	animate(circle, 'left', 0, 500, 1000, linear);
+	animate(circle, 'top', 500, 0, 1000, jQuery.easing.easeOutBounce);
+});
+</script>
+</body>
+</html>

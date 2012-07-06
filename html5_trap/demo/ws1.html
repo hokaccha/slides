@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>WebStorage</title>
+<style>
+body {
+	font-size: 30px;
+}
+.msg {
+	color: red;
+}
+pre {
+	padding: 10px;
+	background: #EFEFEF;
+	border: 1px solid #000;
+}
+button {
+	font-size: 30px;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+<p class="msg"></p>
+<button>update!</button>
+
+<pre><code>$("button").click(function() {
+    localStorage.setItem("_dummy", +new Date);
+});
+
+window.addEventListener("storage", function() {
+    $(".msg").text("ストレージが更新されました");
+}, false);</code></pre>
+
+<script src="jquery.js"></script>
+<script>
+$("button").click(function() {
+	localStorage.setItem("_dummy", +new Date);
+});
+
+window.addEventListener("storage", function() {
+	$(".msg").text("ストレージが更新されました");
+}, false);
+</script>
+</body>
+</html>

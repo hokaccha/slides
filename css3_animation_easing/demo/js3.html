@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>demo js3</title>
+<style>
+.circle {
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	background: #C00;
+	position: relative;
+	left: 0px;
+}
+pre {
+	background: #EFEFEF;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 10px;
+	font-size: 1.4em;
+}
+pre strong {
+	color: #C00;
+}
+</style>
+</head>
+<body>
+<p><button>Run</button></p>
+<div class="circle"></div>
+
+<pre><code>// アニメーション関数
+function animate(element, property, from, to, duration, <strong>easing</strong>) {
+    var begin = +new Date; // 開始時間
+    var timer = setInterval(function() {
+        var time = new Date - begin; // 経過時間
+        var pos, now;
+        if (time &gt; duration) {
+            clearInterval(timer);
+            now = to;
+        }
+        else {
+            pos = <strong>easing(time, duration);</strong>
+            now = pos * (to - from) + from;
+        }
+        element.style[property] = now + "px";
+    }, 10);
+}
+
+// イージング関数
+function linear(time, duration) {
+    return time / duration;
+}
+
+animate(circle, 'left', 0, 500, 1000, linear);</code></pre>
+
+
+<script>
+var circle = document.querySelector(".circle");
+var btn = document.querySelector("button");
+
+// アニメーション関数
+function animate(element, property, from, to, duration, easing) {
+	var begin = +new Date; // 開始時間
+	var timer = setInterval(function() {
+		var time = new Date - begin; // 経過時間
+		var pos, now;
+		if (time > duration) {
+			clearInterval(timer);
+			now = to;
+		}
+		else {
+			pos = easing(time, duration);
+			now = pos * (to - from) + from;
+		}
+		element.style[property] = now + "px";
+	}, 10);
+}
+
+// イージング関数
+function linear(time, duration) {
+	return time / duration;
+}
+
+// アニメーション
+btn.addEventListener("click", function() {
+	animate(circle, 'left', 0, 500, 1000, linear);
+});
+</script>
+</body>
+</html>

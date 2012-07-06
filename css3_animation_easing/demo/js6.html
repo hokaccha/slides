@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>demo js6</title>
+<style>
+.circle {
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	background: #C00;
+	position: relative;
+	left: 0;
+	top: 500px;
+	z-index: 1;
+}
+pre {
+	background: #EFEFEF;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 10px;
+	font-size: 1.4em;
+}
+.graph {
+	width: 500px;
+	height: 500px;
+	border-left: 2px solid #000;
+	border-bottom: 2px solid #000;
+	position: relative;
+	bottom: 13px;
+	left: 13px;
+}
+</style>
+</head>
+<body>
+<p>
+<button>Run</button>
+<select>
+    <option value='swing'>swing</option>
+    <option value='easeInQuad'>easeInQuad</option>
+    <option value='easeOutQuad'>easeOutQuad</option>
+    <option value='easeInOutQuad'>easeInOutQuad</option>
+    <option value='easeInCubic'>easeInCubic</option>
+    <option value='easeOutCubic'>easeOutCubic</option>
+    <option value='easeInOutCubic'>easeInOutCubic</option>
+    <option value='easeInQuart'>easeInQuart</option>
+    <option value='easeOutQuart'>easeOutQuart</option>
+    <option value='easeInOutQuart'>easeInOutQuart</option>
+    <option value='easeInQuint'>easeInQuint</option>
+    <option value='easeOutQuint'>easeOutQuint</option>
+    <option value='easeInOutQuint'>easeInOutQuint</option>
+    <option value='easeInSine'>easeInSine</option>
+    <option value='easeOutSine'>easeOutSine</option>
+    <option value='easeInOutSine'>easeInOutSine</option>
+    <option value='easeInExpo'>easeInExpo</option>
+    <option value='easeOutExpo'>easeOutExpo</option>
+    <option value='easeInOutExpo'>easeInOutExpo</option>
+    <option value='easeInCirc'>easeInCirc</option>
+    <option value='easeOutCirc'>easeOutCirc</option>
+    <option value='easeInOutCirc'>easeInOutCirc</option>
+    <option value='easeInElastic'>easeInElastic</option>
+    <option value='easeOutElastic'>easeOutElastic</option>
+    <option value='easeInOutElastic'>easeInOutElastic</option>
+    <option value='easeInBack'>easeInBack</option>
+    <option value='easeOutBack'>easeOutBack</option>
+    <option value='easeInOutBack'>easeInOutBack</option>
+    <option value='easeInBounce'>easeInBounce</option>
+    <option value='easeOutBounce'>easeOutBounce</option>
+    <option value='easeInOutBounce'>easeInOutBounce</option>
+</select>
+</p>
+<div class="circle"></div>
+<div class="graph"></div>
+
+<script src="jquery.js"></script>
+<script src="jquery.easing.js"></script>
+<script>
+var circle = document.querySelector(".circle");
+var btn = document.querySelector("button");
+
+// アニメーション関数
+function animate(element, property, from, to, duration, easing) {
+	var begin = +new Date; // 開始時間
+	var timer = setInterval(function() {
+		var time = new Date - begin; // 経過時間
+		var pos, now;
+		if (time > duration) {
+			clearInterval(timer);
+			now = to;
+		}
+		else {
+			pos = easing(null, time, 0, 1, duration);
+			now = pos * (to - from) + from;
+		}
+		element.style[property] = now + "px";
+	}, 10);
+}
+
+function linear(x, t, b, c, d) {
+	return t/d;
+}
+
+// アニメーション
+btn.addEventListener("click", function() {
+	animate(circle, 'left', 0, 500, 1000, linear);
+	animate(circle, 'top', 500, 0, 1000, jQuery.easing[ $("select").val() ]);
+});
+</script>
+</body>
+</html>

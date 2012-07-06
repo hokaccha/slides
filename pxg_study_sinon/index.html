@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Sinon.JS</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/custom.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<!--div class="progress"></div-->
+
+<div class="page top"><div>
+  <h1>Sinon.JS</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2012.05.22</p>
+  <!--p class="start"><button>start</button></p-->
+</div></div>
+
+<div class="page plain">
+  <h2>Sinon.JSってなんぞ</h2>
+  <ul class="list">
+    <li>テストに使うライブラリ</li>
+    <li>スタブやモック、フェイクオブジェクトを提供する</li>
+    <li>QUnitとかと組み合わせて使う</li>
+  </ul>
+</div>
+
+<div class="page plain">
+<h2>現在時刻が指定の期間内かチェックする関数</h2>
+<pre><code>function isWithinDate(start, end) {
+  var now = Date.now();
+  var start = +new Date(start);
+  var end = +new Date(end);
+  return start &lt; now &amp;&amp; now &lt; end;
+}
+
+// こんな感じで使う
+isWithinDate('2012/05/10', '2012/05/30'); //=> true</code></pre>
+</div>
+
+<div class="page plain">
+<h2>ダメなテストコード</h2>
+<pre><code>ok( isWithinDate('2012/05/10', '2012/05/30') );</code></pre>
+
+<p>今日は通るけど6月になったらこけちゃうよ！</p>
+</div>
+
+<div class="page plain">
+<h2>sinon.useFakeTimers</h2>
+<pre><code>// テストコード
+<strong>var clock = sinon.useFakeTimers(+new Date('2012/05/13'));</strong>
+ok( isWithinDate('2012/05/10', '2012/05/30') );
+clock.restore();</code></pre>
+<p>現在時刻を強制変更</p>
+</div>
+
+<div class="page plain">
+  <h2>confirmを出して要素を削除する関数</h2>
+<pre><code>function confirmAndRemove($elem) {
+  if (window.confirm('ok?')) {
+    $elem.remove();
+  }
+}</code></pre>
+<p>どうやってテストする？</p>
+</div>
+
+<div class="page plain">
+  <h2>ここ大事</h2>
+  <ul class="list">
+    <li>ダイアログがでるとか、要素が削除されたとかはこの関数のテストで確認する必要はない</li>
+    <li>window.confirmを呼んでダイアログがでなかったらブラウザのバグ</li>
+    <li>remove()で要素が消えるかはjQueryでテストされてる</li>
+  </ul>
+</div>
+
+<div class="page plain">
+  <h2>重要なのは</h2>
+  <ol>
+    <li>window.confirmが呼ばれた？</li>
+    <li>window.confirmの引数は'ok?'だった？</li>
+    <li><strong>trueだったら$elem.removeが呼ばれた？</strong></li>
+    <li><strong>falseだったら何もおきなかった？</strong></li>
+  </ol>
+  <p>ということ（下二つが特に重要）</p>
+</div>
+
+<div class="page plain">
+  <h2>sinon.stub</h2>
+<pre><code>var $elem = $('&lt;div&gt;');
+<strong>var stubConfirm = sinon.stub(window, 'confirm');</strong>
+<strong>stubConfirm.returns(true);</strong>
+
+// テスト対象の関数呼び出し
+confirmAndRemove($div);
+
+// テスト
+ok( stubConfirm.calledOnce );
+ok( stubConfirm.calledWith('ok?') );
+
+// 後始末
+stubConfirm.restore();</code></pre>
+</div>
+
+<div class="page plain">
+  <h2>sinon.stub</h2>
+<pre><code>var $elem = $('&lt;div&gt;');
+var stubConfirm = sinon.stub(window, 'confirm');
+stubConfirm.returns(true);
+
+// テスト対象の関数呼び出し
+<strong>confirmAndRemove($div);</strong>
+
+// テスト
+ok( stubConfirm.calledOnce );
+ok( stubConfirm.calledWith('ok?') );
+
+// 後始末
+stubConfirm.restore();</code></pre>
+</div>
+
+<div class="page plain">
+  <h2>sinon.stub</h2>
+<pre><code>var $elem = $('&lt;div&gt;');
+var stubConfirm = sinon.stub(window, 'confirm');
+stubConfirm.returns(true);
+
+// テスト対象の関数呼び出し
+confirmAndRemove($div);
+
+// テスト
+ok( <strong>stubConfirm.calledOnce</strong> );
+ok( <strong>stubConfirm.calledWith('ok?')</strong> );
+
+// 後始末
+stubConfirm.restore();</code></pre>
+</div>
+
+<div class="page plain">
+  <h2>sinon.spy</h2>
+<pre><code>var $div = $('&lt;div&gt;');
+var stubConfirm = sinon.stub(window, 'confirm');
+<strong>var spyRemove = sinon.spy($div, 'remove');</strong>
+stubConfirm.returns(true);
+
+// テスト対象の関数呼び出し
+confirmAndRemove($div);
+
+// テスト
+ok( stubConfirm.calledOnce );
+ok( stubConfirm.calledWith('ok?') );
+ok( spyRemove.calledOnce );
+ok( spyRemove.calledWith(undefined) );
+
+// 後始末
+stubConfirm.restore();
+spyRemove.restore();
+</code></pre>
+</div>
+
+<div class="page plain">
+  <h2>sinon.spy</h2>
+<pre><code>var $div = $('&lt;div&gt;');
+var stubConfirm = sinon.stub(window, 'confirm');
+var spyRemove = sinon.spy($div, 'remove');
+stubConfirm.returns(true);
+
+// テスト対象の関数呼び出し
+confirmAndRemove($div);
+
+// テスト
+ok( stubConfirm.calledOnce );
+ok( stubConfirm.calledWith('ok?') );
+ok( <strong>spyRemove.calledOnce</strong> );
+ok( <strong>spyRemove.calledWith(undefined)</strong> );
+
+// 後始末
+stubConfirm.restore();
+spyRemove.restore();
+</code></pre>
+</div>
+
+<div class="page plain">
+  <h2>confirmでキャンセルされたケース</h2>
+<pre><code>var $div = $('&lt;div&gt;');
+var stubConfirm = sinon.stub(window, 'confirm');
+var spyRemove = sinon.spy($div, 'remove');
+<strong>stubConfirm.returns(false);</strong>
+
+// テスト対象の関数呼び出し
+confirmAndRemove($div);
+
+// テスト
+ok( stubConfirm.calledOnce );
+ok( stubConfirm.calledWith('ok?') );
+ok( <strong>!spyRemove.called</strong> );
+
+// 後始末
+stubConfirm.restore();
+spyRemove.restore();
+</code></pre>
+</div>
+
+<div class="page plain">
+<h2>プロキシ的な関数</h2>
+<pre><code>function fetch(url) {
+  var d = $.Deferred();
+
+  $.ajax({
+    url: url,
+    dataType: 'json'
+  }).done(function(data) {
+    if (data.error) {
+      d.reject(data.error);
+    }
+    else {
+      d.resolve(data.result);
+    }
+  }).fail(function() {
+    d.reject('ajax error');
+  });
+
+  return d;
+}</code></pre>
+</div>
+
+<div class="page plain">
+<h2>だいじなこと</h2>
+<ul class="list">
+  <li>実際に通信してるかどうかは関係ない</li>
+  <li>そういうのはユニットテストじゃなくて結合テストでやるべき</li>
+  <li>重要なのは$.ajaxが呼ばれて、その結果によってどう処理されるか</li>
+</ul>
+</div>
+
+<div class="page plain">
+<h2>つまりテストしたいのは</h2>
+<pre><code>function fetch(url) {
+  var d = $.Deferred();
+
+  $.ajax({
+    url: url,
+    dataType: 'json'
+  }).done(function(data) {
+    if (data.error) {
+      <strong>d.reject(data.error);</strong>
+    }
+    else {
+      <strong>d.resolve(data.result);</strong>
+    }
+  }).fail(function() {
+    <strong>d.reject('ajax error');</strong>
+  });
+
+  return d;
+}</code></pre>
+</div>
+
+<div class="page plain">
+<h2>レスポンスが成功したケース</h2>
+<pre><code>var stubAjax = sinon.stub(jQuery, 'ajax');
+stubAjax.returns( $.Deferred().resolve({ result: 'ok' }) );
+
+fetch('/api/list').done(function(result) {
+  ok( stubAjax.calledOnce );
+  ok( stubAjax.calledWith({ url: '/api/list', dataType: 'json' }) );
+  ok( result === 'ok' );
+}).fail(function() {
+  ok( false );
+}).always(function() {
+  stubAjax.restore();
+});
+</code></pre>
+</div>
+
+<div class="page plain">
+<h2>データがエラーだったケース</h2>
+<pre><code>var stubAjax = sinon.stub(jQuery, 'ajax');
+stubAjax.returns( $.Deferred().resolve({ error: 'err!' }) );
+
+fetch('/api/list').done(function(result) {
+  ok( false );
+}).fail(function(error) {
+  ok( stubAjax.calledOnce );
+  ok( stubAjax.calledWith({ url: '/api/list', dataType: 'json' }) );
+  ok( error === 'err!' );
+}).always(function() {
+  stubAjax.restore();
+});
+</code></pre>
+</div>
+
+<div class="page plain">
+<h2>レスポンスが失敗したケース</h2>
+<pre><code>var stubAjax = sinon.stub(jQuery, 'ajax');
+stubAjax.returns( $.Deferred().reject() );
+
+fetch('/api/list').done(function(result) {
+  ok( false );
+}).fail(function(error) {
+  ok( stubAjax.calledOnce );
+  ok( stubAjax.calledWith({ url: '/api/list', dataType: 'json' }) );
+  ok( error === 'ajax error' );
+}).always(function() {
+  stubAjax.restore();
+});
+</code></pre>
+</div>
+
+<div class="page plain">
+<h2>まとめ</h2>
+<ul class="list">
+  <li>Sinon.JSを使うとテストしにくいテストをテストしやすくできる</li>
+  <li>重要なのはどこをテストするか</li>
+  <li>ユニットテストと結合テストをわけて考える</li>
+</ul>
+</div>
+
+<div class="page spread"><div>
+  <h2>Thanks.</h2>
+</div></div>
+
+</body>
+</html>

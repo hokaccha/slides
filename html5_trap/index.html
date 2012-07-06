@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>CSSによるアニメーションとイージング</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<script src='asset/js/jquery.js'></script>
+<script src='asset/js/slide.js'></script>
+<script src='js/custom.js'></script>
+</head>
+<body>
+<div class='wrapper'>
+
+<div class='page top'><div>
+	<h1>知らないとはまるHTML5の落とし穴</h1>
+	<p class='author'>外村 和仁（ピクセルグリッド）</p>
+	<p class='date'>2011.06.18</p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>自己紹介</h2>
+	<ul class="list">
+		<li>外村和仁（ほかむら かずひと）</li>
+		<li>株式会社ピクセルグリッド</li>
+		<li>フロントエンドエンジニア</li>
+		<li>Twitter: <a href="http:/twitter.com/hokaccha">@hokaccha</a></li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>HTML5をどんどん<br>使っていこう！</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>今日の内容</h2>
+	<ol style="font-size:1.4em">
+		<li>HTML5の新要素</li>
+		<li>Application Cache</li>
+		<li>WebStorage</li>
+	</ol>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>1. HTML5の新要素</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>HTML5の新要素とは？</h2>
+	<p>これまでのHTMLになかった要素</p>
+	<pre><code>article     aside   audio   canvas  details
+figcaption  figure  footer  header  hgroup
+mark        meter   nav     output  progress
+section     time    video</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 class="m">ポイント1<br>display: blockの指定</h2>
+</div></div>
+
+<div class='page plain'><div>
+<h3>HTML</h3>
+<pre><code>&lt;header&gt;ヘッダ&lt;/header&gt;
+&lt;section&gt;コンテンツ&lt;/section&gt;
+&lt;footer&gt;フッタ&lt;/footer&gt;</code></pre>
+
+<h3>CSS</h3>
+<pre><code>header  { padding: 10px;  background: #CCC; }
+section { padding: 100px; background: #999; }
+footer  { padding: 10px;  background: #CCC; }</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>対応ブラウザ</h2>
+	<p class="center"><img src="img/html5_1.png" alt="" width="80%"></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>非対応ブラウザ</h2>
+	<p class="center"><img src="img/html5_2.png" alt="" width="80%"></p>
+</div></div>
+
+<div class='page plain'><div>
+	<p class="center" style="margin-top:3em"><img src="img/display.png" width="80%"></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>対策</h2>
+	<p>新要素にdisplay:blockを指定する</p>
+	<pre><code>article, aside, figure, figcaption,
+footer, header, hgroup, nav, section {
+    display: block;
+}</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 class="m">ポイント2<br>IE6〜8の対応</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>IE6〜8でのバグ</h2>
+	<ul class="list" style="font-size:0.9em">
+		<li>IE6〜8では定義されていない要素を使うとDOMが壊れる</li>
+		<li>DOMが壊れるとその要素にスタイルが効かなくなる</li>
+	</ul>
+	<div class="box2">
+		<div>
+			<p><img src="img/html5_3.png" alt="" width="300px"></p>
+			<p>&lt;div&gt;Text&lt;/div&gt;</p>
+		</div>
+		<div>
+			<p><img src="img/html5_4.png" alt="" width="300px"></p>
+			<p>&lt;section&gt;Text&lt;/section&gt;</p>
+		</div>
+	</div>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>解決方法</h2>
+	<p>JavaScriptのcreateElementであらかじめ要素を<br>つくることで対応可能</p>
+	<pre><code>document.createElement('section');</code></pre>
+	<p><img src="img/html5_5.png" alt="" width="300px"></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>html5.jsを使う</h2>
+	<p><a href="http://code.google.com/p/html5shiv/">http://code.google.com/p/html5shiv/</a></p>
+	<p>IEのバグ対応用のスクリプト。<br>読み込むだけでＯＫ。</p>
+
+	<pre style="font-size:0.7em"><code>&lt;!--[if lt IE 9]&gt;
+&lt;script src=&quot;//html5shim.googlecode.com/svn/trunk/html5.js&quot;&gt;&lt;/script&gt;
+&lt;![endif]--&gt;
+</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 class="m">ポイント3<br>innerHTMLの問題</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>innerHTMLの問題</h2>
+	<p>このようなコードで追加したHTML5の新要素にIE6〜8でDOMが壊れる（スタイルが効かない）</p>
+	<pre><code>var div = document.createElement('div');
+div.innerHTML = <strong>'&lt;section&gt;section&lt;/section&gt;'</strong>;
+document.getElementById('box').appendChild(div);</code></pre>
+	<pre><code>$('.box').append(<strong>'&lt;section&gt;section&lt;/section&gt;'</strong>);</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>HTML5 innerShiv</h2>
+	<p><a href="http://jdbartlett.github.com/innershiv/">http://jdbartlett.github.com/innershiv/</a></p>
+	<p>innerHTMLでIEのDOMが壊れるバグを回避する<br>ライブラリ</p>
+	<pre style="font-size:0.83em"><code>var div = document.createElement('div');
+div.appendChild( <strong>innerShiv('&lt;section&gt;section&lt;/section&gt;')</strong> );
+document.getElementById('box').appendChild(div);</code></pre>
+	
+	<pre style="font-size:0.81em"><code>$('.box').append( <strong>innerShiv('&lt;section&gt;section&lt;/section&gt;')</strong> );</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>HTML5の新要素のポイント</h2>
+	<ul class="list">
+		<li>デフォルトのスタイルを当てる</li>
+		<li>IEの対応にはhtml5.jsを使う</li>
+		<li>必要に応じてinnerShivを使う</li>
+	</ul>
+</div></div>
+
+
+<div class='page spread'><div>
+	<h2>2. Application Cache</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>Application Cacheとは</h2>
+	<ul class="list">
+		<li>ファイルをキャッシュしてオフラインでアクセス<br>できるようにする仕組み</li>
+		<li>元々Google Gearsに実装されていた仕組み</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h3>index.html</h3>
+<pre style="font-size:0.9em"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja" manifest="cache.appcache"&gt;
+...
+&lt;/html&gt;</code></pre>
+	<h3>cache.appcache</h3>
+<pre style="font-size:0.9em"><code>CACHE MANIFEST
+/img/image.png
+/js/jquery.js
+/css/style.css</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>対応ブラウザ</h2>
+	<ul class="list">
+		<li>Firefox 3.5+</li>
+		<li>Google Chrome 4.0+</li>
+		<li>Safari 4.0+</li>
+		<li>Opera 10.60+</li>
+		<li>iPhone(iOS) 2.1+</li>
+		<li>Android 2.0+</li>
+	</ul>
+	<p><strong>※ IEは未対応</strong></p>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 class="m">ポイント1<br>MIME Typeと拡張子</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>MIME Typeと拡張子</h2>
+	<ul class="list">
+		<li>拡張子はなんでもいいが推奨されて<br>いるのは <strong>.appcache</strong></li>
+		<li>MIME Typeは <strong>text/cache-manifest</strong> である<br>必要がある</li>
+	</ul>
+	<pre><code>AddType text/cache-manifest .appcache</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 class="m">ポイント2<br>キャッシュコントロール</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>初期ロード時</h2>
+	<p class="center"><img src="img/img1.png" width="800"></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>次回アクセス時（オフライン）</h2>
+	<p class="center"><img src="img/img2.png" width="800"></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>次回アクセス時（オンライン1）</h2>
+	<p class="center"><img src="img/img3.png" width="800"></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>次回アクセス時（オンライン2）</h2>
+	<p class="center"><img src="img/img4.png" width="800"></p>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>やりがちな間違え</h2>
+	<ol>
+		<li>JavaScriptで間違えがあったから1行修正</li>
+		<li>修正ファイルをアップ！直ったぜ！</li>
+		<li>ApplicationCacheでキャッシュしてた場合は<br>いつまでたっても反映ない</li>
+	</ol>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>ファイルを更新したい場合</h2>
+	<p>コメントにバージョン情報を書いてマニフェストファイルを更新する</p>
+<pre id="manifestRev"><code>CACHE MANIFEST
+<strong># version 1</strong>
+img/image.png
+js/script.js</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>それでも更新されない場合</h2>
+	<ul class="list">
+		<li>basic認証がかかっているとオフライン時と<br>同じ挙動になる</li>
+		<li>サーバー側でマニフェストファイルがキャッシュ<br>されていると更新されない</li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 class="m">ポイント3<br>動的なサイトで使う場合</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>間違った使用例</h2>
+	<ul class="list">
+		<li>ユーザーがコンテンツと投稿するようないわゆるCGMのサイトでのケース</li>
+		<li>画像だけマニフェストファイルに書けばキャッシュされてウマーじゃね？</li>
+	</ul>
+<pre><code>CACHE MANIFEST
+/img/image1.png
+/img/imaga2.png</code></pre>
+
+</div></div>
+
+<div class='page plain'><div>
+	<h2>うまくいかない理由</h2>
+	<ul class="list">
+		<li>manifestを指定したHTMLは暗黙のうちに<br>キャッシュされる</li>
+		<li>動的なサイトではうまく機能しない</li>
+		<li>高速化のためのキャッシュではなく、<br>あくまでオフラインでの動作のための仕組み</li>
+	</ul>
+</div></div>
+
+
+<div class='page plain'><div>
+	<h2>Application Cacheのポイント</h2>
+	<ul class="list">
+		<li>MIME Typeを設定する</li>
+		<li>キャッシュのコントロールに気を付ける</li>
+		<li>動的なWebサイトでの使用は難しい</li>
+	</ul>
+</div></div>
+
+
+
+<div class='page spread'><div>
+	<h2>3. WebStorage</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>WebStorageとは</h2>
+	<ul class="list">
+		<li>クライアント側にデータを保存するための仕組み</li>
+		<li>key/valueの組み合わせでデータを保存する
+		<li>これまではCookieなどで代用していたが色々と<br>問題点があった</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>対応ブラウザ</h2>
+	<ul class="list">
+		<li>IE 8+</li>
+		<li>Firefox 3.5+</li>
+		<li>Google Chrome 5.0+</li>
+		<li>Safari 4.0+</li>
+		<li>Opera 10.50+</li>
+		<li>iPhone(iOS) 3.1+</li>
+		<li>Android 2.0+</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>WebStorageの例</h2>
+<pre><code>// 値のセット
+sessionStorage['foo'] = 'bar';
+
+// 値の取得
+sessionStorage['foo']; // =&gt; bar
+
+// 値の削除
+delete sessionStorage['foo'];</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>WebStorageの例</h2>
+<pre><code>// 値のセット
+sessionStorage.setItem('foo', 'bar');
+
+// 値の取得
+sessionStorage.getItem('foo'); // =&gt; bar
+
+// 値の削除
+sessionStorage.removeItem('foo');</code></pre>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 class="m">ポイント1<br>データの有効範囲</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>Same-Originポリシー</h2>
+	<p>オリジン（プロトコル、ドメイン、ポート）を<br>またいでデータにアクセスできない</p>
+	<pre><code>http://www.pxgrid.com:80/</code></pre>
+	<table class="origin">
+		<tr>
+			<th>プロトコル</th>
+			<td>http</td>
+		</tr>
+		<tr>
+			<th>ドメイン</th>
+			<td>www.pxgrid.com</td>
+		</tr>
+		<tr>
+			<th>ポート</th>
+			<td>80</td>
+		</tr>
+	</table>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>同一オリジン</h2>
+	<h3>データを共有できる</h3>
+	<ul>
+		<li>http://www.pxgrid.com/</h1>
+		<li>http://www.pxgrid.com/map</h1>
+		<li>http://www.pxgrid.com/foo/bar/baz</h1>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>非同一オリジン</h2>
+	<h3>データを共有できない</h3>
+	<ul>
+		<li>http://www.pxgrid.com/</h1>
+		<li><strong>https</strong>://www.pxgrid.com/</h1>
+		<li>http://<strong>sub</strong>.pxgrid.com/</h1>
+		<li>http://www.pxgrid.com<strong>:8080</strong>/</h1>
+		<li>http://www.<strong>yahoo.co.jp</strong>/</h1>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>localStorageとsessionStorage</h2>
+	<h3>localStorage</h3>
+	<ul class="list">
+		<li>ウィンドウ間でデータを共有できる</li>
+		<li>ブラウザを閉じてもデータが消えない</li>
+	</ul>
+	<h3>sessionStorage</h3>
+	<ul class="list">
+		<li>ウィンドウごとのセッションでデータが有効</li>
+		<li>ブラウザを閉じるとデータが消える</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>sessionStorageの有効範囲</h2>
+	<ul>
+		<li><img src="img/ng.png"> ブラウザ（タブ）を閉じて再度開く</li>
+		<li><img src="img/ng.png"> 別タブで新規ページページを開く</li>
+		<li><img src="img/ok.png"> ページをリロードする</li>
+		<li><img src="img/ok.png"> 同一オリジン内のページに遷移する</li>
+		<li><span style="color:yellow">▲</span> window.openで子ウィンドウを開く（データが複製される。データを更新しても他のウインドウには影響しない）</li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 class="m">ポイント2<br>容量の制限</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>容量の制限</h2>
+	<ul class="list">
+		<li>仕様上は容量の制限はない</li>
+		<li>実際はブラウザによって上限値が異なる</li>
+		<li>localStorageは消去しないと残り続けるので<br>注意が必要</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>ブラウザ別の容量</h2>
+	<table>
+		<tr>
+			<th>ブラウザ</th>
+			<th>localStorage</th>
+			<th>sessionStorage</th>
+		</tr>
+		<tr>
+			<th>IE8</th>
+			<td>4.75 MB</td>
+			<td>4.75 MB</td>
+		</tr>
+		<tr>
+			<th>IE9</th>
+			<td>4.75 MB</td>
+			<td>4.75 MB</td>
+		</tr>
+		<tr>
+			<th>Firefox4</th>
+			<td>4.98 MB</td>
+			<td>unlimited</td>
+		</tr>
+		<tr>
+			<th>Safari5</th>
+			<td>2.49MB</td>
+			<td>unlimited</td>
+		</tr>
+		<tr>
+			<th>Chrome12</th>
+			<td>2.49 MB</td>
+			<td>2.49 MB</td>
+		</tr>
+		<tr>
+			<th>Opera11.11</th>
+			<td>unlimited</td>
+			<td>4.92 MB</td>
+		</tr>
+		<tr>
+			<th>iOS4.3</th>
+			<td>2.49 MB</td>
+			<td>2.49 MB</td>
+		</tr>
+		<tr>
+			<th>Android2.3</th>
+			<td>2.49 MB</td>
+			<td>unlimited</td>
+		</tr>
+	</table>
+</div></div>
+
+<div class='page spread'><div>
+	<h2>ポイント3<br>StorageEvent</h2>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>StorageEventとは</h2>
+	<ul class="list">
+		<li>WebStorageが更新されたタイミングで発火<br>されるイベント</li>
+		<li>発火のタイミング癖があるので注意が必要</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<blockquote>
+		<p>setItem(), removeItem(), clear() メソッドがセッション・ストレージ領域と関連づけられている Storage オブジェクト x 上で呼び出されるとき、もしそのメソッドが何かをしたなら、Window オブジェクトの localStorage 属性の Storage オブジェクトが同じストレージ領域と関連づけられているすべての Document オブジェクトの中で、x を除いて、storage イベントが発出されなければいけません。</p>
+		<cite><a href="http://www.html5.jp/trans/w3c_webstorage.html">W3C - 『Web Storage』日本語訳 - HTML5.JP</a></cite>
+	</blockquote>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>つまりどゆこと？</h2>
+	<ul class="list">
+		<li>同じストレージを共有するwindowのうち、更新が行われたwindow以外のwindowで発火する</li>
+		<li><em>更新が行われたwindowでは発火しない</em></li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>WebStorageのポイント</h2>
+	<ul class="list">
+		<li>データの有効範囲について知っておく</li>
+		<li>容量の制限に気を付ける</li>
+		<li>StorageEventの発火条件に注意</li>
+	</ul>
+</div></div>
+
+<div class='page plain'><div>
+	<h2>まとめ</h2>
+	<ul class="list" style="font-size:1.2em">
+		<li>HTML5の新要素は少しだけIEに<br>気を付ければすぐ使える</li>
+		<li>WebStorageやApplication Cacheは<br>使いどころに注意</li>
+		<li>使える機能はどんどん使っていこう</li>
+	</ul>
+</div></div>
+
+<div class='page spread'><div>
+	<h2 style="font-size: 1.2em;">ありがとうございました</h2>
+</div></div>
+
+</body>
+</html>
+

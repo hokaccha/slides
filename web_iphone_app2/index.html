@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Web制作のノウハウでつくるiPhoneアプリ</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<script src='asset/js/jquery.js'></script>
+<script src='asset/js/slide.js'></script>
+<script src='js/custom.js'></script>
+</head>
+<body>
+<div class='wrapper'>
+
+<div class='page front'><div>
+<img src="img/lp13.png" alt="LP13">
+</div></div>
+
+<div class='page top'><div>
+    <h1>Web制作のノウハウでつくるiPhoneアプリ</h1>
+    <p class='author'>外村 和仁（ピクセルグリッド）</p>
+    <p class='date'>2011.02.05</p>
+    <p class="at">CSS Nite LP13 Reprise</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>自己紹介</h2>
+    <p class="selfphoto"><img src="img/hokaccha.png" alt="hokaccha" width="200"></p>
+    <ul class="list">
+        <li>外村和仁（ほかむら かずひと）</li>
+        <li>株式会社ピクセルグリッド</li>
+        <li>フロントエンドエンジニア</li>
+        <li>Twitter: <a href="http:/wtwitter.com/hokaccha">@hokaccha</a></li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>今日の概要</h2>
+    <p style="zoom:1.65;padding-top:2em;text-align:center;">Web制作の技術でApp Store<br>に申請できるアプリをつくろう</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>アジェンダ</h2>
+    <ol>
+        <li>ネイティブアプリとWebアプリの比較</li>
+        <li>Running Appの紹介</li>
+        <li>PhoneGapについて</li>
+        <li>Running Appをネイティブアプリ化</li>
+        <li>PhoneGapの制作Tips</li>
+    </ol>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>ネイティブアプリとWebアプリの比較</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>前提知識</h2>
+    <h3>ネイティブアプリとは</h3>
+    <ul class="list">
+        <li>いわゆるiPhoneアプリのこと</li>
+		<li><span role="button" class="help" data-target="nativeapp">ネイティブアプリの例</span></li>
+    </ul>
+    <h3>Webアプリとは</h3>
+    <ul class="list">
+        <li>ブラウザから見ることができるアプリケーション</li>
+		<li><span role="button" class="help" data-target="webapp">Webアプリの例</span></li>
+    </ul>
+</div></div>
+
+<div class='popup nativeapp'><div>
+    <div class="header">
+        <h2>ネイティブアプリの例</h2>
+        <p class="close"><span role="button"><img src="img/close.png" alt="close"></span></p>
+    </div>
+    <ul class="zoomPhotoList">
+        <li><img src="img/native3.png" alt=""></li>
+        <li><img src="img/native1.png" alt=""></li>
+        <li><img src="img/native2.png" alt=""></li>
+    </ul>
+</div></div>
+
+<div class='popup webapp'><div>
+    <div class="header">
+        <h2>Webアプリの例</h2>
+        <p class="close"><span role="button"><img src="img/close.png" alt="close"></span></p>
+    </div>
+    <ul class="zoomPhotoList">
+        <li><img src="img/webapp2.png" alt=""></li>
+        <li><img src="img/webapp3.png" alt=""></li>
+        <li><img src="img/webapp1.png" alt=""></li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>比較項目</h2>
+    <ol>
+        <li>開発言語</li>
+        <li>App Storeでの配布</li>
+        <li>マルチプラットフォーム</li>
+        <li>動作速度</li>
+        <li>OS固有機能の使用</li>
+        <li>UIの作成</li>
+        <li>開発環境</li>
+    </ol>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>1. 開発言語</h2>
+    <h3>ネイティブアプリ</h3>
+    <p>Objective-C。習得が難しいので開発コストがかかる</p>
+    <h3>Webアプリ</h3>
+    <p>HTML/CSS/JavaScript。Web制作の技術がそのまま使えるので開発コストが抑えられる
+</div></div>
+
+<div class='page plain'><div>
+    <h2>2. App Storeでの公開</h2>
+    <h3>ネイティブアプリ</h3>
+    <p>できる。アプリ単体の課金がしやすいなどのメリットがある</p>
+    <h3>Webアプリ</h3>
+    <p>できない。アプリ単体での課金は難しいが審査が必要ないため、公開、更新の手間かからないのがメリット</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>3. マルチプラットフォーム</h2>
+    <h3>ネイティブアプリ</h3>
+    <p>各プラットフォーム毎にアプリケーションをつくる必要がある</p>
+    <h3>Webアプリ</h3>
+    <p>ブラウザがインストールされているデバイスであればほとんど同じコードで対応可能</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>4. 動作速度</h2>
+    <h3>ネイティブアプリ</h3>
+    <p>複雑なアニメーションをするゲームなどのアプリケーションも高速に動く</p>
+    <h3>Webアプリ</h3>
+    <p>画面遷移などのアニメーションであれば問題ないが複雑な動きになると重くなる</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>5. OS固有機能の使用</h2>
+    <h3>ネイティブアプリ</h3>
+    <p>電話、カメラ、写真などの機能をアプリケーションから使うことができる</p>
+    <h3>Webアプリ</h3>
+    <p>使用できない。ただし位置情報や加速度センサなどの機能はJavaScriptから使用可能</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>6. UIの作成</h2>
+    <h3>ネイティブアプリ</h3>
+    <p><span role="button" class="help" data-target="nativeui">ネイティブUI</span>を使用できる。これらを組み合わせてアプリケーションをつくる</p>
+    <h3>Webアプリ</h3>
+    <p>UIは全部自前で実装する必要がある</p>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>7. 開発環境</h2>
+    <h3>ネイティブアプリ</h3>
+    <p>Macがないと開発できない</p>
+    <h3>Webアプリ</h3>
+    <p>WindowsでもMacでも開発可能</p>
+</div></div>
+
+<!--
+<div class='page plain'><div>
+    <h2>ネイティブアプリ</h2>
+    <div style="zoom:0.8">
+    <div>
+        <h3>利点</h3>
+        <ul class="list">
+            <li>App Storeで公開できる（課金が可能）</li>
+            <li>OSの固有機能にアクセスできる（カメラや電話など）</li>
+            <li>複雑なアニメーションのゲームなどもハイパフォーマンスでつくれる</li>
+            <li><span role="button" class="help" data-target="nativeui">ネイティブUI</span>が使用可能</li>
+        </ul>
+    </div>
+    <div>
+        <h3>問題点</h3>
+        <ul class="list">
+            <li>Objective-Cを覚える必要がある</li>
+            <li>Macがないと開発できない</li>
+            <li>マルチプラットフォームで展開できない</li>
+        </ul>
+    </div>
+    </div>
+</div></div>
+-->
+
+<div class='popup nativeui'><div>
+    <div class="header">
+        <h2>ネイティブUIとは？</h2>
+        <p class="close"><span role="button"><img src="img/close.png" alt="close"></span></p>
+    </div>
+    <ul class="zoomPhotoList">
+        <li><img src="img/nativeui1.png" alt=""></li>
+        <li><img src="img/nativeui2.png" alt=""></li>
+        <li><img src="img/nativeui3.png" alt=""></li>
+    </ul>
+</div></div>
+
+<!--
+<div class='page plain'><div>
+    <h2>ネイティブUIとは</h2>
+    <ul class="zoomPhotoList">
+        <li><img src="img/nativeui1.png" alt=""></li>
+        <li><img src="img/nativeui2.png" alt=""></li>
+        <li><img src="img/nativeui3.png" alt=""></li>
+    </ul>
+</div></div>
+-->
+
+<!--
+<div class='page plain'><div>
+    <h2>Webアプリ</h2>
+    <div style="zoom:0.75">
+    <div>
+        <h3>利点</h3>
+        <ul class='list'>
+            <li>審査なしで公開できる</li>
+            <li>Windowsでも開発できる</li>
+            <li>Web制作の技術（HTML/CSS/JavaScript）がそのまま使える</li>
+            <li>マルチプラットフォームで展開できる</li>
+        </ul>
+    </div>
+    <div>
+        <h3>問題点</h3>
+        <ul class='list'>
+            <li>App Storeで配布できない（アプリ単体での課金が難しい）</li>
+            <li>OSの固有機能にアクセスできない</li>
+            <li>モバイルSafari固有の問題でUIの作成が難しい</li>
+        </ul>
+    </div>
+    </div>
+</div></div>
+-->
+
+<div class='page plain'><div>
+    <h2>ネイティブアプリとWebアプリの比較</h2>
+    <table class="table1">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ネイティブアプリ</th>
+                <th>Webアプリ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>開発言語</th>
+                <td>Objective-C</td>
+                <td>HTML/CSS/JavaScript</td>
+            </tr>
+            <tr>
+                <th>App Storeでの配布</th>
+                <td>○</td>
+                <td class="important"><div>×</div></td>
+            </tr>
+            <tr>
+                <th>マルチプラットフォーム</th>
+                <td>×</td>
+                <td>○</td>
+            </tr>
+            <tr>
+                <th>動作速度</th>
+                <td>○</td>
+                <td>△</td>
+            </tr>
+            <tr>
+                <th>OS固有機能の使用</th>
+                <td>○</td>
+                <td>×</td>
+            </tr>
+            <tr>
+                <th>ネイティブUIの使用</th>
+                <td>○</td>
+                <td>×</td>
+            </tr>
+            <tr>
+                <th>開発環境</th>
+                <td>Mac</td>
+                <td>Mac/Windows</td>
+            </tr>
+        </tbody>
+    </table>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>Running Appの紹介</h2>
+</div></div>
+
+<div class='page spread' style="zoom:0.8"><div>
+    <h2>WebアプリをApp Store<br>に申請したい！</h2>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>できます</h2>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>PhoneGapについて</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>PhoneGapとは</h2>
+    <p class="right"><img src="img/phonegap.png" alt="phonegap" width="200"></p>
+    <ul class='list'>
+        <li>Webアプリをネイティブアプリ化できるソフト</li>
+        <li>WebViewを使ってアプリ化する</li>
+        <li><span class="help" role="button" data-target="xcode">Xcode</span>のプラグイン(のようなもの)</li>
+    </ul>
+</div></div>
+
+<div class='popup xcode'><div>
+    <div class="header">
+        <h2>Xcodeとは？</h2>
+        <p class="close"><span role="button"><img src="img/close.png" alt="close"></span></p>
+    </div>
+    <ul class="zoomPhotoList">
+        <li><img src="img/xcode.png" alt="xcode" style="width:600px;border: 3px solid #000;"></li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>PhoneGapの利点</h2>
+    <ul class='list'>
+        <li>WebアプリをApp Storeに登録できる</li>
+        <li>カメラなどのいくつかのOS固有機能が使える</li>
+        <li>iPhoneだけでなくAndroidなどの複数のプラットフォームに対応</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>PhoneGapの比較</h2>
+    <table class="table2">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ネイティブアプリ</th>
+                <th>Webアプリ</th>
+                <th>PhoneGap</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>開発言語</th>
+                <td>Objective-C</td>
+                <td>HTML/CSS/<br>JavaScript</td>
+                <td>HTML/CSS/<br>JavaScript</td>
+            </tr>
+            <tr>
+                <th>App Storeでの配布</th>
+                <td>○</td>
+                <td>×</td>
+                <td class="important"><div>○</div></td>
+            </tr>
+            <tr>
+                <th>マルチプラットフォーム</th>
+                <td>×</td>
+                <td>○</td>
+                <td>○</td>
+            </tr>
+            <tr>
+                <th>動作速度</th>
+                <td>○</td>
+                <td>△</td>
+                <td>△</td>
+            </tr>
+            <tr>
+                <th>OS固有機能の使用</th>
+                <td>○</td>
+                <td>×</td>
+                <td class="important"><div>△</div></td>
+            </tr>
+            <tr>
+                <th>ネイティブUIの使用</th>
+                <td>○</td>
+                <td>×</td>
+                <td>×</td>
+            </tr>
+            <tr>
+                <th>開発環境</th>
+                <td>Mac</td>
+                <td>Mac<br>Windows</td>
+                <td>Mac<br>(△Windows)</td>
+            </tr>
+        </tbody>
+    </table>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>PhoneGapのインストール</h2>
+    <ol>
+        <li>XcodeとiOS SDKをインストール<br><a href="https://developer.apple.com/devcenter/ios/index.action">https://developer.apple.com/devcenter/ios/index.action</a></li>
+        <li>PhoneGapのサイトからパッケージをダウンロード<br><a href="http://www.phonegap.com/">http://www.phonegap.com/</a></li>
+        <li>ダウンロードしたファイルのiOS/PhoneGapLibInstaller.pkgを実行</li>
+    </ol>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>Demo</h2>
+    <p style="font-size: 2em;">Running Appを<br>PhoneGapで<br>アプリ化してみます</p>
+</div></div>
+
+<div class='page spread'><div>
+    <h2>PhoneGapでの<br>制作Tips</h2>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>作ったアプリ</h2>
+    <ul class='list'>
+        <li>位置情報から近くのお店を検索して表示する</li>
+        <li>お気に入り、履歴などの機能がある</li>
+        <li>デザインはiPhoneのネイティブUIをできるだけ再現</li>
+        <li>※まだ公開されていないのでお見せできません</li>
+    </ul>
+</div></div>
+
+<!--
+<div class='page plain'><div>
+    <h2>アプリかブラウザの判別</h2>
+    <p>ブラウザで見るのとほぼ同じとはいえ、若干条件分岐が必要な部分もあったのでURLの最後に?noappとつけることで対応した</p>
+    <pre><code>var noapp = location.search === '?noapp';</code></pre>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>例えばAjaxでのURLなど</h2>
+    <p>アプリからはクロスドメインでのAjaxが可能だがブラウザから見た場合はできないの分岐する</p>
+    <pre><code>if (noapp) {
+    request_url = 'dummy.json';
+}
+else {
+    request_url = 'http://***/data.json';
+}</code></pre>
+</div></div>
+-->
+
+<div class='page plain'><div>
+    <h2>Webアプリと同じ作業フロー</h2>
+    <ul class='list'>
+        <li>表示の確認はiOS SafariやPCのブラウザで可能</li>
+        <li>クライアントとの共有もブラウザで確認できる</li>
+        <li>CSS3やJavaScriptを駆使してUIを作成</li>
+        <li>位置情報やvideo要素などのHTML5機能もフル活用</li>
+    </ul>
+</div></div>
+
+<!--
+<div class='page plain'><div>
+    <h2>HTML5の機能もフル活用</h2>
+    <ul class='list'>
+        <li>位置情報の取得にGeolocation API</li>
+        <li>お気に入りや履歴のデータ保存にLocal Storage</li>
+        <li>動画の再生はvideo要素</li>
+    </ul>
+</div></div>
+-->
+
+<div class='page plain'><div>
+    <h2>Webアプリとの挙動の違い</h2>
+    <ul class="list">
+        <li>縦横の固定ができる</li>
+        <li>ステータスバーが消せる</li>
+        <li>iframeが使えない</li>
+    </ul>
+</div></div>
+
+<!--
+<div class='page plain'><div>
+    <h2>ネイティブUIの実現</h2>
+    <ul class='list'>
+        <li>CSS3とJavaScriptを駆使して作成</li>
+        <li>要素固定にはiScrollを使用</li>
+        <li>jQuery やjQtouchを参考に独自実装</li>
+    </ul>
+</div></div>
+-->
+
+<div class='page plain'><div>
+    <h2>PhoneGapで制作してみての感想</h2>
+    <ul class='list'>
+        <li>制作フローはWebアプリとしてつくるのとほとんど変わらない</li>
+        <li>Webアプリを作ってしまえばそれをネイティブアプリ化するのはすごく簡単</li>
+        <li>WebアプリをApp Storeに登録したいならPhoneGapはかなりオススメ</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>その他の手段</h2>
+    <h3>Titanium Mobile</h3>
+    <ul class="list">
+        <li>JavaScriptのコードをネイティブアプリに<br>変換するソフト</li>
+        <li>ネイティブなUIを簡単に使用できる</li>
+        <li>個人的に今後に期待している</li>
+    </ul>
+</div></div>
+
+<div class='page plain'><div>
+    <h2>まとめ</h2>
+    <ul class='list'>
+        <li>Web制作の技術だけでもネイティブアプリをつくるのは難しくない</li>
+        <li>手法は様々だがそれぞれの手法に長所、短所がある</li>
+        <li>つくりたいものに合わせてツールを選ぶのが大事</li>
+    </ul>
+</div></div>
+
+<div class='page spread'><div>
+    <h2 style="font-size: 1.2em;">ありがとうございました</h2>
+</div></div>
+
+</body>
+</html>

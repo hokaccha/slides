@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Transitions Demo</title>
+<style>
+.remove { display: none }
+img {
+	position: relative;
+	left: 0;
+	top: 0;
+}
+pre {
+	background: #EFEFEF;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 10px;
+	font-size: 1.4em;
+}
+.box {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom: 2px solid #000;
+}
+
+
+.sample1 img.move {
+	left: 800px;
+}
+.sample1 .img1 {
+	-webkit-transition-duration: 1s;
+	-moz-transition-duration: 1s;
+	-o-transition-duration: 1s;
+	-ms-transition-duration: 1s;
+	transition-duration: 1s;
+}
+.sample1 .img2 {
+	-webkit-transition-duration: 2s;
+	-moz-transition-duration: 2s;
+	-o-transition-duration: 2s;
+	-ms-transition-duration: 2s;
+	transition-duration: 2s;
+}
+
+
+.sample2 img {
+	-webkit-transition-property: left;
+	-webkit-transition-duration: 1s;
+}
+.sample2 img.move {
+	left: 800px;
+	top: 200px;
+}
+
+
+.sample3 img {
+	-webkit-transition-property: left, top;
+	-webkit-transition-duration: 1s, 2s;
+}
+.sample3 img.move {
+	left: 800px;
+	top: 200px;
+}
+
+.sample4 img {
+	-webkit-transition-duration: 2s;
+}
+.sample4 img.move {
+	left: 800px;
+}
+.sample4 .img1 {
+	-webkit-transition-timing-function: ease;
+}
+.sample4 .img2 {
+	-webkit-transition-timing-function: linear;
+}
+.sample4 .img3 {
+	-webkit-transition-timing-function: ease-in;
+}
+.sample4 .img4 {
+	-webkit-transition-timing-function: ease-out;
+}
+.sample4 .img5 {
+	-webkit-transition-timing-function: ease-in-out;
+}
+.sample4 .img6 {
+	-webkit-transition-timing-function: cubic-bezier(0,1,1,0);
+}
+
+.sample5 img {
+	-webkit-transition-duration: 1s;
+	-webkit-transition-delay: 2s;
+}
+.sample5 img.move {
+	left: 800px;
+}
+
+.sample6 img {
+	-webkit-transition: left 2s linear, top 1s 500ms ease-in-out;
+}
+.sample6 img.move {
+	left: 800px;
+	top: 200px;
+}
+</style>
+</head>
+<body>
+<div class="box sample1">
+<h1>Sample1 (transition-duration)</h1>
+<p><button class="add">Run</button> <button class="remove">Back</button></p>
+
+<div><img src="img.png" alt="" class="img1"></div>
+<div><img src="img.png" alt="" class="img2"></div>
+
+<pre><code>img {
+    position: relative;
+    left: 0;
+}
+img.move {
+    left: 800px;
+}
+.img1 {
+    transition-duration: 1s;
+}
+.img2 {
+    transition-duration: 2s;
+}</code></pre>
+</div>
+
+
+
+<div class="box sample2">
+<h1>Sample2 (transition-property)</h1>
+
+<p><button class="add">Run</button> <button class="remove">Back</button></p>
+
+<div><img src="img.png" alt=""></div>
+
+<pre><code>img {
+    position: relative;
+    left: 0;
+    top: 0;
+}
+.img1 {
+    transition-duration: 1s;
+    transition-property: left;
+}
+.img1.move {
+    left: 800px;
+    top: 200px;
+}</code></pre>
+</div>
+
+<div class="box sample3">
+<h1>Sample3 (transition-property 複数指定)</h1>
+<p><button class="add">Run</button> <button class="remove">Back</button></p>
+
+<div><img src="img.png" alt=""></div>
+
+<pre><code>img {
+    position: relative;
+    left: 0;
+    top: 0;
+    transition-property: left, top;
+    transition-duration: 1s, 2s;
+}
+img.move {
+    left: 800px;
+    top: 200px;
+}</code></pre>
+
+</div>
+
+<div class="box sample4">
+<h1>Sample4 (transition-timing-function)</h1>
+<p><button class="add">Run</button> <button class="remove">Back</button></p>
+
+<div><img src="img.png" alt="" class="img1"></div>
+<div><img src="img.png" alt="" class="img2"></div>
+<div><img src="img.png" alt="" class="img3"></div>
+<div><img src="img.png" alt="" class="img4"></div>
+<div><img src="img.png" alt="" class="img5"></div>
+
+<pre><code>img {
+    position: relative;
+    left: 0;
+    transition-duration: 2s;
+}
+img.move {
+    left: 800px;
+}
+.img1 {
+    transition-timing-function: ease;
+}
+.img2 {
+    transition-timing-function: linear;
+}
+.img3 {
+    transition-timing-function: ease-in;
+}
+.img4 {
+    transition-timing-function: ease-out;
+}
+.img5 {
+    transition-timing-function: ease-in-out;
+}
+.img6 {
+    transition-timing-function: cubic-bezier(0,1,1,0);
+}
+</code></pre>
+</div>
+
+
+<div class="box sample5">
+<h1>Sample5 (transition-delay)</h1>
+<p><button class="add">Run</button> <button class="remove">Back</button></p>
+
+<div><img src="img.png" alt=""></div>
+
+<pre><code>img {
+    position: relative;
+    left: 0;
+    transition-duration: 1s;
+    transition-delay: 2s;
+}
+img.move {
+    left: 800px;
+}</code></pre>
+
+</div>
+
+
+<div class="box sample6">
+<h1>Sample6 (transition)</h1>
+<p><button class="add">Run</button> <button class="remove">Back</button></p>
+
+<div><img src="img.png" alt=""></div>
+
+<pre><code>img {
+    transition: left 2s linear, top 1s 500ms ease-in-out;
+}
+img.move {
+    left: 800px;
+    top: 200px;
+}
+</code></pre>
+
+</div>
+
+<script src="jquery.js"></script>
+<script>
+$(".box").each(function() {
+	var $imgs = $(this).find("img");
+	$(".add", this).click(function() {
+		$imgs.toggleClass("move");
+	});
+	$(".remove", this).click(function() {
+		$imgs.removeClass("move");
+	});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>demo js1</title>
+<style>
+.circle {
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	background: #C00;
+	position: relative;
+	left: 0;
+}
+pre {
+	background: #EFEFEF;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 10px;
+	font-size: 1.4em;
+}
+</style>
+</head>
+<body>
+<p><button>Run</button></p>
+<div class="circle"></div>
+
+<pre><code>var circle = document.querySelector(".circle");
+var begin = +new Date; // 開始時間
+var timer = setInterval(function() {
+    var time = new Date - begin; // 経過時間
+    var pos; // 現在値の割合
+    var now; // 現在値
+
+    // 1秒たったら終了して値は500pxになる
+    if (time &gt; 1000) {
+        clearInterval(timer);
+        now = 500;
+    }
+    // 1秒未満の場合は現在の値を計算して割り出す
+    else {
+        pos = time / 1000; // 現在値の割合を計算
+        now = pos * 500;   // 現在値を計算
+    }
+    circle.style.left = now + "px";
+}, 10);</code></pre>
+
+
+<script>
+var circle = document.querySelector(".circle");
+var btn = document.querySelector("button");
+btn.addEventListener("click", function() {
+	var begin = +new Date; // 開始時間
+	var timer = setInterval(function() {
+		var time = new Date - begin; // 経過時間
+		var pos; // 現在値の割合
+		var now; // 現在値
+		// 1秒たったら終了して値は500pxになる
+		if (time > 1000) {
+			clearInterval(timer);
+			now = 500;
+		}
+		// 1秒未満の場合は現在の値を計算して割り出す
+		else {
+			pos = time / 1000; // 現在値の割合を計算
+			now = pos * 500;   // 現在値を計算
+		}
+		circle.style.left = now + "px";
+	}, 10);
+});
+</script>
+</body>
+</html>

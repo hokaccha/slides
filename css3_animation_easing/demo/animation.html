@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Animations Demo</title>
+<style>
+img {
+	position: relative;
+	left: 0;
+	top: 0;
+}
+pre {
+	background: #EFEFEF;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 10px;
+	font-size: 1.4em;
+}
+.box {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom: 2px solid #000;
+}
+
+.sample1 img.move {
+	-webkit-animation-name: sample1;
+	-webkit-animation-duration: 4s;
+}
+.sample2 img.move {
+	-webkit-animation-name: sample1;
+	-webkit-animation-duration: 4s;
+	-webkit-animation-timing-function: linear;
+}
+.sample3 img.move {
+	-webkit-animation-name: sample2;
+	-webkit-animation-duration: 4s;
+}
+.sample4 img.move {
+	-webkit-animation-name: sample1;
+	-webkit-animation-duration: 4s;
+	-webkit-animation-iteration-count: 2;
+}
+.sample5 img.move {
+	-webkit-animation-name: sample3;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+}
+.sample6 img.move {
+	-webkit-animation-name: sample1;
+	-webkit-animation-duration: 4s;
+	-webkit-animation-iteration-count: 2;
+	-webkit-animation-direction: alternate;
+}
+.sample7 img.move {
+	-webkit-animation-name: sample3;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+}
+.sample7 img.move:hover {
+	-webkit-animation-play-state: paused;
+}
+
+.sample8 img.move {
+	-webkit-animation-name: sample3;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-delay: 1s;
+}
+.sample9 img.move {
+	-webkit-animation:
+		sample1 4s 2 alternate,
+		sample3 1s linear infinite;
+}
+@-webkit-keyframes sample1 {
+	0% {
+		top: 0px;
+		left: 0px;
+	}
+	25% {
+		top: 0px;
+		left: 800px;
+	}
+	50% {
+		top: 200px;
+		left: 800px;
+	}
+	75% {
+		top: 200px;
+		left: 0px;
+	}
+	100% {
+		top: 0px;
+		left: 0px;
+	}
+}
+@-webkit-keyframes sample2 {
+	0% {
+		top: 0px;
+		left: 0px;
+	}
+	25% {
+		top: 0px;
+		left: 800px;
+	}
+	50% {
+		-webkit-animation-timing-function: linear;
+		top: 200px;
+		left: 800px;
+	}
+	75% {
+		top: 200px;
+		left: 0px;
+	}
+	100% {
+		top: 0px;
+		left: 0px;
+	}
+}
+@-webkit-keyframes sample3 {
+	from { -webkit-transform: rotate(0deg) }
+	to { -webkit-transform: rotate(360deg) }
+}
+</style>
+</head>
+<body>
+
+<div class="box sample1">
+<h1>Sample1 (animation-name, animation-duration)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>img.move {
+    animation-name: sample1;
+    animation-duration: 4s;
+}
+@keyframes sample1 {
+    0% {
+        top: 0px;
+        left: 0px;
+    }
+    25% {
+        top: 0px;
+        left: 800px;
+    }
+    50% {
+        top: 200px;
+        left: 800px;
+    }
+    75% {
+        top: 200px;
+        left: 0px;
+    }
+    100% {
+        top: 0px;
+        left: 0px;
+    }
+}</code></pre>
+</div>
+
+<div class="box sample2">
+<h1>Sample2 (animation-timing-function)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>.sample2 img.move {
+    animation-name: sample1;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+}</code></pre>
+</div>
+
+<div class="box sample3">
+<h1>Sample3 (animation-timing-function)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>.sample3 img.move {
+    animation-name: sample2;
+    animation-duration: 4s;
+}
+@keyframes sample2 {
+    0% {
+        top: 0px;
+        left: 0px;
+    }
+    25% {
+        top: 0px;
+        left: 800px;
+    }
+    50% {
+        animation-timing-function: linear;
+        top: 200px;
+        left: 800px;
+    }
+    75% {
+        top: 200px;
+        left: 0px;
+    }
+    100% {
+        top: 0px;
+        left: 0px;
+    }
+}</code></pre>
+</div>
+
+<div class="box sample4">
+<h1>Sample4 (animation-iteration-count)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>.sample4 img.move {
+    animation-name: sample1;
+    animation-duration: 4s;
+    animation-iteration-count: 2;
+}</code></pre>
+</div>
+
+<div class="box sample5">
+<h1>Sample5 (animation-iteration-count)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>.sample5 img.move {
+    animation-name: sample3;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@keyframes sample3 {
+    from { transform: rotate(0deg) }
+    to { transform: rotate(360deg) }
+}</code></pre>
+</div>
+
+<div class="box sample6">
+<h1>Sample6 (animation-direction)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>.sample6 img.move {
+    animation-name: sample1;
+    animation-duration: 4s;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+}</code></pre>
+
+</div>
+
+<div class="box sample7">
+<h1>Sample7 (animation-play-state)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>.sample7 img.move {
+    animation-name: sample3;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+.sample7 img.move:hover {
+    animation-play-state: paused;
+}</code></pre>
+
+</div>
+
+<div class="box sample8">
+<h1>Sample8 (animation-delay)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>.sample8 img.move {
+    animation-name: sample3;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-delay: 1s;
+}</code></pre>
+</div>
+
+<div class="box sample9">
+<h1>Sample9 (animate)</h1>
+<p><button class="add">Run</button></p>
+<div><img src="img.png" alt=""></div>
+<pre><code>.sample9 img.move {
+    animation:
+        sample1 4s 2 alternate,
+        sample3 1s linear infinite;
+}</code></pre>
+
+</div>
+
+<br>
+<br>
+<br>
+<script src="jquery.js"></script>
+<script>
+$(".box").each(function() {
+	var $imgs = $(this).find("img");
+	$(".add", this).click(function() {
+		$imgs.addClass("move");
+	});
+	$(".remove", this).click(function() {
+		$imgs.removeClass("move");
+	});
+	$imgs.bind("webkitAnimationEnd", function() {
+		$(this).removeClass("move");
+	});
+});
+</script>
+</body>
+</html>

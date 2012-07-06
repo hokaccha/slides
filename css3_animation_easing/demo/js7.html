@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>demo js7</title>
+<style>
+.circle {
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	background: #C00;
+	position: relative;
+	left: 0;
+	top: 500px;
+	z-index: 1;
+}
+pre {
+	background: #EFEFEF;
+	border: 1px solid #999;
+	margin: 10px;
+	padding: 10px;
+	font-size: 1.4em;
+}
+.graph {
+	width: 500px;
+	height: 500px;
+	border-left: 2px solid #000;
+	border-bottom: 2px solid #000;
+	position: relative;
+	bottom: 13px;
+	left: 13px;
+}
+</style>
+</head>
+<body>
+<p><button>Run</button></p>
+<div class="circle"></div>
+<div class="graph"></div>
+
+<pre><code>// 3次ベジェ関数
+function cubicBezier(p1x, p1y, p2x, p2y) {
+    return function(x, t, b, c, d) {
+        t = t/d;
+        var ax = 0, bx = 0, cx = 0, ay = 0, by = 0, cy = 0;
+
+        function sampleCurveX(t) {
+            return ((ax * t + bx) * t + cx) * t;
+        }
+
+        function sampleCurveY(t) {
+            return ((ay * t + by) * t + cy) * t;
+        }
+
+        function sampleCurveDerivativeX(t) {
+            return (3.0 * ax * t + 2.0 * bx) * t + cx;
+        }
+
+        function solveEpsilon(d) {
+            return 1.0 / (200.0 * d);
+        }
+
+        function solve(x,epsilon) {
+            return sampleCurveY(solveCurveX(x, epsilon));
+        }
+
+        function solveCurveX(x,epsilon) {
+            var t0, t1, t2, x2, d2, i;
+            function fabs(n) {
+                if (n &gt;= 0) {
+                    return n;
+                }
+                else {
+                    return 0-n;
+                }
+            }; 
+            for (t2 = x, i = 0; i &lt; 8; i++) {
+                x2 = sampleCurveX(t2)-x;
+                if (fabs(x2) &lt; epsilon) {
+                    return t2;
+                }
+                d2=sampleCurveDerivativeX(t2);
+                if (fabs(d2) &lt; 1e-6) { 
+                    break;
+                }
+                t2 = t2 - x2 / d2;
+            }
+            t0 = 0.0;
+            t1 = 1.0;
+            t2 = x;
+            if (t2 &lt; t0) {
+                return t0;
+            }
+            if (t2 &gt; t1) {
+                return t1;
+            }
+            while (t0 &lt; t1) {
+                x2 = sampleCurveX(t2);
+                if (fabs(x2-x) &lt; epsilon) {
+                    return t2;
+                }
+                if (x &gt; x2) {
+                    t0 = t2;
+                }
+                else {
+                    t1 = t2;
+                }
+                t2 = (t1-t0) * .5+t0;
+            }
+            return t2;
+        };
+        cx = 3.0 * p1x;
+        bx = 3.0 * (p2x - p1x) - cx;
+        ax = 1.0 - cx - bx;
+        cy = 3.0 * p1y;
+        by = 3.0 * (p2y - p1y) - cy;
+        ay = 1.0 - cy - by;
+
+        return solve(t, solveEpsilon(d));
+    };
+}
+
+animate(circle, 'left', 0, 500, 1000, linear);
+animate(circle, 'top', 500, 0, 1000, cubicBezier(0.42, 0, 0.58, 1.0));</code></pre>
+
+
+<script src="jquery.js"></script>
+<script src="jquery.easing.js"></script>
+<script>
+var circle = document.querySelector(".circle");
+var btn = document.querySelector("button");
+
+// アニメーション関数
+function animate(element, property, from, to, duration, easing) {
+	var begin = +new Date; // 開始時間
+	var timer = setInterval(function() {
+		var time = new Date - begin; // 経過時間
+		var pos, now;
+		if (time > duration) {
+			clearInterval(timer);
+			now = to;
+		}
+		else {
+			pos = easing(null, time, 0, 1, duration);
+			now = pos * (to - from) + from;
+		}
+		element.style[property] = now + "px";
+	}, 10);
+}
+
+function linear(x, t, b, c, d) {
+	return t/d;
+}
+
+// 3次ベジェ関数
+function cubicBezier(p1x, p1y, p2x, p2y) {
+	return function(x, t, b, c, d) {
+		t = t/d;
+		var ax = 0, bx = 0, cx = 0, ay = 0, by = 0, cy = 0;
+
+		function sampleCurveX(t) {
+			return ((ax * t + bx) * t + cx) * t;
+		}
+
+		function sampleCurveY(t) {
+			return ((ay * t + by) * t + cy) * t;
+		}
+
+		function sampleCurveDerivativeX(t) {
+			return (3.0 * ax * t + 2.0 * bx) * t + cx;
+		}
+
+		function solveEpsilon(d) {
+			return 1.0 / (200.0 * d);
+		}
+
+		function solve(x,epsilon) {
+			return sampleCurveY(solveCurveX(x, epsilon));
+		}
+
+		function solveCurveX(x,epsilon) {
+			var t0, t1, t2, x2, d2, i;
+			function fabs(n) {
+				if (n >= 0) {
+					return n;
+				}
+				else {
+					return 0-n;
+				}
+			}; 
+			for (t2 = x, i = 0; i < 8; i++) {
+				x2 = sampleCurveX(t2)-x;
+				if (fabs(x2) < epsilon) {
+					return t2;
+				}
+				d2=sampleCurveDerivativeX(t2);
+				if (fabs(d2) < 1e-6) { 
+					break;
+				}
+				t2 = t2 - x2 / d2;
+			}
+			t0 = 0.0;
+			t1 = 1.0;
+			t2 = x;
+			if (t2 < t0) {
+				return t0;
+			}
+			if (t2 > t1) {
+				return t1;
+			}
+			while (t0 < t1) {
+				x2 = sampleCurveX(t2);
+				if (fabs(x2-x) < epsilon) {
+					return t2;
+				}
+				if (x > x2) {
+					t0 = t2;
+				}
+				else {
+					t1 = t2;
+				}
+				t2 = (t1-t0) * .5+t0;
+			}
+			return t2;
+		};
+		cx = 3.0 * p1x;
+		bx = 3.0 * (p2x - p1x) - cx;
+		ax = 1.0 - cx - bx;
+		cy = 3.0 * p1y;
+		by = 3.0 * (p2y - p1y) - cy;
+		ay = 1.0 - cy - by;
+
+		return solve(t, solveEpsilon(d));
+	};
+}
+
+// アニメーション
+btn.addEventListener("click", function() {
+	animate(circle, 'left', 0, 500, 1000, linear);
+	animate(circle, 'top', 500, 0, 1000, cubicBezier(0.42, 0, 0.58, 1.0));
+});
+</script>
+</body>
+</html>
