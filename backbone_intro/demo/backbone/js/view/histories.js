@@ -1,9 +1,6 @@
 (function() {
 
-var View = TwitterSearch.View;
-
-View.Histories = View.Base.extend({
-  tmplId: 'history',
+TwitterSearch.View.Histories = Backbone.View.extend({
   el: '.histories',
   events: {
     'click .remove': 'onRemove',
@@ -14,7 +11,9 @@ View.Histories = View.Base.extend({
     this.collection.on('reset', this.reset, this);
   },
   add: function(historyModel) {
-    var $li = this.$tmpl(historyModel.toJSON()).hide();
+    var tmpl = $('#tmpl-history').html();
+    var html = _.template(tmpl, historyModel.toJSON());
+    var $li = $(html).hide();
     this.$el.prepend($li);
     $li.slideDown();
   },

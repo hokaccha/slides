@@ -1,10 +1,7 @@
 (function() {
 
-var Collection = TwitterSearch.Collection;
-var Model = TwitterSearch.Model;
-
-Collection.Tweets = Collection.Base.extend({
-  model: Model.Tweet,
+TwitterSearch.Collection.Tweets = Backbone.Collection.extend({
+  model: TwitterSearch.Model.Tweet,
   url: 'http://search.twitter.com/search.json',
   fetchByQuery: function(query) {
     var self = this;

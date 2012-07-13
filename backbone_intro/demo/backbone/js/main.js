@@ -1,4 +1,8 @@
-window.TwitterSearch = {};
+window.TwitterSearch = {
+  View: {},
+  Model: {},
+  Collection: {}
+};
 
 $(function() {
   // init model

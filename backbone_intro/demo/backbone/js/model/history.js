@@ -1,8 +1,6 @@
 (function() {
 
-var Model = TwitterSearch.Model;
-
-Model.History = Model.Base.extend({
+TwitterSearch.Model.History = Backbone.Model.extend({
   idAttribute: 'query'
 });
 
