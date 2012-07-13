@@ -8,6 +8,7 @@
 <script src="js/lib/underscore.js"></script>
 <script src="js/lib/backbone.js"></script>
 <script src="js/lib/backbone-localstorage.js"></script>
+<script src="js/lib/twitter-text.js"></script>
 <script src="js/main.js"></script>
 <script src="js/model/base.js"></script>
 <script src="js/model/tweet.js"></script>
@@ -47,7 +48,7 @@
 <li>
 <span class="img"><img src="<%= profile_image_url %>"></span>
 <span class="autor"><a href="https://twitter.com/<%= from_user %>" target="_blank">@<%= from_user %></a></span>
-<span class="body"><%= text %></span>
+<span class="body"><%= text_linked %></span>
 <span class="time"><a href="https://twitter.com/<%= from_user %>/status/<%= id_str %>" target="_blank"><%= created_at %></a></span>
 </li>
 </script>

@@ -1,5 +1,5 @@
 body {
-    font-size: 2.4em;
+    font-size: 2.8em;
     font-family: sans-serif;
     color: #FFF;
     margin: 0;
@@ -39,7 +39,7 @@ body {
 }
 
 .page pre {
-    font-size: 1.1em;
+    font-size: 0.8em;
     line-height: 1.4;
     color: #000;
     margin: 1em;
@@ -71,7 +71,7 @@ body {
 }
 
 .top h1 {
-    font-size: 3em;
+    font-size: 1.6em;
     color: #df871e;
 }
 
@@ -101,5 +101,5 @@ body {
 }
 
 .spread h2 {
-    font-size: 1.3em;
+    font-size: 0.8em;
 }
