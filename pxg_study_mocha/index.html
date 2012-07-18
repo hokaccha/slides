@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>mocha</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/custom.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="progress" hidden></div>
+
+<div class="page top"><div>
+  <h1>mocha</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2012.07.18</p>
+</div></div>
+
+<div class="page plain">
+  <h2>mochaってなんぞ</h2>
+  <ul class="list">
+    <li>JavaScriptのテストフレームワーク</li>
+    <li>競合はQUnit、BusterJS、Jasmineなど</li>
+    <li>たぶん他のフレームワークと比べてそこまで大きな機能の違いはない</li>
+    <li>開発速度が早く、不満だなーと思うところはすぐ改善されるところが個人的には好き</li>
+  </ul>
+</div>
+
+<div class="page plain"><div>
+<h2>ブラウザで使う場合</h2>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;title&gt;Stack Test&lt;/title&gt;
+
+<strong>&lt;!-- 必要なライブラリ（mohca本体）をダウンロードしてきて読み込む --&gt;</strong>
+&lt;link rel="stylesheet" href="lib/mocha.css"&gt;
+&lt;script src="lib/mocha.js"&gt;&lt;/script&gt;
+
+<strong>&lt;!-- mochaのセットアップ --&gt;</strong>
+&lt;script&gt;
+mocha.setup('bdd');
+window.onload = function() { mocha.run() };
+&lt;/script&gt;
+
+<strong>&lt;!-- テスト対象のコード --&gt;</strong>
+&lt;script src="mymodule.js"&gt;&lt;/script&gt;
+
+<strong>&lt;!-- テストコード --&gt;</strong>
+&lt;script src="test.js"&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+<strong>&lt;!-- #mochaのdivを置く --&gt;</strong>
+&lt;div id="mocha"&gt;&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>mochaの基本的な書き方</h2>
+  <pre><code><strong>describe</strong>('テストの対象', function() {
+  <strong>it</strong>('テストの内容', function() {
+    // ここにテストコードを書く
+  });
+});</code></pre>
+  <ul class="list">
+    <li>describe : テストの対象（ネスト可能）</li>
+    <li>it : テストの内容</li>
+    <li>itの中で例外がthrowされたらテストが失敗する</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <p><iframe src="./demo/basic.html" width="100%" height="90%" style="background:#FFF"></iframe></p> 
+</div></div>
+
+<div class="page plain"><div>
+  <h2>アサーションについて</h2>
+  <ul class="list">
+    <li>値を検証して例外を発生させる機能をアサーションという</li>
+    <li>大抵のテストライブラリはアサーションをサポートしているがmochaはサポートしていない</li>
+    <li>オススメはexpect.js</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>expect.jsの例</h2>
+  <pre><code>expect(foo).to.be('bar');
+expect(obj).to.eql({ a: 'b' })
+expect(num).to.be.a('number');
+expect(arr).to.have.length(3);
+expect(fn).to.throwError();</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>mochaとexpect.jsの組み合わせの例</h2>
+  <pre><code>describe('add()', function() {
+  it('2つの数値を足した値が返ること', function() {
+    <strong>expect(add(1, 5)).to.be(6);</strong>
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <p><iframe src="./demo/expect.html" width="100%" height="90%" style="background:#FFF"></iframe></p> 
+</div></div>
+
+<div class="page plain"><div>
+  <h2>非同期のテスト</h2>
+  <p>itのコールバックに引数を指定するだけ</p>
+<pre><code>describe('mochaのテスト', function() {
+  it('1秒待つこと', function(<strong>done</strong>) {
+    setTimeout(function() {
+      expect(true).to.be.ok();
+      done();
+    }, 1000);
+  });
+  it('1 + 1は2になること', function() {
+    expect(1 + 1).to.be(2);
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>beforeとafter</h2>
+  <p>テスト全体の最初と最後に処理をフックする</p>
+<pre><code>describe('...', function() {
+  <strong>before(function() {
+    API.endpoint = 'path/to/test';
+  });
+
+  after(function() {
+    API.endpoint = 'path/to/prod';
+  });</strong>
+
+  it('...');
+  it('...');
+  it('...');
+});</code></pre>
+
+</div></div>
+
+<div class="page plain"><div>
+  <h2>beforeEachとafterEach</h2>
+  <p>各テスト（it）の最初と最後に処理をフックする</p>
+<pre><code>describe('...', function() {
+  <strong>var stub;
+  beforeEach(function() {
+    stub = sinon.stub(MyModule, 'myMethod');
+  });
+
+  afterEach(function() {
+    stub.restore();
+  });</strong>
+
+  it('...');
+  it('...');
+  it('...');
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Stackライブラリをテストする</h2>
+  <p>Stackライブラリの仕様</p>
+  <ul class="list">
+    <li>push()でスタックの先頭に文字列を追加できる</li>
+    <li>push()に文字列以外を指定したらエラーになる</li>
+    <li>スタックがいっぱいの時にpush()するとエラーになる</li>
+    <li>最大数はnewの引数で指定できる</li>
+    <li>pop()でスタックの先頭の値を取得できる</li>
+    <li>スタックが空の状態でpop()したらエラーになる</li>
+    <li>size()で要素数を取得できる</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <pre><code>describe('Stack', function() {
+  context('stackが空の場合', function() {
+  });
+
+  context('stackがいっぱいの場合', function() {
+  });
+
+  context('stackが空でもいっぱいでもない場合', function() {
+  });
+});</code></pre>
+<ul class="list">
+<li>describe : テストの対象</li>
+<li>context : テストの状態（describeのエイリアス）</li>
+</ul>
+</div></div>
+
+<div class="page plain"><div>
+  <pre><code>describe('Stack', function() {
+  context('stackが空の場合', function() {
+    <strong>describe('stack#size', function() {
+    });
+
+    describe('stack#push', function() {
+    });
+
+    describe('stack#pop', function() {
+    });</strong>
+  });
+
+  context('stackがいっぱいの場合', function() {
+    <strong>describe('stack#size', function() {
+    });
+
+    describe('stack#push', function() {
+    });
+
+    describe('stack#pop', function() {
+    });</strong>
+  });
+
+  context('stackが空でもいっぱいでもない場合', function() {
+    <strong>describe('stack#size', function() {
+    });
+
+    describe('stack#push', function() {
+    });
+
+    describe('stack#pop', function() {
+    });</strong>
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <pre><code>describe('Stack', function() {
+  context('stackが空の場合', function() {
+    describe('stack#size', function() {
+    });
+
+    describe('stack#push', function() {
+      <strong>context('文字列を指定した場合', function() {
+      });
+
+      context('非文字列を指定した場合', function() {
+      });</strong>
+    });
+
+    describe('stack#pop', function() {
+    });
+  });
+
+  ...
+
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <pre><code>describe('Stack', function() {
+  context('stackが空の場合', function() {
+    describe('stack#size', function() {
+      <strong>it('0を返すこと');</strong>
+    });
+
+    describe('stack#push', function() {
+      context('文字列を指定した場合', function() {
+        <strong>it('スタックのサイズが1増えること');</strong>
+      });
+
+      context('非文字列を指定した場合', function() {
+        <strong>it('エラーになること');</strong>
+      });
+    });
+
+    describe('stack#pop', function() {
+      <strong>it('エラーになること');</strong>
+    });
+  });
+
+  ...
+
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <pre><code>describe('Stack', function() {
+  context('stackが空の場合', function() {
+    <strong>var stack;
+    beforeEach(function() {
+      stack = new Stack(10);
+    });</strong>
+
+    describe('stack#size', function() {
+      it('0を返すこと');
+    });
+
+    describe('stack#push', function() {
+      context('文字列を指定した場合', function() {
+        it('スタックのサイズが1増えること');
+      });
+
+      context('非文字列を指定した場合', function() {
+        it('エラーになること');
+      });
+    });
+
+    describe('stack#pop', function() {
+      it('エラーになること');
+    });
+  });
+
+  ...
+
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <pre><code>describe('Stack', function() {
+  context('stackが空の場合', function() {
+    var stack;
+    beforeEach(function() {
+      stack = new Stack(10);
+    });
+
+    describe('stack#size', function() {
+      it('0を返すこと', function() {
+        <strong>expect(stack.size()).to.be(0);</strong>
+      });
+    });
+
+    describe('stack#push', function() {
+      context('文字列を指定した場合', function() {
+        it('スタックのサイズが1増えること', function() {
+          <strong>stack.push('foo');
+          expect(stack.size()).to.be(1);</strong>
+        });
+      });
+
+      context('非文字列を指定した場合', function() {
+        it('エラーになること', function() {
+          <strong>expect(function() {
+            stack.push(100);
+          }).throwError();</strong>
+        });
+      });
+    });
+
+    describe('stack#pop', function() {
+      it('エラーになること', function() {
+        <strong>expect(function() {
+          stack.pop();
+        }).throwError();</strong>
+      });
+    });
+  });
+
+  ...
+
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <p><iframe src="./demo/stack.html" width="100%" height="90%" style="background:#FFF"></iframe></p> 
+</div></div>
+
+<div class="page plain"><div>
+  <h2>まとめ</h2>
+  <ul class="list">
+    <li>mocha + expect.jsで快適テストライフ（でもライブラリはなんでもいいと思う）</li>
+    <li>describeとcontextを組み合わせるとテスト項目が洗い出しやすい</li>
+    <li>最初は一個からでもいいからテスト書こう！</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Thanks.</h2>
+</div></div>
+
+</body>
+</html>
