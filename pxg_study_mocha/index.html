@@ -115,67 +115,40 @@ expect(fn).to.throwError();</code></pre>
 </div></div>
 
 <div class="page plain"><div>
-  <h2>非同期のテスト</h2>
-  <p>itのコールバックに引数を指定するだけ</p>
-<pre><code>describe('mochaのテスト', function() {
-  it('1秒待つこと', function(<strong>done</strong>) {
-    setTimeout(function() {
-      expect(true).to.be.ok();
-      done();
-    }, 1000);
-  });
-  it('1 + 1は2になること', function() {
-    expect(1 + 1).to.be(2);
-  });
-});</code></pre>
+  <h2>ケーススタディ</h2>
+  <ul class="list">
+    <li>Stackというライブラリをつくってテストしてみる</li>
+    <li>テストのサンプルコードでよく登場するライブラリ</li>
+    <li>簡単な配列みたいな感じ</li>
+  </ul>
 </div></div>
 
 <div class="page plain"><div>
-  <h2>beforeとafter</h2>
-  <p>テスト全体の最初と最後に処理をフックする</p>
-<pre><code>describe('...', function() {
-  <strong>before(function() {
-    API.endpoint = 'path/to/test';
-  });
+<pre><code>// 最大要素数が10のスタックをつくる
+var stack = new Stack(10);
 
-  after(function() {
-    API.endpoint = 'path/to/prod';
-  });</strong>
+// push()で追加
+stack.push('foo');
+stack.push('bar');
 
-  it('...');
-  it('...');
-  it('...');
-});</code></pre>
+// size()で要素数取得
+stask.size(); //=&gt; 2
 
+// pop()で要素を取得
+stask.pop(); //=&gt; 'bar'
+
+// pop()すると要素は削除される
+stask.size(); //=&gt; 1
+</code></pre>
 </div></div>
 
 <div class="page plain"><div>
-  <h2>beforeEachとafterEach</h2>
-  <p>各テスト（it）の最初と最後に処理をフックする</p>
-<pre><code>describe('...', function() {
-  <strong>var stub;
-  beforeEach(function() {
-    stub = sinon.stub(MyModule, 'myMethod');
-  });
-
-  afterEach(function() {
-    stub.restore();
-  });</strong>
-
-  it('...');
-  it('...');
-  it('...');
-});</code></pre>
-</div></div>
-
-<div class="page plain"><div>
-  <h2>Stackライブラリをテストする</h2>
-  <p>Stackライブラリの仕様</p>
+  <h2>Stackライブラリの仕様</h2>
   <ul class="list">
     <li>push()でスタックの先頭に文字列を追加できる</li>
     <li>push()に文字列以外を指定したらエラーになる</li>
+    <li>スタックの最大数をnewの引数で指定できる</li>
     <li>スタックがいっぱいの時にpush()するとエラーになる</li>
-    <li>最大数はnewの引数で指定できる</li>
     <li>pop()でスタックの先頭の値を取得できる</li>
     <li>スタックが空の状態でpop()したらエラーになる</li>
     <li>size()で要素数を取得できる</li>
@@ -183,20 +156,23 @@ expect(fn).to.throwError();</code></pre>
 </div></div>
 
 <div class="page plain"><div>
+<pre><code><strong>describe('Stack', function() {
+});</strong></code></pre>
+<p>describe : テストの対象</p>
+</div></div>
+
+<div class="page plain"><div>
   <pre><code>describe('Stack', function() {
-  context('stackが空の場合', function() {
+  <strong>context('stackが空の場合', function() {
   });
 
   context('stackがいっぱいの場合', function() {
   });
 
   context('stackが空でもいっぱいでもない場合', function() {
-  });
+  });</strong>
 });</code></pre>
-<ul class="list">
-<li>describe : テストの対象</li>
-<li>context : テストの状態（describeのエイリアス）</li>
-</ul>
+<p>context : テストの状態（describeのエイリアス）</p>
 </div></div>
 
 <div class="page plain"><div>

@@ -1,13 +1,9 @@
-describe('mochaのテスト', function() {
+describe('expect.jsのテスト', function() {
   it('1 + 1は2になること', function() {
-    if (1 + 1 !== 2) {
-      throw new Error('1 + 1 は2じゃない');
-    }
+    expect(1 + 1).to.be(2);
   });
 
   it('1 + 1は3になること', function() {
-    if (1 + 1 !== 3) {
-      throw new Error('1 + 1 は3じゃない');
-    }
+    expect(1 + 1).to.be(3);
   });
 });
