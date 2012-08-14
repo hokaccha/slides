@@ -1,0 +1,110 @@
+{
+    "project": {},
+    "files": {
+        "src/User.js": {
+            "name": "src/User.js",
+            "modules": {},
+            "classes": {
+                "User": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "User": {
+            "name": "User",
+            "shortname": "User",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/User.js",
+            "line": 1,
+            "description": "Userを管理するクラス",
+            "is_constructor": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/User.js",
+            "line": 10,
+            "description": "データを設定したとき発火するイベント\n\n    var newUser = new User();\n\n    newUser.on('change', function(user) {\n      // user == newUser\n    });\n\n    // fire event\n    user.set('name', 'hokamura');",
+            "itemtype": "event",
+            "name": "change",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "変更されたユーザーモデル",
+                    "type": "User"
+                }
+            ],
+            "class": "User"
+        },
+        {
+            "file": "src/User.js",
+            "line": 26,
+            "description": "名前のデータを文字列で返す",
+            "itemtype": "method",
+            "name": "getName",
+            "return": {
+                "description": "名前の文字列",
+                "type": "String"
+            },
+            "class": "User"
+        },
+        {
+            "file": "src/User.js",
+            "line": 36,
+            "description": "条件からユーザーを探す\n\n### 名前から探す場合\n\n    var users = User.find({\n      name: 'hokamura'\n    });\n\n### 名前と年齢から探す場合\n\n条件を二つ指定するとand検索になる\n\n    var users = User.find({\n      name: 'hokamura',\n      age: 20\n    });\n\n### limitの指定\n\nオプションでlimitを指定することで結果の件数の上限を指定する\n\n    var users = User.find({\n      name: 'hokamura'\n    }, {\n      limit: 10\n    });",
+            "itemtype": "method",
+            "name": "find",
+            "static": 1,
+            "params": [
+                {
+                    "name": "cond",
+                    "description": "検索条件",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "name",
+                            "description": "名前から探す場合に指定する",
+                            "type": "String"
+                        },
+                        {
+                            "name": "email",
+                            "description": "メールアドレスから探す場合に指定する",
+                            "type": "String"
+                        },
+                        {
+                            "name": "age",
+                            "description": "年齢から探す場合に指定する",
+                            "type": "Number"
+                        }
+                    ]
+                },
+                {
+                    "name": "option",
+                    "description": "オプション",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "limit",
+                            "description": "結果件数の上限数",
+                            "type": "Number",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "条件にマッチしたユーザーのリスト",
+                "type": "Array"
+            },
+            "class": "User"
+        }
+    ]
+}

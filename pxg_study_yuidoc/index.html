@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>YUIDoc</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/custom.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="progress" hidden></div>
+
+<div class="page top"><div>
+  <h1>JavaScript Documentation</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2012.08.15</p>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ドキュメントを書こう！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>どうやって書こう？</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>メジャーなツール</h2>
+  <ul class="list">
+    <li>JsDoc Toolkit</li>
+    <li>YUIDoc</li>
+    <li>ext-doc</li>
+    <li>Dox</li>
+    <li>docco</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>YUIDocいいよYUIDoc</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>インストールと実行</h2>
+<pre><code>$ npm install -g yuidocjs
+$ yuidoc -o path/to/out path/to/js
+</code></pre>
+  <p>これでpath/to/outにドキュメントが生成される</p>
+</div></div>
+
+<div class="page spread"><div>
+  <iframe src="http://yui.github.com/yuidoc/api/"></iframe>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>書き方</h2>
+  <p>コード内のコメントに決まった書式で記述する</p>
+<pre><code><strong>/**
+* Userを管理するクラス
+*
+* @class User
+* @constructor
+*/</strong>
+function User() {
+}
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>メソッドのドキュメント</h2>
+<pre><code>/**
+* 名前のデータを文字列で返す
+* 
+* <strong>@method getName</strong>
+* <strong>@return {String} 名前の文字列</strong>
+*/
+User.prototype.getName = function () {
+};
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>クラスメソッドの宣言</h2>
+<pre><code>/**
+* 条件からユーザーを探す
+*
+* @method find
+* <strong>@static</strong>
+* @return {Array} 条件にマッチしたユーザーのリスト
+*/
+User.find = function(cond) {
+};
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>パラメーターの指定</h2>
+<pre><code>/**
+* 条件からユーザーを探す
+*
+* @method find
+* @static
+* <strong>@param cond {Object} 検索条件</strong>
+* @return {Array} 条件にマッチしたユーザーのリスト
+*/
+User.find = function(cond) {
+};
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>パラメーターのネスト</h2>
+<pre><code>/**
+* 条件からユーザーを探す
+*
+* @method find
+* @param cond {Object} 検索条件
+* <strong>@param cond.name {String} 名前から探す場合に指定する</strong>
+* <strong>@param cond.email {String} メールアドレスから探す場合に指定する</strong>
+* <strong>@param cond.age {Number} 年齢から探す場合に指定する</strong>
+* @return {Array} 条件にマッチしたユーザーのリスト
+*/
+User.find = function(cond) {
+};
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>オプショナルなパラメーター</h2>
+<pre><code>/**
+* 条件からユーザーを探す
+* @method find
+* @param cond {Object}
+* @param cond.name {String} 名前から探す場合に指定する
+* @param cond.email {String} メールアドレスから探す場合に指定する
+* @param cond.age {Number} 年齢から探す場合に指定する
+* @param <strong>[option]</strong> {Object} オプション
+* @param <strong>[option.limit]</strong> {Number} 結果件数の上限数
+* @return {Array} 条件にマッチしたユーザーのリスト
+*/
+User.find = function(cond, option) {
+};
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>markdownとしてパースされる</h2>
+<pre><code>/**
+* 条件からユーザーを探す
+*
+* <strong>### 名前から探す場合</strong>
+*
+* <strong>    var users = User.find({</strong>
+* <strong>      name: 'hokamura'</strong>
+* <strong>    });</strong>
+*
+* <strong>### 名前と年齢から探す場合</strong>
+*
+* <strong>条件を二つ指定するとand検索になる</strong>
+*
+* <strong>    var users = User.find({</strong>
+* <strong>      name: 'hokamura',</strong>
+* <strong>      age: 20</strong>
+* <strong>    });</strong>
+*
+* <strong>### limitの指定</strong>
+*
+* <strong>オプションでlimitを指定することで結果の件数の上限を指定する</strong>
+*
+* <strong>    var users = User.find({</strong>
+* <strong>      name: 'hokamura'</strong>
+* <strong>    }, {</strong>
+* <strong>      limit: 10</strong>
+* <strong>    });</strong>
+* 
+* @method find
+* @static
+* @param cond {Object} 検索条件
+* @param cond.name {String} 名前から探す場合に指定する
+* @param cond.email {String} メールアドレスから探す場合に指定する
+* @param cond.age {Number} 年齢から探す場合に指定する
+* @param [option] {Object} オプション
+* @param [option.limit] {Number} 結果件数の上限数
+* @return {Array} 条件にマッチしたユーザーのリスト
+**/
+User.find = function(cond, option) {
+};
+</code></pre>
+
+</div></div>
+
+<div class="page plain"><div>
+  <h2>イベントのドキュメント</h2>
+<pre><code>/**
+* データを設定したとき発火するイベント
+*
+* <strong>@event change</strong>
+* @param user {user} 変更されたユーザーモデル
+*/
+</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <iframe src="./demo/sample/out/index.html"></iframe>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>CoffeeScriptでも<br>ドキュメントを生成したい</h2>
+</div></div>
+
+<div class="page plain"><div>
+<p>YUIDoc version 0.3.19+</p>
+<pre><code><strong>###*
+# This is the description for foo class.
+#
+# @class User
+# @constructor
+###</strong>
+
+class User
+</code></pre>
+
+<pre><code>$ yuidoc -e .coffee --syntaxtype coffee path/to/coffee</code></pre>
+
+</div></div>
+
+<div class="page spread"><div>
+  <iframe src="./demo/sample_coffee/out/index.html"></iframe>
+</div></div>
+
+<div class="page spread"><div>
+  <img src="./img/pullreq.png">
+</div></div>
+
+<div class="page plain"><div>
+  <h2>まとめ</h2>
+  <ul class="list">
+    <li>ドキュメント書こう！</li>
+    <li>YUIDocいいよYUIDoc</li>
+    <li>もっと色々指定できるから詳しくは<a href="http://yui.github.com/yuidoc/syntax/index.html">ドキュメント</a>みてね！</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Thanks.</h2>
+</div></div>
+
+</body>
+</html>
