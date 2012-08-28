@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, li, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol, li {
+  list-style: none;
+}
+
+header {
+  background: #333;
+  color: #FFF;
+}
+
+header h1 {
+  font-size: 28px;
+  padding: 10px;
+  text-align: center;
+}
+
+.contents {
+  width: 780px;
+  margin: 0 auto;
+}
+
+.mod-searchForm {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.mod-searchForm input[type=text] {
+  font-size: 20px;
+  padding: 5px;
+}
+
+.mod-searchForm input[type=submit] {
+  font-size: 20px;
+  padding: 20px;
+}
+
+.mod-tweet {
+  width: 500px;
+  float: left;
+}
+
+.mod-history {
+  width: 250px;
+  float: right;
+}
+
+.tweets li {
+  min-height: 50px;
+  padding: 10px 0;
+  border-bottom: 1px solid #000;
+  position: relative;
+}
+
+.tweets .img {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.tweets .autor {
+  position: absolute;
+  top: 10px;
+  left: 70px;
+  font-size: 13px;
+}
+
+.tweets .time {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+}
+
+.tweets .body {
+  display: block;
+  font-size: 14px;
+  padding: 25px 0 0 70px;
+}
+
+.histories li {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.histories li .txt {
+  display: inline-block;
+  background: #045CD3;
+  color: #FFF;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 230px;
+}
+
+.histories li .txt:hover {
+  background: #6DAAFD;
+}
+
+.histories li .remove {
+  position: absolute;
+  top: 6px;
+  right: -30px;
+  width: 20px;
+  height: 20px;
+  background: #E60909;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 20px;
+  color: #FFF;
+  cursor: pointer;
+}
+
+.histories li .remove:hover {
+  background: #FD6D6D;
+}

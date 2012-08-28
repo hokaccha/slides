@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Twitter Search</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script src="js/lib/underscore.js"></script>
+<script src="js/lib/backbone.js"></script>
+<script src="js/lib/backbone-localstorage.js"></script>
+<script src="js/lib/twitter-text.js"></script>
+<script src="js/main.js"></script>
+<script src="js/model/tweet.js"></script>
+<script src="js/model/history.js"></script>
+<script src="js/collection/tweets.js"></script>
+<script src="js/collection/histories.js"></script>
+<script src="js/view/tweets.js"></script>
+<script src="js/view/histories.js"></script>
+<script src="js/view/searchForm.js"></script>
+</head>
+<body>
+<header>
+  <h1>Twitter Search</h1>
+</header>
+<div class="contents">
+  <div class="tweetSearch">
+    <div class="mod-searchForm">
+      <form method="get" action="#" class="searchForm">
+        <input type="text" name="q">
+        <input type="submit" value="Search">
+      </form>
+    </div>
+
+    <div class="mod-tweet">
+      <ul class="tweets"></ul>
+    </div>
+
+    <div class="mod-history">
+      <ul class="histories"></ul>
+    </div>
+  </div>
+</div>
+
+<script type="text/x-tmpl" id="tmpl-tweet">
+<li>
+<span class="img"><img src="<%= profile_image_url %>"></span>
+<span class="autor"><a href="https://twitter.com/<%= from_user %>" target="_blank">@<%= from_user %></a></span>
+<span class="body"><%= text_linked %></span>
+<span class="time"><a href="https://twitter.com/<%= from_user %>/status/<%= id_str %>" target="_blank"><%= created_at %></a></span>
+</li>
+</script>
+
+<script type="text/x-tmpl" id="tmpl-history">
+<li>
+<span class="txt"><%= query %></span>
+<span class="remove">x</span>
+</li>
+</script>
+
+
+</body>
+</html>

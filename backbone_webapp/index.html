@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Webアプリ制作のためのBackbone.js入門</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/custom.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="page top"><div>
+  <h1>Webアプリ制作のためのBackbone.js入門</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2012/08/29</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>自己紹介</h2>
+  <ul class="list">
+    <li>外村 和仁</li>
+    <li>@hokaccha</li>
+    <li>株式会社 ピクセルグリッド</li>
+    <li>JavaScript, Node.js, Ruby</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>今日やること</h2>
+  <ul class="list">
+    <li>Backbone.jsを使うと何を解決できるか</li>
+    <li>Backbone.jsの基本的なアーキテクチャ</li>
+    <li>Backbone.jsを使った実例の解説</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>問題点</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <iframe width="100%" height="90%" style="margin-top:1em" src="./demo/no_backbone/index.html"></iframe>
+</div></div>
+
+<div class="page spread"><div>
+  <h2><a href="https://github.com/hokaccha/slides/blob/gh-pages/backbone_intro/demo/no_backbone/script.js" target="_blank">view source</a></h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>問題点</h2>
+  <p>機能を分けずに1ファイルに書いているので</p>
+  <ul class="list">
+    <li>再利用できない</li>
+    <li>分業できない</li>
+    <li>テストできない</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>つまり</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>規模が大きくなったときに<br>管理しきれなくなる</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>というのを解決したい</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>どうすればいいか</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>とにかく分ける</h2>
+  <ul class="list">
+    <li>ファイルを分ける</li>
+    <li>役割を分ける</li>
+    <li>機能を分ける</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>そうするとどうなるか</h2>
+  <ul class="list">
+    <li>再利用できる</li>
+    <li>分業できる</li>
+    <li>テストできる</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>その手助けをするのがBackbone.js</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Backbone.jsが解決すること</h2>
+  <ul class="list">
+    <li>役割、機能の切り分け</li>
+    <li>長期的な生産性の向上</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Backbone.jsが解決しないこと</h2>
+  <ul class="list">
+    <li>コード量の削減</li>
+    <li>プログラムの高速化</li>
+    <li>短期的な生産性の向上</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Backbone.jsの機能</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <p><img src="img/backbone.png"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <p><img src="img/model.png"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <p><img src="img/collection.png"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <p><img src="img/view.png"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <p><img src="img/twitter_search.png" width="100%"></p>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>DEMO</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>まとめ</h2>
+  <ul class="list">
+    <li>Backbone.jsは役割を分割することでメンテナンス性をよくすることができる</li>
+    <li>あくまで一つの手段なのでBackbone.jsにこだわる必要はない</li>
+    <li>設計する力が必要になる</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <iframe width="100%" height="90%" style="margin-top:1em" src="http://www.codegrid.net/"></iframe>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ありがとうございました</h2>
+</div></div>
+
+</body>
+</html>
