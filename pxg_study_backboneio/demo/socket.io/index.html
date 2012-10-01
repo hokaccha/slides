@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Sample</title>
+<form method="post" action="">
+<input type="text">
+<input type="submit">
+</form>
+
+<div class="chat"></div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+<script>
+var socket = io.connect('http://localhost:8080');
+socket.on('message', function(data) {
+  var $message = $('<p>').text(data);
+  $('.chat').prepend($message);
+});
+
+$('form').submit(function(e) {
+  e.preventDefault();
+  var message = $('input[type=text]').val();
+  socket.send(message);
+});
+</script>
+</head>
+<body>
+</body>
+</html>

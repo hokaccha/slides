@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Sample</title>
+<style>
+.chat {
+  border-top: 3px double #999;
+  padding: 20px;
+  margin: 20px 0 0 0;
+}
+
+.chat li {
+  list-style: none;
+  color: #666;
+  border-bottom: 1px dotted #CCC;
+  padding: 5px 0;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<h1>Chat Demo</h1>
+<form method="post" action="">
+<input type="text">
+<input type="submit">
+</form>
+
+<ul class="chat"></ul>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+<script>
+function addChat(message) {
+  var $message = $('<li>').text(message).hide();
+  $('.chat').prepend($message);
+  $message.slideDown();
+}
+
+var socket = io.connect('http://localhost:8080');
+socket.on('message', function(message) {
+  addChat(message);
+});
+
+$('form').submit(function(e) {
+  e.preventDefault();
+
+  var message = $('input[type=text]').val();
+  socket.send(message);
+  addChat(message);
+});
+</script>
+</body>
+</html>
