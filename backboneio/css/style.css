@@ -20,8 +20,8 @@ body {
 
 .center {
     text-align: center;
-    margin: 0.5em !important;
-    padding: 0 !important;
+    margin: 0 !important;
+    padding: 1em 0 !important;
 }
 
 .spread {
@@ -66,7 +66,7 @@ table {
 }
 
 .page pre {
-	font-size: 0.8em !important;
+	font-size: 0.9em !important;
 	line-height: 1.8;
 }
 
@@ -139,4 +139,8 @@ table.origin td {
   left: 0;
   background: #CCC;
   -webkit-transition: all 20s linear;
+}
+
+.list {
+  font-size: 1.2em;
 }
