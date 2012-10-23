@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>JavaScriptの自動テスト</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/highlight.pack.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="progress" hidden></div>
+
+<div class="page top"><div>
+  <h1>JavaScriptの自動テスト</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2012.10.23</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>自動テストとはなんぞや</h2>
+  <ul class="list">
+    <li>リポジトリにpushしたら勝手にテストしてくれて</li>
+    <li>テストが失敗したら通知して教えてくれたりするやつ</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>なぜ自動テストが必要か</h2>
+  <ul class="list">
+    <li>ブラウザでリロードすればすぐテストできるし</li>
+    <li>テスト落ちるてるのとかすぐわかるじゃん</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>テストが増えた時実行<br>するのが大変になるから<br>（他にも理由あるけど）</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>が、世の中の自動テストツールは<br>コマンドラインから実行<br>するテストが前提であるorz</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>そこでこいつの出番</h2>
+  <p><img src="img/phantomjs.png" width="300" alt="phantomJS"><br>PhantomJSたん</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>phantomJSの例</h2>
+  <pre><code class="javascript">// fetch_pxgrid_member.js
+var webpage = require('webpage');
+var page = webpage.create();
+
+page.onConsoleMessage = function(msg) {
+  console.log(msg);
+};
+
+page.open('http://www.pxgrid.com/', function(status) {
+  page.evaluate(function() {
+    $('.mod-staffs h3').each(function() {
+      console.log($(this).text());
+    });
+  });
+  phantom.exit();
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>phantomJSの例</h2>
+  <p>phantomjsコマンドでスクリプトを実行</p>
+  <pre><code>$ phantomjs fetch_pxgrid_member.js
+中村 享介（なかむら きょうすけ）
+高津戸 壮（たかつど たけし）
+小山田 晃浩（おやまだ あきひろ）
+外村 和仁（ほかむら かずひと）
+外村 奈津子（そとむら なつこ）
+德田 和規（とくだ かずのり）</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>でもこれくらいだったら他の<br>スクレイピングツールでできるよ</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <p class="center"><img src="img/pxgrid_menu.png" alt="pxgrid site"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>JavaScript実行できちゃう</h2>
+  <pre><code class="javascript">// fetch_pxgrid_menu.js
+...
+
+page.open('http://www.pxgrid.com/', function(status) {
+  page.evaluate(function() {
+    console.log($('nav .current').text()); //=> ホーム
+
+    $('a[href=#service]').click();
+
+    setTimeout(function() {
+      console.log($('nav .current').text()); //=> 業務案内
+    }, 1000);
+  });
+});</code></pre>
+  
+</div></div>
+
+<div class="page plain"><div>
+  <h2>関係ないけどキャプチャもとれちゃう</h2>
+  <pre><code class="javascript">// fetch_pxgrid_menu.js
+var webpage = require('webpage');
+var page = webpage.create();
+
+page.open('http://www.pxgrid.com/#corporate', function(status) {
+  page.render('capture.png');
+  phantom.exit();
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <p class="center"><img src="demo/capture.png" alt="キャプチャ"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <p class="center" style="margin-top:2em"><img src="img/sasuga.jpg"></p>
+  <p class="center">さすがphantomJS！おれたちに（ｒｙ</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>とあるjQueryのプラグイン</h2>
+<pre><code class="javascript">$.fn.rollover = function() {
+  return this.each(function() {
+    var $img = $(this);
+    var src = $img.attr('src');
+    var src_on = src.replace(/_off\.(\w+)$/, '_on.$1');
+
+    $img.bind('mouseenter', function() {
+      $img.attr('src', src_on);
+    });
+
+    $img.bind('mouseleave',function() {
+      $img.attr('src', src);
+    });
+  });
+};</code></pre>
+
+</div></div>
+
+<div class="page plain"><div>
+  <h2>mochaでテストを書いてみる</h2>
+<pre><code class="javascript">describe('jquery.rollover', function() {
+  var $img;
+  var off = '../example/menu01_off.png';
+  var on = '../example/menu01_on.png';
+
+  beforeEach(function() {
+    $img = $('&lt;img&gt;').attr('src', off).rollover();
+    expect($img.attr('src')).to.be(off);
+  });
+
+  it('mouseenterで_offが_onになること', function() {
+    $img.trigger('mouseenter');
+    expect($img.attr('src')).to.be(on);
+  });
+
+  it('mouseleaveで_onが_offになること', function() {
+    $img.trigger('mouseenter');
+    expect($img.attr('src')).to.be(on);
+
+    $img.trigger('mouseleave');
+    expect($img.attr('src')).to.be(off);
+  });
+});</code></pre>
+
+</div></div>
+
+<div class="page plain"><div>
+  <h2>ブラウザで実行してみる</h2>
+  <iframe src="demo/rollover/test/index.html" height="50%" width="100%" style="background:#FFF"></iframe>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>phantomJSで実行してみる</h2>
+  <p class="center"><img src="img/phantom_mocha.png" alt="phantomJSでmochaを実行"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>mocha-phantomjs.coffee</h2>
+  <p><a href="https://github.com/metaskills/mocha-phantomjs">metaskills/mocha-phantomjs</a></p>
+  <ul class="list">
+    <li>mochaのテストをphantomJSでいい感じに実行できるようにしてくれるやつ</li>
+    <li>自分で書こうと思ったけどめんどかったのでこれ使うのがいいです</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>travis-ciで実行してみる</h2>
+  <p>以下のYAMLを.travis.ymlという名前でgithubのリポジトリにおいてpushするだけ</p>
+  <pre><code>script: phantomjs test/lib/mocha-phantomjs.coffee test/index.html</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <p><a href="https://travis-ci.org/#!/hokaccha/mocha-phantom-travis-test/builds/2862206">https://travis-ci.org/#!/hokaccha/mocha-phantom-travis-test/builds/2862206</a></p>
+  <p><img src="img/travis-result.png" alt="結果"></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>まとめ</h2>
+  <ul class="list">
+    <li>phantomJSはズキューンな感じでしびれるしあこがれる</li>
+    <li>travis-ciは簡単すぎてワロスという感じ</li>
+    <li>JavaScriptの自動テストは今の時代そこまで難しくない</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Thanks.</h2>
+</div></div>
+
+</body>
+</html>
+
