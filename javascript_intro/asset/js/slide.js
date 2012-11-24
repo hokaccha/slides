@@ -68,6 +68,7 @@ $d.bind('click touchstart', next)
 
 $('a').click(function(e) {
 	e.preventDefault();
+	e.stopPropagation();
 	window.open(this.href, '_blank');
 });
 
