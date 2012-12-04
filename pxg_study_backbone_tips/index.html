@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Backbone.js Tips</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/highlight.pack.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="progress" hidden></div>
+
+<div class="page top"><div>
+  <h1>Backbone.js Tips</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2012.12.04</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>今日の内容</h2>
+  <p>Backbone.jsのTips的なのをいくつか紹介</p>
+
+  <ul class="list">
+    <li>遅延評価されるプロパティ</li>
+    <li>Model内部で扱う型の変換</li>
+    <li>サーバーサイドとの共通化</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>遅延評価されるプロパティ</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>遅延評価されるプロパティ</h2>
+  <p>値に関数を指定することで実行時に評価されるプロパティ。</p>
+  <ul class="list">
+    <li>defaults (Model)</li>
+    <li>urlRoot (Model)</li>
+    <li>url (Model, Collection)</li>
+    <li>events (View)</li>
+    <li>attributes (View)</li>
+  </ul>
+  <p>（「getValue」でBackbone.jsのコードをgrepすればわかる）</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>遅延評価されるプロパティの例</h2>
+  <p>createdのデフォルト値にインスタンスを作成した時刻を設定したい</p>
+<pre><code class="javascript">var Todo = Backbone.Model.extend({
+  defaults: {
+    text: null,
+    completed: false,
+    created: new Date() // これだとクラスを作った時刻になってしまう
+  }
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>遅延評価されるプロパティの例</h2>
+  <p>関数にすることでインスタンス作成時に評価される</p>
+<pre><code class="javascript">var Todo = Backbone.Model.extend({
+  defaults: function() {
+    return {
+      text: null,
+      completed: false,
+      created: new Date()
+    };
+  }
+});</code></pre>
+
+</div></div>
+
+<div class="page plain"><div>
+  <h2>遅延評価されるプロパティの例</h2>
+  <p>Comments CollectionがURLで親のentry idを参照したい</p>
+<pre><code class="javascript">var Comments = Backbone.Collection.extend({
+  initialize: function(entry) {
+    this.entry = entry;
+  },
+  // これだと定義時にthis.entryはないのでエラーになる
+  url: '/entries/' + this.entry.get('id') + '/comments';
+});
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>遅延評価されるプロパティの例</h2>
+  <p>Comments CollectionがURLで親のentry idを参照したい</p>
+<pre><code class="javascript">var Comments = Backbone.Collection.extend({
+  initialize: function(entry) {
+    this.entry = entry;
+  },
+  // 関数にすることで実行時に評価される
+  url: function() {
+    return '/entries/' + this.entry.get('id') + '/comments';
+  }
+});
+</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Model内部で扱う型の変換</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>日付の変換の例</h2>
+  <ul class="list">
+    <li>APIからは日付のデータは文字列で渡ってくる</li>
+    <li>JavaScriptでは文字列でなくDate型（もしくはMomentとか）で扱いたい</li>
+    <li>APIにPOSTするときは文字列に変換したい</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <p class="center"><img src="img/model_cast.png">
+</div></div>
+
+<div class="page plain"><div>
+  <h2>サーバー側からのデータを変換</h2>
+  <p>parseプロパティを使う</p>
+<pre><code class="javascript">var MyModel = Backbone.Model.extend({
+  parse: function(response) {
+    response.date = new Date(response.date);
+
+    return response;
+  }
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>parseの問題点</h2>
+  <p>parseプロパティは基本的にSync系のメソッドでしか実行されない</p>
+<pre><code class="javascript">var model = new MyModel();
+
+$form.submit(function() {
+  // こういう場合にparseプロパティは無力・・
+  model.set('date', $inputDate.val());
+});
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>setを上書き</h2>
+  <p>setを上書きするしかないけど引数チェックとかがけっこうめんどい</p>
+<pre><code class="javascript">var MyModel = Backbone.Model.extend({
+  set: function(key, val, options) {
+    // Backbone.jsのsetのソースからもってきた引数チェック
+    var attrs, attr, val;
+
+    // Handle both `"key", value` and `{key: value}` -style arguments.
+    if (_.isObject(key) || key == null) {
+      attrs = key;
+      options = value;
+    } else {
+      attrs = {};
+      attrs[key] = value;
+    }
+
+    if (!attrs) return this;
+    if (attrs instanceof Model) attrs = attrs.attributes;
+
+    // これがやりたいだけ
+    attrs.date = new Date(attrs.date);
+
+    // 親のsetを呼び出す
+    return Backbone.Model.set.call(this, attrs, options);
+  }
+});</code></pre>
+
+</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <p>setを上書きしなくてもいいようなパッチ送ったらそんもんset上書きしてやれって一蹴されました＼(^o^)／</p>
+  <p class="center"><img src="img/pull_req.png">
+</div></div>
+
+<div class="page plain"><div>
+  <h2>サーバーにPOSTする場合</h2>
+  <p>toJSONを上書きする</p>
+<pre><code class="javascript">var MyModel = Backbone.Model.extend({
+  toJSON: function() {
+    // 元のtoJSONのコードはこれを返してるだけ
+    var attr = _.clone(this.attributes);
+
+    // きっとこういう便利関数がどこかに定義されてるはず
+    attr.date = Utils.formatDate(attr.date, '%Y-%m-%dT%H:%m:%sZ');
+
+    return attr;
+  }
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>サーバーサイドとの共通化</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>サーバーサイドとの共通化</h2>
+  <h3>問題点</h3>
+  <ul class="list">
+    <li>クライアントサイドとサーバーサイドでロジックが重複してしまうことがある</li>
+    <li>バリデーションなどはできるだけ共通化したい</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>サーバーサイドとの共通化</h2>
+  <h3>解決案</h3>
+  <ul class="list">
+    <li>Backbone.jsはNode.jsでも使える（npmでインストール可能）</li>
+    <li>両方で使えるモデルのベースを作れば共通化できそう</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+<h2>共通のベースクラスを作成</h2>
+<pre><code class="javascript">(function(global) {
+  var Backbone = global.Backbone || require('backbone');
+
+  var MyModelBase = Backbone.Model.extend({
+    // 共通のロジック
+    validate: function(attrs, opts) {
+      if (attrs.text.length > 100) return new Error('text is too long');
+    }
+  });
+
+  if (typeof window === 'undefined') {
+    // for Node.js
+    module.exports = MyModelBase;
+  } else {
+    // for browser
+    global.MyApp.MyModelBase = MyModelBase;
+  }
+})(this);</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+<h2>Node.jsのコード</h2>
+<pre><code class="javascript">// Node.js
+var MyModelBase = require('./MyModelBase');
+
+var MyModelServer = MyModelBase.extend({
+  // サーバー側で使うメソッドとか
+});
+
+module.exports = MyModelServer;</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+<h2>クライアントサイド</h2>
+<pre><code class="html">&lt;script src="/path/to/myModelBase.js"&gt;&lt;/script&gt;</code></pre>
+
+<pre><code class="javascript">MyApp.MyModelClient = MyApp.MyModelBase.extend({
+  // クライアント側のコード
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Thanks.</h2>
+</div></div>
+
+</body>
+</html>
