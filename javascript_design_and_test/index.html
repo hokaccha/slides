@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>フロントエンドJavaScriptにおける設計とテスト</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/highlight.pack.js"></script>
+<script src="js/flipsnap.js"></script>
+<script src="js/custom.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="page top"><div>
+  <h1>フロントエンドJavaScript<br>における設計とテスト</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2013/02/23 - <a href="http://connpass.com/event/1664/">JavaScript 道場</a></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>自己紹介</h2>
+  <div class="right"><img src="img/hokaccha.jpg" width="400" height="400"></div>
+  <ul class="list">
+    <li>外村 和仁</li>
+    <li>@hokaccha</li>
+    <li>株式会社 ピクセルグリッド</li>
+    <li>JavaScript, Node.js, Ruby</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>宣伝 1</h2>
+  <p style="font-size: 1.4em; margin-top: 1.5em; text-align: center;">
+    <a href="http://www.codegrid.net"><img src="img/codegrid.png"></a>
+  </p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>宣伝 2</h2>
+  <p style="font-size: 1.4em; margin-top: 1.5em; text-align: center;">
+    <a href="http://www.amazon.co.jp/dp/4774153761"><img src="img/jsippo.png"><br>ノンプログラマのためのJavaScriptはじめの一歩</a>
+  </p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>今日話さないこと</h2>
+  <ul class="list">
+    <li>JavaScriptの基礎知識、jQueryの導入</li>
+    <li>気持ちいいUIやUXがうんちゃら</li>
+    <li>CanvasやWebGLを使ったリッチでイケてるゲームの作り方</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>今日の話</h2>
+
+  <p>フロントエンドJavaScriptにおける</p>
+  <ul class="list">
+    <li>設計の必要性</li>
+    <li>設計のコツ</li>
+    <li>テストの手法</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>そもそも設計ってなによ？</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>大きく分けて二つの設計ある</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>1. モジュールやクラスの設計（ミクロ）</h2>
+  <ul class="list">
+    <li>prototypeを用いたOOPにすべきだー</li>
+    <li>使いやすいAPI設計にすべきだー</li>
+    <li>むやみにグローバル汚染したあかんー</li>
+    <li>継承がうんぬんカプセル化がうんぬん</li>
+  </ul>
+  <p><strong>※ この話は今日はしない</strong></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>2. アプリケーション全体の設計（マクロ）</h2>
+  <ul class="list">
+    <li>MVCに従ってコードを整理すべきだー</li>
+    <li>役割ごとにモジュールやクラスにまとめるべきだー</li>
+  </ul>
+  <p><strong>※ 今日出てくる「設計」はこっちの意味</strong></p>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>アプリケーションの設計で重要なこと</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>1. ModelとViewを明確に分ける</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>2. Viewを疎結合にする</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>他にもあるけど、とりあえず<br>これだけやるとだいぶ違う</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Model？ View？</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <ul class="mvclist">
+    <li>Model</li>
+    <li>View</li>
+    <li>Controller</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>クライアントサイドMVC・・・</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>お前のMVCはMVCじゃない！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>時代はMVVMだ！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>いやMVPだ！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>いやいやMOVEだ！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>MVCはn度死ぬ</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Backbone.jsの<br>ViewはControllerだ！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <img src="img/naniwo.jpg">
+</div></div>
+
+<div class="page spread"><div>
+  <h2>こんなかんじでみんな疲れてきた</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>MV*</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>MVWTF</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>言葉は重要だけど今日の<br>話の本質はそこじゃない</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>今日はこういう意味で使う</h2>
+  <ul class="list" style="font-size:1.5em">
+    <li>Model : データを管理する</li>
+    <li>View　: DOMを管理する</li>
+    <li style="color: #999; text-decoration: line-through">Controller : 説明しない
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>大事なのでもう一回</h2>
+
+  <p>JavaScriptによるアプリケーションの設計で重要なのはこの二つ</p>
+
+  <ol class="list">
+    <li>ModelとViewを明確に分ける</li>
+    <li>Viewを疎結合にする</li>
+  </ol>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ケーススタディ: Todoアプリ</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <div class="center">
+  <iframe src="demo/todo_1/index.html"></iframe>
+  </div>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>よくあるコード</h2>
+
+<pre><code>$(function() {
+  // 要素取得してー
+  var $form = $('.todoForm');
+  var $input = $form.find('input[type="text"]');
+  var $list = $('.todoList');
+
+  // フォームがサブミットされたらー
+  $form.submit(function(e) {
+    e.preventDefault();
+
+    // 要素作って追加ー
+    var text = $input.val();
+    var html = '&lt;li&gt;&lt;input type="checkbox"&gt;' + text + '&lt;/li&gt;';
+    var $li = $(html);
+
+    $li.find('input[type="checkbox"]').change(function() {
+      $(this).closest('li').toggleClass('complete');
+    });
+
+    $list.append($li);
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>このコードの問題点</h2>
+
+  <ul class="list">
+    <li>データがDOMにしかない（データとDOMが密結合）</li>
+    <li>フォームとリストが密結合</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <img src="img/view1.png">
+</div></div>
+
+<div class="page plain"><div>
+  <h2>密結合だと何が困るのか</h2>
+
+  <ul class="list">
+    <li>仕様変更に弱い</li>
+    <li>複数人で開発しづらい</li>
+    <li>テストしづらい</li>
+  </ul>
+</div></div>
+
+<div class="page spread2"><div>
+  <h2>機能追加依頼</h2>
+  <p>よく使うTodoを用意してクリック<br>で入力できるようしてー</p>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>できましたー</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <div class="center">
+  <iframe src="demo/todo_2/index.html"></iframe>
+  </div>
+</div></div>
+
+<div class="page plain"><div>
+<pre><code>$(function() {
+  var $form = $('.todoForm');
+  var $input = $form.find('input[type="text"]');
+  var $list = $('.todoList');
+  var $usual = $('.usualList li');
+
+  // 共通の処理（リストを追加する部分）を関数に切り出した
+  function addList(text) {
+    var html = '&lt;li&gt;&lt;input type="checkbox"&gt;' + text + '&lt;/li&gt;';
+    var $li = $(html);
+
+    $li.find('input[type="checkbox"]').change(function() {
+      $(this).closest('li').toggleClass('complete');
+    });
+
+    $list.append($li);
+  }
+
+  // よく使う一覧をクリックしたらリストに追加
+  $usual.click(function(e) {
+    e.preventDefault();
+
+    var text = $(this).text();
+    addList(text);
+  });
+
+  // フォームをサブミットしたらリストに追加
+  $form.submit(function(e) {
+    e.preventDefault();
+
+    var text = $input.val();
+    addList(text);
+  });
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>リストに追加する部分を<br>関数に切り出した！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>これで勝つる！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ちょっと待って</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>仕様変更があるたびに<br>このようなことを繰り返すの？</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>どう見てもスパゲッティに一直線です<br>本当にありがとうございました</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>どうする？</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>よろしい、ならば設計だ。</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ModelとViewを分ける</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>まずModel</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>model.todo.js</h2>
+<pre><code>// Todoのデータ管理するModelクラス
+function Todo(data) {
+  this.text = data.text;
+  this.complete = !!data.complete;
+}
+
+// 説明簡略化のためBackbone.Eventから拝借したEventをmixin
+// onとかtriggerメソッドが使えるようになる
+$.extend(Todo.prototype, Events);
+$.extend(Todo, Events);
+
+// completeプロパティを変更するメソッド
+Todo.prototype.setComplete = function(complete) {
+  this.complete = !!complete;
+  this.trigger('change:complete', this);
+};
+
+// 自身のインスタンスを保持する配列
+Todo.list = [];
+
+// 新規Todoを追加するためのクラスメソッド
+Todo.add = function(text) {
+  var todo = new Todo({ text: text });
+
+  Todo.list.push(todo);
+  this.trigger('add', todo);
+};</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>ここに注目！</h2>
+  <ul class="list">
+    <li>DOM操作を一切おこなっていない</li>
+    <li>データの管理だけをおこなっている</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>次にView</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Viewはどのような単位で分けるか</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>UIコンポーネントごとに<br>分けるとわかりやすい</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>この場合フォームとリスト</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>view.todoForm.js</h2>
+<pre><code>// Todoを入力するフォームを管理するViewクラス
+function TodoFormView($el) {
+  this.$el = $el;
+  this.$input = this.$el.find('input[type="text"]');
+  this.$el.submit(this.onsubmit.bind(this));
+}
+
+// サブミット時のイベントハンドラ
+TodoFormView.prototype.onsubmit = function(e) {
+  e.preventDefault();
+  Todo.add(this.$input.val());
+};</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>ここに注目！</h2>
+  <ul class="list">
+    <li>サブミットされたらModelにデータを追加するだけ</li>
+    <li>他のViewと全く関連がない（疎結合）</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>view.todoList.js</h2>
+<pre><code>// Todo一覧のリストを管理するViewクラス
+function TodoListView($el) {
+  this.$el = $el;
+  Todo.on('add', this.add.bind(this));
+}
+
+// Todoの要素を追加するメソッド
+TodoListView.prototype.add = function(todo) {
+  var item = new TodoListItemView(todo);
+  this.$el.append(item.$el);
+};
+
+// Todo一覧の要素をを管理するViewクラス
+function TodoListItemView(todo) {
+  this.todo = todo;
+  this.$el = $('&lt;li&gt;&lt;input type="checkbox"&gt;' + todo.text + '&lt;/li&gt;');
+  this.$checkbox = this.$el.find('input[type="checkbox"]');
+
+  this.$checkbox.change(this.onchangeCheckbox.bind(this));
+  this.todo.on('change:complete', this.onchangeComplete.bind(this));
+}
+
+// checkboxの値が変わった時のイベントハンドラ
+TodoListItemView.prototype.onchangeCheckbox = function() {
+  this.todo.setComplete(this.$checkbox.is(':checked'));
+};
+
+// モデルのcompleteプロパティの値が変わった時のイベントハンドラ
+TodoListItemView.prototype.onchangeComplete = function() {
+  if (this.todo.complete) {
+    this.$el.addClass('complete');
+  }
+  else {
+    this.$el.removeClass('complete');
+  }
+
+  this.$checkbox.attr('checked', this.todo.complete);
+};</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>ここに注目！</h2>
+  <ul class="list">
+    <li>ModelのイベントをトリガーにDOM構築をおこなっている</li>
+    <li>他のViewと全く関連がない（疎結合）</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>main.js</h2>
+  <p>最後にViewを初期化</p>
+<pre><code>$(function() {
+  new TodoFormView('.todoForm');
+  new TodoListView('.todoList');
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <img src="img/view2.png">
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ViewはModelを通じて<br>データをやりとりする</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Viewが疎結合なので<br>仕様変更に強い！</h2>
+</div></div>
+
+<div class="page spread2"><div>
+  <h2>機能追加依頼</h2>
+  <p>よく使うTodoを用意してクリック<br>で入力できるようしてー</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>はいこれだけー</h2>
+  <h3>main.js</h3>
+<pre><code>$('.usualList li').click(function() {
+  Todo.add($(this).text());
+});</code></pre>
+<p>※ 必要に応じてViewクラスにしてね</p>
+</div></div>
+
+<div class="page spread2"><div>
+  <h2>機能追加依頼</h2>
+  <p>全部完了にするボタンつけてー</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>はいこれだけー</h2>
+
+<h3>model.todo.js</h3>
+<pre><code>Todo.setCompleteAll = function() {
+  Todo.list.forEach(function(todo) { todo.setComplete(true); });
+};</code></pre>
+
+<h3>main.js</h3>
+<pre><code>$('.completeAll').click(function() {
+  Todo.setCompleteAll();
+});</code></pre>
+<p>※ 必要に応じてViewクラスにしてね</p>
+</div></div>
+
+<div class="page spread"><div>
+  <div class="center">
+  <iframe src="demo/todo_4/index.html"></iframe>
+  </div>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>既存のViewをいじることなく<br>機能追加に対応できる！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ちなみにBackbone.jsを使うと<br>同じようなことが簡単にできます</h2>
+</div></div>
+
+<div class="page spread2"><div>
+  <h2>ここまでのまとめ</h2>
+  <p>きちんと設計するとハッピーになれる</p>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>次、テストのはなし。</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>結合テストと単体テスト</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>結合テスト</h2>
+  
+  <ul class="list">
+    <li>HTMLやCSSも含めた一連の流れのテスト</li>
+    <li>「フォームに値を入力してボタンを押したらバリデーションが走ってOKならサブミットされるか」とか</li>
+    <li>ブラウザをエミュレートしたりするツールが必要</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>結合テストのためのライブラリ</h2>
+
+  <ul class="list">
+    <li>Selenium</li>
+    <li>capybara</li>
+    <li>CasperJS</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>CasperJSの例</h2>
+<pre><code>var casper = require('casper').create();
+
+casper.start('./index.html', function() {
+  this.evaluate(function() {
+    var form = document.querySelector('.todoForm');
+    form.querySelector('input[type="text"]').value = 'foo';
+    form.querySelector('input[type="submit"]').click();
+  });
+});
+
+casper.then(function() {
+  this.test.assertEvalEquals(function() {
+    return document.querySelectorAll('.todoList li').length;
+  }, 1, 'Added Todo List');
+
+  this.test.assertEvalEquals(function() {
+    return document.querySelector('.todoList li').textContent;
+  }, 'foo', 'Added input value');
+});
+
+casper.run(function() {
+  this.test.done();
+  this.test.renderResults(true);
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>実行結果</h2>
+  <p style="font-size: 1.4em; margin-top: 1.5em; text-align: center;">
+  <img src="img/casperjs.png">
+  </p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Seleniumの例（Ruby）</h2>
+  <p>実行するとFirefoxが起動してテストする</p>
+<pre><code class="ruby">require 'test/unit'
+require 'selenium-webdriver'
+
+class TodoAppTest &lt; Test::Unit::TestCase
+  def setup
+    @driver = Selenium::WebDriver.for :firefox
+  end
+
+  def teardown
+    @driver.quit
+  end
+
+  def test_submit_todo
+    url = "file://#{File.expand_path('..', __FILE__)}/todo/index.html"
+    @driver.navigate.to url
+
+    input = @driver.find_element :name =&gt; 'text'
+    input.send_keys 'foo'
+    input.submit
+
+    list = @driver.find_elements :css =&gt; '.todoList li'
+    assert_equal(list.size, 1)
+    assert_equal(list[0].text, 'foo')
+  end
+end</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>単体テスト</h2>
+  
+  <ul class="list">
+    <li>個々のモジュールやメソッドを対象にテストを行う</li>
+    <li>「このメソッドを実行したらこの値が返ってくるか」とか</li>
+    <li>JavaScriptだけで完結できる</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>単体テストのためのライブラリ</h2>
+  
+  <ul class="list">
+    <li>Mocha</li>
+    <li>Jasmine</li>
+    <li>QUnit</li>
+    <li>JsTestDriver</li>
+    <li>Buster.JS</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>全部は紹介しきれないので<br>今日はMochaについて解説します</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Mochaの特徴</h2>
+  <ul class="list">
+    <li>アサーション機能がない（自由に選べる）</li>
+    <li>機能が少ないので覚えることが少ない</li>
+    <li>非同期のテストが簡単</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Mochaの書き方</h2>  
+  <p>基本はこれだけ</p>
+  <pre><code>describe('テストの対象', function() {
+  it('テストの内容', function() {
+    // ここで例外が投げられたらテストが落ちる
+  });
+
+  it('テストの内容', function() {
+    // ここで例外が投げられたらテストが落ちる
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>describeのネスト</h2>
+<pre><code>describe('テストの対象', function() {
+  // describeはネストできる
+  describe('テストの対象', function() {
+    it('テストの内容', function() {
+      // ...
+    });
+  });
+
+  describe('テストの対象', function() {
+    it('テストの内容', function() {
+      // ...
+    });
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>事前処理と事後処理</h2>
+<pre><code>describe('テストの対象', function() {
+  // テストの事前処理
+  before(function() {
+  });
+
+  // テストの事後処理
+  after(function() {
+  });
+
+  // itの前に毎回行う処理
+  beforeEach(function() {
+  });
+
+  // itの後に毎回行う処理
+  afterEach(function() {
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>非同期のテスト</h2>
+<pre><code>describe('テストの対象', function() {
+  // doneを引数に取ると非同期
+  it('非同期のテスト', function(done) {
+    setTimeout(function() {
+      // ここにテストを書く
+      done();
+    }, 100);
+  });
+});</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>アサーションライブラリの選定</h2>
+  <p>現状ほぼこの二つのどちらかしかない</li>
+  <ul class="list">
+    <li>Chai</li>
+    <li>expect.js</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Chaiは動かないブラウザも<br>あるのでexpect.jsがおすすめ</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>expect.jsの例</h2>
+  <p>条件に合わないと例外を投げる</p>
+<pre><code>expect(foo).to.be('bar');
+expect(foo).to.eql({ foo: 'bar' });
+expect(foo).to.have.property('bar', 'baz');
+expect(foo).to.be.a(Date);
+expect(function() {
+  foo();
+}).to.throwError();</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Mocha + expect.jsの例</h2>
+  <p><a href="./demo/test_mocha/test/index.html">結果</a></p>
+<pre><code>describe('Todo', function() {
+  describe('.add', function() {
+    it('Todo.listにインスタンスが追加されること', function() {
+      Todo.add({ text: 'foo' });
+      expect(Todo.list).to.have.length(1);
+      expect(Todo.list[0]).to.be.a(Todo);
+    });
+  });
+
+  describe('#setComplete', function() {
+    var todo;
+    beforeEach(function() {
+      todo = new Todo({});
+    });
+
+    it('completeが設定されること', function() {
+      todo.setComplete(true);
+      expect(todo.complete).to.be(true);
+    });
+
+    it('change:completeイベントが発火すること', function(done) {
+      todo.on('change:complete', function() {
+        expect(todo.complete).to.be(true);
+        done();
+      });
+      todo.setComplete(true);
+    });
+  });
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Sinon.js</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>テストダブルのライブラリ</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>テストダブル？</h2>
+  <blockquote>
+    <p>テストダブル (Test Double) とは、ソフトウェアテストにおいて、テスト対象が依存しているコンポーネントを置き換える代用品のこと。ダブルは代役、影武者を意味する。</p>
+    <cite><a href="http://ja.wikipedia.org/wiki/%E3%83%86%E3%82%B9%E3%83%88%E3%83%80%E3%83%96%E3%83%AB">テストダブル - Wikipedia</a></cite>
+  </blockquote>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Sinon.jsの主な機能</h2>
+  <ul class="list">
+    <li>spy</li>
+    <li>stub</li>
+    <li>mock</li>
+    <li>Fake Timer</li>
+    <li>Fake XHR</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>spyの例</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>対象のメソッドが呼ばれたか調べる</h2>
+<pre><code>// Todo.addにspyを忍ばせる
+var spy = sinon.spy(Todo, 'add');
+
+// Todo.addメソッドを実行
+Todo.add('foo');
+
+// メソッドが呼ばれたかどうかや引数を調べられる
+expect(spy.calledOnce).to.ok();
+expect(spy.args[0][0]).to.be('foo');
+
+// spyを解除
+spy.restore();</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>stubの例</h2>
+</div></div>
+
+<div class="page plain"><div>
+<h2>window.confirmで分岐するコード</h2>
+<pre><code>ListView.prototype.remove = function() {
+  if (window.confirm('削除しますか？')) {
+    this.$el.remove();
+    this.$el = null;
+  }
+};</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+<h2>テスト書いてみる</h2>
+<p><a href="./demo/test_sinon/1.html">結果</a></p>
+<p>テストのたびにconfirmが出る<br>（しかも選択によってテストの成否が変わる）</p>
+<pre><code>describe('ListView', function() {
+  var listView;
+  beforeEach(function() {
+    listView = new ListView($('&lt;ul&gt;'));
+  });
+
+  describe('#remove', function() {
+    it('要素が削除されること', function() {
+      listView.remove();
+      expect(listView.$el).to.be(null);
+    });
+  });
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>解決策</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>stubを使う</h2>
+  <p>ダイアログがでない！<a href="./demo/test_sinon/2.html">結果</a></p>
+<pre><code>describe('ListView', function() {
+  describe('#remove', function() {
+    var stub;
+    var listView;
+    beforeEach(function() {
+      stub = sinon.stub(window, 'confirm');
+      listView = new ListView($('&lt;ul&gt;'));
+    });
+    afterEach(function() {
+      stub.restore();
+    });
+
+    it('window.confirmが呼ばれること', function() {
+      listView.remove();
+      expect(stub.calledOnce).to.ok();
+      expect(stub.args[0][0]).to.be('削除しますか？');
+    });
+
+    context('window.confirmでOKを押したとき', function() {
+      beforeEach(function() {
+        stub.returns(true);
+      });
+
+      it('要素が削除されること', function() {
+        listView.remove();
+        expect(listView.$el).to.be(null);
+      });
+    });
+
+    context('window.confirmでキャンセルを押した時', function() {
+      beforeEach(function() {
+        stub.returns(false);
+      });
+
+      it('要素が削除されないこと', function() {
+        listView.remove();
+        expect(listView.$el).to.not.be(null);
+      });
+    });
+  });
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Sinon.jsは他にも色々できて<br>超便利なんだけど省略</h2>
+</div></div>
+
+
+<div class="page spread"><div>
+  <h2>よくある質問のコーナー</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Q. Modelのテストはいいんだけど<br>Viewのテストが難しいです</li>
+</div></div>
+
+<div class="page spread answer"><div>
+  <h2>A. 疎結合なクラスにしていれば<br>比較的やりやすくなる</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>TodoFormViewのテスト</h2>
+<pre><code>describe('TodoFormView', function() {
+  var todoForm;
+  var html = '&lt;form&gt;&lt;input type="text"&gt;&lt;/form&gt;';
+
+  beforeEach(function() {
+    todoForm = new TodoFormView($(html));
+  });
+
+  it('$elに要素がセットされていること', function() {
+    expect(todoForm.$el.is('form')).to.ok();
+  });
+
+  context('submitしたとき', function() {
+    var spy;
+    beforeEach(function() {
+      spy = sinon.spy(Todo, 'add');
+      todoForm.$input.val('foo');
+      todoForm.$el.submit();
+    });
+    afterEach(function() {
+      spy.restore();
+    });
+
+    it('textの値がTodo.addに渡されること', function() {
+      expect(spy.calledOnce).to.ok();
+      expect(spy.args[0][0]).to.be('foo');
+    });
+  });
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>他のViewと関連がないため<br>テストが（比較的）楽</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Q. でもUIの動きとかはテスト<br>できないでしょ？</h2>
+</div></div>
+
+<div class="page spread answer"><div>
+  <h2>A. そもそもプログラムでテスト<br>するものかどうかを検討する</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>テスト可能なものと不可能なもの</h2>
+  <ul class="list">
+    <li>「気持ちいい動きをしているか」はテスト不可能</li>
+    <li>「アニメーション終了後にこの位置にあるか」はテスト可能</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>例えば</h2>
+  <p><a href="http://pxgrid.github.com/js-flipsnap/demo.html">flipsnap.js</a>というフリック系のライブラリを作ってるんだけど</p>
+  <p class="center">↓こういうやつ</p>
+  <div class="viewport">
+    <div class="flipsnap">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+  </div>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>こういうテストを書いてる</h2>
+  <p>dispatchEventでイベントを発火させて動くか確認する</p>
+<pre><code>// jQueryのtriggerのようなもの
+function trigger(element, eventType, params) {
+  var ev = document.createEvent('Event');
+  ev.initEvent(eventType, true, false);
+  $.extend(ev, params || {});
+  element.dispatchEvent(ev);
+}
+
+// タッチイベントを発火させて現在地が動くかをテストする
+it('should move to next', function() {
+  trigger(f.element, touchStartEvent, { pageX: 50, pageY: 0 });
+  expect(f.currentPoint).to.be(0);
+
+  trigger(f.element, touchMoveEvent, { pageX: 40, pageY: 0 });
+  trigger(f.element, touchMoveEvent, { pageX: 30, pageY: 0 });
+  expect(f.currentPoint).to.be(0);
+
+  trigger(document, touchEndEvent);
+  expect(f.currentPoint).to.be(1);
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>できなくはないけど<br>どこまでやるかは難しいところ</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Q. テストを自動化（CI）できんの？</h2>
+</div></div>
+
+<div class="page spread answer"><div>
+  <h2>A. 最近は環境がそろって<br>きてるのでできる</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2><span style="color:#ff9b22;line-height: 2.2">DEMO</span><br>PhantomJS + Mocha</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2><span style="color:#ff9b22;line-height: 2.2">DEMO</span><br>testem</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>まとめ</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>設計は大事</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>テストも大事</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>しかしそれらは手段である</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>真に大事なのは目的を達成すること</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>There's More Than<br>One Way To Do It.<br><br>やり方はひとつじゃない！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Enjoy Programming !!</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ありがとうございました</h2>
+</div></div>
+
+</body>
+</html>

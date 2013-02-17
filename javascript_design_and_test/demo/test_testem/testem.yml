@@ -1,0 +1,7 @@
+framework: mocha
+src_files:
+    - src/expect.js
+    - src/jquery-1.8.2.js
+    - src/event.js
+    - src/model.todo.js
+    - src/test/tests.js

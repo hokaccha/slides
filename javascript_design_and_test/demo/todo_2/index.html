@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Sample</title>
+<style>
+body {
+  font-size: 24px;
+}
+
+input {
+  font-size: 20px;
+}
+
+.complete {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.usualList {
+  padding: 0;
+  margin: 10px 0;
+}
+.usualList li {
+  list-style: none;
+  display: inline-block;
+  background: #333;
+  font-size: 16px;
+  color: #FFF;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.usualList li:hover {
+  background: #666;
+}
+</style>
+</head>
+<body>
+
+<form class="todoForm">
+  <input type="text">
+  <input type="submit">
+</form>
+
+<ul class="usualList">
+  <li>歯磨きする</li>
+  <li>ごはん食べる</li>
+  <li>原稿を書く</li>
+</ul>
+
+<ul class="todoList">
+</ul>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script>
+$(function() {
+  var $form = $('.todoForm');
+  var $input = $form.find('input[type="text"]');
+  var $list = $('.todoList');
+  var $usual = $('.usualList li');
+
+  function addList(text) {
+    var html = '<li><input type="checkbox">' + text + '</li>';
+    var $li = $(html);
+
+    $li.find('input[type="checkbox"]').change(function() {
+      $(this).closest('li').toggleClass('complete');
+    });
+ 
+    $list.append($li);
+  }
+
+  $usual.click(function(e) {
+    e.preventDefault();
+
+    var text = $(this).text();
+    addList(text);
+  });
+ 
+  $form.submit(function(e) {
+    e.preventDefault();
+
+    var text = $input.val();
+    addList(text);
+  });
+});
+</script>
+</body>
+</html>
