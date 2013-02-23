@@ -10,7 +10,7 @@ class TodoAppTest < Test::Unit::TestCase
     @driver.quit
   end
  
-  def test_submit_todo
+  def test_submit
     url = "file://#{File.expand_path('..', __FILE__)}/todo/index.html"
     @driver.navigate.to url
 
@@ -20,6 +20,6 @@ class TodoAppTest < Test::Unit::TestCase
 
     list = @driver.find_elements :css => '.todoList li'
     assert_equal(list.size, 1)
-    assert_equal(list[0].text, 'bar')
+    assert_equal(list[0].text, 'foo')
   end
 end
