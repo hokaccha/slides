@@ -1,0 +1,1 @@
+var Model = Backbone.Model;
