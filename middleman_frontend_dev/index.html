@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Middlemanで快適フロントエンド開発構築</title>
+<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
+<script src="asset/js/jquery.js"></script>
+<script src="asset/js/slide.js"></script>
+<script src="js/highlight.pack.js"></script>
+<script src="js/custom.js"></script>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="page top"><div>
+  <h1>Middlemanで<br>快適フロントエンド開発環境構築</h1>
+  <p class="author">Kazuhito Hokamura</p>
+  <p class="date">2013/11/22</p>
+  <p class="at"><a href="http://connpass.com/event/3851/">Tokyo Middleman Meetup #1</a></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>自己紹介</h2>
+  <div class="right"><img src="img/hokaccha.jpg" width="300" height="300"></div>
+  <ul class="list">
+    <li>外村 和仁</li>
+    <li>@hokaccha</li>
+    <li>株式会社 ピクセルグリッド</li>
+    <li>JavaScript, Node.js, Ruby</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>昨今のフロントエンド開発事情</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>アプリケーションの複雑化</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>CoffeeScriptやSassなどの普及</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>開発環境の自動化の必要性</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Gruntなどのツールの登場</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Grunt</h2>
+
+  <ul class="list">
+    <li>Node.js製のタスクランナー</li>
+    <li>Rake + Guardみたいな感じ</li>
+    <li>最近フロントエンド界隈でブーム</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>DEMO</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Gruntは柔軟だけど設定がめんどう</h2>
+</div></div>
+
+<div class="page plain"><div>
+<pre><code>BUILD_DIR = 'build/2013'
+DEPLOY_DIR = 'deploy'
+DEPLOY_BRANCH = 'master'
+DEPLOY_REPOSITORY = 'git@github.com:nodefest/nodefest.github.com.git'
+
+module.exports = (grunt) -&gt;
+  
+  grunt.task.loadNpmTasks 'assemble'
+  grunt.task.loadNpmTasks 'grunt-contrib-sass'
+  grunt.task.loadNpmTasks 'grunt-contrib-copy'
+  grunt.task.loadNpmTasks 'grunt-contrib-clean'
+  grunt.task.loadNpmTasks 'grunt-contrib-connect'
+  grunt.task.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadTasks 'tasks'
+
+  grunt.initConfig
+
+    assemble:
+      options:
+        socketServer: process.env['SOCKET_HOST'] || 'nodefest2013.c.node-ninja.com:80'
+        partials: 'src/partials/*.hbs'
+        data: 'data/*.yml'
+      dist:
+        expand: true
+        cwd: 'src/tmpls'
+        src: '*.hbs'
+        dest: BUILD_DIR
+
+    sass:
+      options:
+        bundleExec: true
+      dist:
+        files: [
+          src: 'src/scss/style.scss'
+          dest: "#{BUILD_DIR}/assets/css/style.css"
+        ]
+
+    copy:
+      static:
+        expand: true
+        cwd: 'src/static'
+        src: '**/*'
+        dest: BUILD_DIR
+      deploy:
+        expand: true
+        cwd: BUILD_DIR
+        src: ['**/*', '!**/_**/*', '!**/_*'] # ignore files start with underscore.
+        dest: "#{DEPLOY_DIR}/2013"
+
+    clean: [BUILD_DIR]
+
+    connect:
+      server:
+        options:
+          port: process.env.PORT || 3000
+          base: './build'
+
+    watch:
+      assemble:
+        files: ['data/*', 'src/tmpls/*', 'src/partials/*']
+        tasks: 'assemble'
+      sass:
+        files: 'src/scss/*'
+        tasks: 'sass'
+      copy:
+        files: 'src/static/**/*'
+        tasks: 'copy:static'
+
+    setup:
+      repository: DEPLOY_REPOSITORY
+      branch: DEPLOY_BRANCH
+      dir: DEPLOY_DIR
+
+    deploy:
+      #dryrun: true
+      branch: DEPLOY_BRANCH
+      dir: DEPLOY_DIR
+      message: 'Update 2013 with &lt;%= sha1 %&gt;'
+
+  grunt.registerTask 'build', ['clean', 'sass', 'assemble', 'copy:static']
+  grunt.registerTask 'server', ['build', 'connect', 'watch']
+  grunt.registerTask 'publish', ['setup', 'build', 'copy:deploy', 'deploy']
+  grunt.registerTask 'default', ['build']</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>そこでMiddleman</h2>
+</div></div>
+
+<div class="page plain"><div>
+<pre><code>configure :development do
+  set :debug_assets, true
+end
+
+configure :build do
+  activate :minify_javascript
+end</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>ここがいいよねMiddleman</h2>
+  <ul class="list">
+    <li>設定がほとんどいらない</li>
+    <li>Asset Pipeline</li>
+    <li>Rackの資産を利用できる</li>
+    <li>開発時に動的サーバー、デプロイ時に静的ファイル出力という理想的な動作</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Asset Pipeline</h2>
+
+  <ul class="list">
+    <li>コンパイル、concat、minifyが一発でできる</li>
+    <li>require による依存関係の解決</li>
+    <li>開発時にファイルを分割して読み込める</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>外部APIを使った開発</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>よくあるパターン（当社比）</h2>
+
+  <ul class="list">
+    <li>サーバーサイドはAPIのみ</li>
+    <li>APIとフロントエンドの開発が完全に分離している</li>
+    <li>本番ではAPIとアセットは同一オリジンで配信</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>事例紹介</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2 style="margin-top: 0"><span style="font-size: 1.2em">＜問題点＞</span><br>開発時のクロスオリジンXHRの壁</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>解決案</h2>
+
+  <ul class="list">
+    <li>JSONP</li>
+    <li>XHR2 (CORS)</li>
+    <li>静的なダミーデータ</li>
+    <li>Proxy</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>JSONP、XHR2</h2>
+
+  <ul class="list">
+    <li>開発環境のためにAPIのヘッダや形式を変えたくない</li>
+    <li>そもそもAPIの都合上できないことも多い</li>
+  </ul>
+
+  <p style="font-size: 0.8em">※ただし本番でもAPIとJSのオリジンが異なるならこれでもよい</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>静的なダミーデータ</h2>
+
+  <ul class="list">
+    <li>複雑なAPIに対応するのが難しい</li>
+    <li>オフラインでも開発できるという利点はある</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>そこで<br>Middleman + rack-reverse-proxy</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>config.rb</h2>
+<pre><code>require 'rack/reverse_proxy'
+
+use Rack::ReverseProxy do 
+  reverse_proxy '/api', 'http://api-server.com/'
+end</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <p><img src="img/api_proxy.png" alt="api proxy"></p>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>DEMO</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>まとめ</h2>
+  <p>Middlemanをフロントエンドの開発構築に使うと</p>
+  <ul class="list">
+    <li>Asset Pipelineで快適アセットコンパイル</li>
+    <li>Rackの資産が利用できる</li>
+    <li>フロントエンド開発環境が超快適！</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ありがとうございました</h2>
+</div></div>
+
+</body>
+</html>
