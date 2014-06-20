@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Sample</title>
+<script src="../lib/jquery.js"></script>
+<script src="app.js"></script>
+<style>
+.is-complete {
+  text-decoration: line-through;
+  color: #CCC;
+}
+
+.removeBtn {
+  display: inline-block;
+  background: #C00;
+  padding: 0 5px;
+  margin-left: 10px;
+  color: #FFF;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="todo">
+  <form class="todoForm">
+    <input type="text" class="todoText">
+    <input type="submit" class="todoBtn" value="Add New">
+  </form>
+
+  <ul class="todoList"></ul>
+</div>
+
+</body>
+</html>

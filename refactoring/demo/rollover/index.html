@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<title>rollover sample</title>
+<style>
+ul {
+  background: #000;
+  padding: 10px;
+}
+li {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+</style>
+<script src="../lib/jquery.js"></script>
+<script src="jquery.rollover.js"></script>
+<script>
+$(function() {
+  $('.rollover').rollover();
+});
+</script>
+</head>
+<body>
+<ul class="menu">
+  <li><a href="#"><img src="img/menu01_off.png" alt="Home" class="rollover"></a></li>
+  <li><a href="#"><img src="img/menu02_off.png" alt="Products" class="rollover"></a></li>
+  <li><a href="#"><img src="img/menu03_off.png" alt="Company" class="rollover"></a></li>
+</ul>
+</body>
+</html>
