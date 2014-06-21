@@ -73,10 +73,9 @@ $d.bind('click', next)
 		}
 	});
 
-if ('ontouchstart' in window) {
-  $('<div class="next">&gt;</div>').click(next).appendTo('body');
-  $('<div class="prev">&lt;</div>').click(prev).appendTo('body');
-}
+$('.wrapper').click(function() {
+  // http://kimizuka.hatenablog.com/entry/2013/12/20/075448
+});
 
 $('a').click(function(e) {
 	e.stopPropagation();

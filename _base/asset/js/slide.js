@@ -71,6 +71,10 @@ $d.bind('click', next)
 		}
 	});
 
+$('.wrapper').click(function() {
+  // http://kimizuka.hatenablog.com/entry/2013/12/20/075448
+});
+
 $('a').click(function(e) {
 	e.stopPropagation();
 	e.preventDefault();
