@@ -1,0 +1,53 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #333;
+}
+.todo {
+  width: 520px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 30px;
+}
+.todoText {
+  width: 400px;
+}
+.todoBtn {
+  width: 100px;
+}
+.todoList {
+  margin: 15px 0 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px dotted #4e3900;
+}
+.todoList li {
+  font-size: 26px;
+  margin: 15px 0;
+  padding: 0 0 15px 0;
+  width: 100%;
+  position: relative;
+  border-bottom: 1px dotted #4e3900;
+}
+.todoList input[type="checkbox"] {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.todoText {
+  vertical-align: top;
+}
+.is-complete .todoText {
+  text-decoration: line-through;
+  color: #CCC;
+}
+
+.removeBtn {
+  color: #a5000c;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 5px;
+}
+.removeBtn:hover {
+  opacity: 0.8;
+}

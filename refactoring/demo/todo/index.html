@@ -5,28 +5,18 @@
 <title>Sample</title>
 <script src="../lib/jquery.js"></script>
 <script src="app.js"></script>
-<style>
-.is-complete {
-  text-decoration: line-through;
-  color: #CCC;
-}
-
-.removeBtn {
-  display: inline-block;
-  background: #C00;
-  padding: 0 5px;
-  margin-left: 10px;
-  color: #FFF;
-  cursor: pointer;
-}
-</style>
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+<link rel="stylesheet" href="app.css">
 </head>
 <body>
 
 <div class="todo">
-  <form class="todoForm">
-    <input type="text" class="todoText">
-    <input type="submit" class="todoBtn" value="Add New">
+  <h1>Todos</h1>
+  <form class="todoForm pure-form">
+    <input type="text" class="todoText" placeholder="What needs to be done?">
+    <input type="submit" class="todoBtn pure-button pure-button-primary" value="Add New">
   </form>
 
   <ul class="todoList"></ul>

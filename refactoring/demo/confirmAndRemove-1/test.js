@@ -1,15 +1,39 @@
 describe('confirmAndRemove()', function() {
-  it('ダイアログでtrueが押された場合にjQueryのremoveが呼ばれること', function() {
-    var el = $('<div>').get(0);
-    var stub = sinon.stub(window, 'confirm');
-    var spy = sinon.spy(jQuery.fn, 'remove');
-    stub.returns(true);
-    confirmAndRemove(el);
+  beforeEach(function() {
+    // 要素を作る
+    this.parent = document.createElement('div');
+    this.el = document.createElement('div');
+    this.parent.appendChild(this.el);
 
-    // jQueryのremoveメソッドが呼ばれていることをチェック
-    expect(spy.calledOnce).to.be(true);
+    // window.confirmをstub化
+    this.stub = sinon.stub(window, 'confirm');
+  });
+  afterEach(function() {
+    // window.confirmを元に戻す
+    this.stub.restore();
+  });
 
-    stub.restore();
-    spy.restore();
+  context('window.confirmがtrueを返す場合', function() {
+    beforeEach(function() {
+      // window.confirmがtrueを返すように設定
+      this.stub.returns(true);
+      confirmAndRemove(this.el);
+    });
+
+    it('要素が削除されること', function() {
+      expect(this.parent.childNodes.length).to.be(0);
+    });
+  });
+
+  context('window.confirmがfalseを返す場合', function() {
+    beforeEach(function() {
+      // window.confirmがfalseを返すように設定
+      this.stub.returns(false);
+      confirmAndRemove(this.el);
+    });
+
+    it('要素が削除されないこと', function() {
+      expect(this.parent.childNodes.length).to.be(1);
+    });
   });
 });

@@ -2,7 +2,7 @@ module.exports = {
   'Todo App Testing': function (client) {
     client
       // 対象のページをブラウザで開く
-      .url('file:///Users/hokamura/Works/slides/refactoring/demo/legacy-todo/index.html')
+      .url('file:///Users/hokamura/Works/slides/refactoring/demo/todo/index.html')
 
       // テキストボックスに文字を入れて送信
       .setValue('.todoText', 'todo test')

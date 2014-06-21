@@ -16,10 +16,435 @@
 <div class="wrapper">
 
 <div class="page top"><div>
-  <h1>リファクタリングのためのテスト</h1>
+  <h1>リファクタリングの<br>ためのテスト</h1>
   <p class="author">Kazuhito Hokamura</p>
   <p class="date">2014/06/21</p>
   <p class="at">Remixing 1st Round</p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>自己紹介</h2>
+  <div class="right"><img src="img/hokaccha.jpg" width="300" height="300"></div>
+  <ul class="list">
+    <li>外村 和仁</li>
+    <li>@hokaccha</li>
+    <li>株式会社 ピクセルグリッド</li>
+    <li>JavaScript, Node.js, Ruby</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>今日のはなし</h2>
+
+  <ul class="list">
+    <li>テストとは何か</li>
+    <li>テストとリファクタリングの関係</li>
+    <li>リファクタリングに有効なテストの書き方</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>テストって何？</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>自動でプログラムの動作を<br>検証するためのプログラム</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>その中でもさらに</h2>
+  <p>JavaScriptにおける</p>
+  <ul class="list">
+    <li>ユニットテスト</li>
+    <li>E2Eテスト</li>
+  </ul>
+  <p>について扱います</p>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ユニットテストとは</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>メソッドなどの小さい単位<br>の動作を検証するテスト</h2>
+</div></div>
+
+<div class="page plain"><div>
+<h2>平均を求める関数</h2>
+<pre class="javascript"><code>function average(arr) {
+  var result;
+  var sum = 0;
+
+  for (var i = 0, len = arr.length; i &lt; len; i++) {
+    sum += arr[i];
+  }
+
+  result = sum / arr.length;
+
+  return result;
+}</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+<h2>動作確認</h2>
+<pre class="javascript"><code>console.log(average([10, 20])); //=&gt; 15
+console.log(average([10, 20, 30])); //=&gt; 20</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+<h2>平均を求める関数</h2>
+<pre class="javascript"><code>function average(arr) {
+  var sum = arr.reduce(function(a, b) { return a + b; });
+  return sum / arr.length;
+}</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+<h2>動作確認</h2>
+<pre class="javascript"><code>console.log(average([10, 20])); //=&gt; 15
+console.log(average([10, 20, 30])); //=&gt; 20</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>動作確認をプログラムで<br>自動化しよう</h2>
+</div></div>
+
+<div class="page plain"><div>
+<h2>テストコード</h2>
+<pre><code>describe('average()', function() {
+  it('平均値が返ること', function() {
+    expect(average([10, 20])).to.be(15);
+    expect(average([10, 20, 30])).to.be(20);
+  });
+});</code></pre>
+  <p><a href="demo/average/test.html">DEMO</a></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>ユニットテストのためのフレームワーク</h2>
+
+  <ul class="list">
+    <li>QUnit</li>
+    <li>Jusmine</li>
+    <li>Mocha</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>テストとリファクタリングの関係</h2>
+  <ul class="list">
+    <li>振る舞いを変えずに内部のコードを変更するのがリファクタリング</li>
+    <li>振る舞いが変わらないことを検証するのがテスト</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>テストがあれば<br>リファクタリングし放題</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>テストの入門にもオススメ</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>ちょっと話がそれます</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>SinonJSの話</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>テストダブルのライブラリ</h2>
+</div></div>
+
+<div class="page plain"><div>
+<h2>確認して削除する関数</h2>
+<pre><code>function confirmAndRemove(el) {
+  if (window.confirm('消すよ？')) {
+    $(el).remove();
+  }
+}</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>window.confirmをダミーに差し替える</h2>
+<pre><code>// window.confirmを全く別のフェイク関数に置き換える
+var stub = sinon.stub(window, 'confirm');
+
+// window.confirmが呼ばれたらtrueを返す
+stub.returns(true);
+
+/* ここで要素が消えているかをテストする */
+
+// 元のwindow.confirmに戻す
+stub.restore();</code></pre>
+</div></div>
+
+<div class="page plain"><div>
+<pre class="javascript"><code>describe('confirmAndRemove()', function() {
+  beforeEach(function() {
+    // 要素を作る
+    this.parent = document.createElement('div');
+    this.el = document.createElement('div');
+    this.parent.appendChild(this.el);
+
+    // window.confirmをstub化
+    this.stub = sinon.stub(window, 'confirm');
+  });
+  afterEach(function() {
+    // window.confirmを元に戻す
+    this.stub.restore();
+  });
+
+  context('window.confirmがtrueを返す場合', function() {
+    beforeEach(function() {
+      // window.confirmがtrueを返すように設定
+      this.stub.returns(true);
+      confirmAndRemove(this.el);
+    });
+
+    it('要素が削除されること', function() {
+      expect(this.parent.childNodes.length).to.be(0);
+    });
+  });
+
+  context('window.confirmがfalseを返す場合', function() {
+    beforeEach(function() {
+      // window.confirmがfalseを返すように設定
+      this.stub.returns(false);
+      confirmAndRemove(this.el);
+    });
+
+    it('要素が削除されないこと', function() {
+      expect(this.parent.childNodes.length).to.be(1);
+    });
+  });
+});</code></pre>
+<p><a href="demo/confirmAndRemove-1/test.html">DEMO</a></p>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>その他のSinonJSの機能</h2>
+
+  <ul class="list">
+    <li>関数が何回呼ばれたとかどんな引数で呼ばれたとかを記録する</li>
+    <li>DateやsetTimeoutなどをダミーに置き換える</li>
+    <li>XHRをダミーに置き換える</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>便利だけど使いすぎに注意</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>要素が消えたかをspyでチェック</h2>
+<pre><code>// jQueryのremove関数をspy化
+var spy = sinon.spy(jQuery.fn, 'remove');
+
+// テスト対象メソッド呼び出し
+confirmAndRemove(el);
+
+// jQueryのremoveメソッドが呼ばれていることをチェック
+expect(spy.calledOnce).to.be(true);</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>これでいいと思っていた<br>時期が自分にもありました。</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>動作確認のためのテスト<br>ならこれでもいい</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>リファクタリングのための<br>テストの場合に困る</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>内部実装を変更した</h2>
+<pre><code>function confirmAndRemove(el) {
+  if (window.confirm('消すよ？')) {
+    // jQueryとか使わない
+    el.parentNode.removeChild(el);
+  }
+}</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>テスト＼(^o^)／ｵﾁﾀ</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>振る舞いは変わらない<br>はずなのにテストが落ちる</h2>
+</div></div>
+
+<div class="page plain"><div>
+<h3>内部実装のテスト</h3>
+<pre class="javascript"><code>// jQueryのremoveメソッドが呼ばれたかを検証
+expect(removeSpy.calledOnce).to.be(true);</code></pre>
+
+<h3>振る舞いのテスト</h3>
+<pre class="javascript"><code>// 要素が削除されたかを検証
+expect(parentElem.childNodes.length).to.be(0);</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>モックは一番外側のAPIに<br>留めるのがオススメ</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>リファクタリングしても<br>落ちないテストを書こう！</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>プライベートメソッドテストすべきか議論</h2>
+  <p><a href="http://qa.atmarkit.co.jp/q/2784">http://qa.atmarkit.co.jp/q/2784</a></p>
+  <div class="center"><img src="img/qa.png"></div>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>E2Eテスト</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>E2Eテストとは</h2>
+
+  <ul class="list">
+    <li>end to endのテスト</li>
+    <li>最初から最後まで通してアプリケーションの動作をテストする</li>
+    <li>本来サーバーサイドも含むけど、今回はJavaScriptに限った話</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>E2Eテストのツール</h2>
+  <ul class="list">
+    <li>Selenium</li>
+    <li>CaspterJS</li>
+    <li>Nightwatch</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>Todoアプリのコード</h2>
+<pre><code>$(function() {
+  var $form = $('.todoForm');
+  var $list = $('.todoList');
+
+  $form.on('submit', function(e) {
+    e.preventDefault();
+
+    var $input = $('input[type="text"]');
+    var val = $input.val();
+
+    var $li = $('&lt;li&gt;');
+    var $text = $('&lt;span&gt;').addClass('todoText').text(val);
+    var $checkbox = $('&lt;input type="checkbox"&gt;');
+    var $remove = $('&lt;span&gt;').addClass('removeBtn').text('x');
+
+    $checkbox.on('click', function() {
+      $li.toggleClass('is-complete');
+    });
+
+    $remove.on('click', function() {
+      if (!window.confirm('消しますよ')) return;
+      $li.remove();
+    });
+
+    $li.append($checkbox, $text, $remove);
+    $list.append($li);
+
+    $input.val('');
+  });
+});</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>このコードをBackbone.js<br>で書き直したい！</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>でもユニットテスト書こう<br>にもメソッドすらないし・・</h2>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>そこでE2Eテスト</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>NightwatchによるE2Eテストのコード</h2>
+<pre><code>module.exports = {
+  'Todo App Testing': function (client) {
+    client
+      // 対象のページをブラウザで開く
+      .url('http://localhost:8000/index.html')
+
+      // テキストボックスに文字を入れて送信
+      .setValue('.todoText', 'todo test')
+      .submitForm('.todoForm')
+
+      // li要素が作成されている
+      .assert.elementPresent('.todoList li')
+
+      // リストアイテムのテキストは送信したものと一致している
+      .assert.containsText('.todoList li', 'todo test')
+
+      // checkboxをクリックしたら`is-complete`が追加される
+      .click('.todoList li input[type="checkbox"]')
+      .assert.cssClassPresent('.todoList li', 'is-complete')
+
+      // removeBtnをクリックしてconfirmでキャンセルしてもli要素は消えない
+      .click('.todoList li .removeBtn')
+      .dismissAlert()
+      .assert.elementPresent('.todoList li')
+
+      // removeBtnをクリックしてconfirmでOKしたらli要素が消える
+      .click('.todoList li .removeBtn')
+      .acceptAlert()
+      .assert.elementNotPresent('.todoList li')
+
+      // 検証終了
+      .end();
+  }
+};</code></pre>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>DEMO</h2>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>E2Eテストの注意点</h2>
+  <p>ユニットテストと比べて</p>
+  <ul class="list">
+    <li>運用コストが高い</li>
+    <li>壊れやすい</li>
+    <li>時間がかかる</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>ユニットテストとE2Eテスト</h2>
+  <ul class="list">
+    <li>どのスコープでリファクタリングしたいか</li>
+    <li>メソッド単位でリファクタリングしたい場合はユニットテスト</li>
+    <li>アプリケーション単位でリファクタリングしたい場合はE2Eテスト</li>
+  </ul>
+</div></div>
+
+<div class="page plain"><div>
+  <h2>まとめ</h2>
+  <ul class="list">
+    <li>テストがあればリファクタリングは怖くない</li>
+    <li>外部から見た振る舞いをテストしよう</li>
+    <li>ユニットテストとE2Eテストをうまく使いわけよう</li>
+  </ul>
+</div></div>
+
+<div class="page spread"><div>
+  <h2>Thanks.</h2>
 </div></div>
 
 </body>

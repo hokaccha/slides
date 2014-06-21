@@ -11,7 +11,7 @@ $(function() {
     var $li = $('<li>');
     var $text = $('<span>').addClass('todoText').text(val);
     var $checkbox = $('<input type="checkbox">');
-    var $remove = $('<span>').addClass('removeBtn').text('x');
+    var $remove = $('<i>').addClass('removeBtn fa fa-times');
 
     $checkbox.on('click', function() {
       $li.toggleClass('is-complete');
