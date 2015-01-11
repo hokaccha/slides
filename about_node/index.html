@@ -2,23 +2,20 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>some site</title>
-<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
-<script src='asset/js/jquery.js'></script>
-<script src='asset/js/slide.js'></script>
-<script src='js/highlight.min.js'></script>
-<script src='js/custom.js'></script>
+<title>Node.jsの話し</title>
+<link rel="stylesheet" href="../_asset/css/slide.css" type="text/css" media="all">
+<script src='../_asset/js/highlight.pack.js'></script>
+<script src='../_asset/js/jquery.js'></script>
+<script src='../_asset/js/slide.js'></script>
 </head>
 <body>
 <div class='wrapper'>
 
 <div class='page top'><div>
-	<h1>Node.js的な話し</h1>
+	<h1>Node.jsの話し</h1>
 	<p class='author'>外村 和仁（ピクセルグリッド）</p>
 	<p class='date'>2011.11.12</p>
+    <p class="at">Sugamo.css</p>
 </div></div>
 
 <div class='page plain'><div>
@@ -108,7 +105,7 @@
 	<p>ルーティングマップを書いてパースする</p>
 	<p><a href='https://gist.github.com/1354601'>https://gist.github.com/1354601</a></p>
 
-<pre><code>var routesMap = {
+<pre><code class="javascript">var routesMap = {
     'GET  /'      : 'root:index'
   , 'GET  /about' : 'about:index'
   , 'GET  /entry' : 'entry:index'
@@ -165,7 +162,7 @@
 
 <div class='page plain'><div>
 	<h2>通常のHTTP Server</h2>
-	<pre><code>var http = require('http');
+	<pre><code class="javascript">var http = require('http');
 
 http.createServer(function(req, res) {
   res.end('hoge');
@@ -174,7 +171,7 @@ http.createServer(function(req, res) {
 
 <div class='page plain'><div>
 	<h2>connectを使った場合</h2>
-<pre><code>var connect = require('connect');
+<pre><code class="javascript">var connect = require('connect');
 
 var app = connect.createServer();
 app.use(function(req, res, next) {
@@ -220,7 +217,7 @@ app.listen(3000);</code></pre>
 
 <div class='page plain'><div>
 	<h2>expressから使う場合</h2>
-	<pre><code>var express = require('express');
+	<pre><code class="javascript">var express = require('express');
 var app = express.createServer();
 
 app.use(express.methodOverride());
@@ -261,7 +258,7 @@ app.get('/', function(req, res) {
 
 <div class='page plain'><div>
 	<h2>イベントリスナ</h2>
-<pre><code>var ret = asyncFunc();
+<pre><code class="javascript">var ret = asyncFunc();
 
 ret.on('data', function() {
   ...
@@ -278,7 +275,7 @@ ret.on('error', function() {
 
 <div class='page plain'><div>
 	<h2>コールバック</h2>
-<pre><code>var fs = require('fs');
+<pre><code class="javascript">var fs = require('fs');
 
 fs.readFile('./hoge.html', 'utf8', function(err, file) {
   console.log(file);
@@ -301,7 +298,7 @@ fs.readFile('./hoge.html', 'utf8', function(err, file) {
 
 <div class='page plain'><div>
 	<h2>Node.jsで困ること</h2>
-<pre><code>var fs = require('fs');
+<pre><code class="javascript">var fs = require('fs');
 var path = './hoge.txt';
 
 fs.writeFile(path, "hello", function (err) {
@@ -324,7 +321,7 @@ fs.writeFile(path, "hello", function (err) {
 
 <div class='page plain'><div>
 	<h2>Deferredを使った場合</h2>
-<pre><code>var fs = require('fs');
+<pre><code class="javascript">var fs = require('fs');
 var Deferred = require('jsdeferred').Deferred;
 var path = "./hoge.txt";
 
@@ -387,7 +384,7 @@ Deferred.next(function() {
 
 <div class='page plain'><div>
 	<h2>chain-tinyで書いてみる</h2>
-<pre><code>var fs = require('fs');
+<pre><code class="javascript">var fs = require('fs');
 var chain = require('chain-tiny');
 var path = "./hoge.txt";
 

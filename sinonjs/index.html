@@ -3,14 +3,10 @@
 <head>
 <meta charset="utf-8">
 <title>Sinon.JS</title>
-<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
-<script src="asset/js/jquery.js"></script>
-<script src="asset/js/slide.js"></script>
-<script src="js/highlight.pack.js"></script>
-<script src="js/custom.js"></script>
+<link rel="stylesheet" href="../_asset/css/slide.css" type="text/css" media="all">
+<script src='../_asset/js/highlight.pack.js'></script>
+<script src='../_asset/js/jquery.js'></script>
+<script src='../_asset/js/slide.js'></script>
 </head>
 <body>
 <div class="wrapper">
@@ -19,12 +15,12 @@
   <h1>Sinon.JS</h1>
   <p class="author">Kazuhito Hokamura</p>
   <p class="date">2013.04.26</p>
-  <p class="at">第38回HTML5とか勉強会</p>
+  <p class="at"><a href="http://blog.html5j.org/2013/05/38html5.html">第38回HTML5とか勉強会</a></p>
 </div></div>
 
 <div class="page plain"><div>
   <h2>自己紹介</h2>
-  <div class="right"><img src="img/hokaccha.jpg" width="300" height="300"></div>
+  <div class="right"><img src="../_asset/img/hokaccha.jpg" width="300" height="300"></div>
   <ul class="list">
     <li>外村 和仁</li>
     <li>@hokaccha</li>
@@ -66,7 +62,7 @@
 
 <div class="page plain"><div>
 <h2>jQuery#triggerのテスト</h2>
-<pre><code>describe('jQuery#trigger', function() {
+<pre><code class="javascript">describe('jQuery#trigger', function() {
   it('イベントハンドラに値を渡せること', function(done) {
     var $el = $('&lt;div&gt;');
     
@@ -82,7 +78,7 @@
 
 <div class="page plain"><div>
 <h2>コールバックが2回呼ばれるかをテスト</h2>
-<pre><code>describe('jQuery#trigger', function() {
+<pre><code class="javascript">describe('jQuery#trigger', function() {
   it('イベントハンドラに値を渡せること', function(done) {
     var $el = $('&lt;div&gt;');
 
@@ -115,7 +111,7 @@
 
 <div class="page plain"><div>
   <h2>sinon.spy</h2>
-  <pre><code>var spy = sinon.spy();
+  <pre><code class="javascript">var spy = sinon.spy();
 
 spy('foo', 'bar');
 spy('hoge');
@@ -126,7 +122,7 @@ spy.args;      //=> [ ['foo', 'bar'], ['hoge'] ]</code></pre>
 
 <div class="page plain"><div>
 <h2>sinon.spyを使ったテスト</h2>
-<pre><code>describe('jQuery#trigger', function() {
+<pre><code class="javascript">describe('jQuery#trigger', function() {
   it('イベントハンドラに値を渡せること', function() {
     var $el = $('&lt;div&gt;');
     var spy = sinon.spy();
@@ -151,7 +147,7 @@ spy.args;      //=> [ ['foo', 'bar'], ['hoge'] ]</code></pre>
 
 <div class="page plain"><div>
   <h2>何か処理をして要素を削除する関数</h2>
-<pre><code>function removeElement($el) {
+<pre><code class="javascript">function removeElement($el) {
   // 何か処理
 
   $el.remove();
@@ -160,7 +156,7 @@ spy.args;      //=> [ ['foo', 'bar'], ['hoge'] ]</code></pre>
 
 <div class="page plain"><div>
   <h2>jQuery.fn.removeが呼ばれるかをテスト</h2>
-<pre><code>describe('removeElement', function() {
+<pre><code class="javascript">describe('removeElement', function() {
   it('jQuery.fn.removeが呼ばれること', function() {
     var $el = $('&lt;div&gt;');
     var spy = sinon.spy(jQuery.fn, 'remove');
@@ -203,7 +199,7 @@ spy.args;      //=> [ ['foo', 'bar'], ['hoge'] ]</code></pre>
 
 <div class="page plain"><div>
   <h2>confirmで確認して要素を削除する関数</h2>
-<pre><code>function removeElement($el) {
+<pre><code class="javascript">function removeElement($el) {
   if (window.confirm('削除しますか？')) {
     $el.remove();
   }
@@ -212,7 +208,7 @@ spy.args;      //=> [ ['foo', 'bar'], ['hoge'] ]</code></pre>
 
 <div class="page plain"><div>
 <h2>stubを使ったテスト</h2>
-<pre><code>describe('removeElement', function() {
+<pre><code class="javascript">describe('removeElement', function() {
   it('confirmがtrueだった場合removeが呼ばれること', function() {
     var $el = $('&lt;div&gt;');
     var spy = sinon.spy(jQuery.fn, 'remove');
@@ -234,7 +230,7 @@ spy.args;      //=> [ ['foo', 'bar'], ['hoge'] ]</code></pre>
 
 <div class="page plain"><div>
 <h2>window.confirmがfalseを返す場合</h2>
-<pre><code>describe('removeElement', function() {
+<pre><code class="javascript">describe('removeElement', function() {
   it('confirmがfalseだった場合removeが呼ばれないこと', function() {
     var $el = $('&lt;div&gt;');
     var spy = sinon.spy(jQuery.fn, 'remove');
@@ -279,7 +275,7 @@ spy.args;      //=> [ ['foo', 'bar'], ['hoge'] ]</code></pre>
 
 <div class="page plain"><div>
   <h2>とあるModelクラス</h2>
-<pre><code>Model.prototype.set = function(key, val) {
+<pre><code class="javascript">Model.prototype.set = function(key, val) {
   var error = this.validate(key, val);
 
   if (!error) {
@@ -292,7 +288,7 @@ Model.prototype.validate = function() { ... };</code></pre>
 
 <div class="page plain"><div>
 <h2>mockを使ったテスト</h2>
-<pre><code>describe('Model#set', function() {
+<pre><code class="javascript">describe('Model#set', function() {
   it('validateが呼ばれること', function() {
     var model = new Model();
  
@@ -329,7 +325,7 @@ Model.prototype.validate = function() { ... };</code></pre>
 
 <div class="page plain"><div>
   <h2>今日が日曜日だったらtrueを返す関数</h2>
-  <pre><code>function isSunday() {
+  <pre><code class="javascript">function isSunday() {
   var now = new Date();
  
   return now.getDay() === 0; // 0は日曜日
@@ -338,7 +334,7 @@ Model.prototype.validate = function() { ... };</code></pre>
 
 <div class="page plain"><div>
   <h2>sinon.useFakeTimersを使ったテスト</h2>
-<pre><code>describe('isSunday()', function() {
+<pre><code class="javascript">describe('isSunday()', function() {
   it('日曜日の場合にtrueを返すこと', function() {
     var sunday = new Date('2013-03-24'); // この日は日曜日
     var clock = sinon.useFakeTimers(sunday.getTime());
@@ -361,7 +357,7 @@ Model.prototype.validate = function() { ... };</code></pre>
 
 <div class="page plain"><div>
   <h2>10分後にコールバックを実行する関数</h2>
-  <pre><code>function wait10min(fn) {
+  <pre><code class="javascript">function wait10min(fn) {
   var time = 10 * 60 * 1000; // 10分
  
   setTimeout(function() {
@@ -372,7 +368,7 @@ Model.prototype.validate = function() { ... };</code></pre>
 
 <div class="page plain"><div>
   <h2>タイマーを操作することができる</h2>
-<pre><code>describe('wait10min()', function() {
+<pre><code class="javascript">describe('wait10min()', function() {
   it('10分後にコールバックが呼ばれること', function() {
     var clock = sinon.useFakeTimers();
     var spy = sinon.spy();
@@ -402,7 +398,7 @@ Model.prototype.validate = function() { ... };</code></pre>
 
 <div class="page plain"><div>
   <h2>ユーザーAPIを呼び出す関数</h2>
-<pre><code>function fetchUser(fn) {
+<pre><code class="javascript">function fetchUser(fn) {
   $.ajax({
     type: 'GET',
     url: '/api/user',
@@ -416,7 +412,7 @@ Model.prototype.validate = function() { ... };</code></pre>
 
 <div class="page plain"><div>
   <h2>XHRを置き換えてテストする</h2>
-<pre><code>describe('fetchUser', function() {
+<pre><code class="javascript">describe('fetchUser', function() {
   it('userAPIにアクセスすること', function() {
     // XHRを置き換える
     var xhr = sinon.useFakeXMLHttpRequest();
@@ -454,7 +450,7 @@ Model.prototype.validate = function() { ... };</code></pre>
 
 <div class="page plain"><div>
   <h2>fakeServerを使う</h2>
-<pre><code>describe('fetchUser', function() {
+<pre><code class="javascript">describe('fetchUser', function() {
   it('userAPIにアクセスすること', function() {
     // XHRを置き換えてダミーサーバーを作る
     var server = sinon.fakeServer.create();

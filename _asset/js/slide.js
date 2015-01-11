@@ -20,6 +20,7 @@ function set_page() {
 	var page = get_page();
 	pages.not(':hidden').hide();
 	pages.eq(page - 1).fadeIn().filter('.spread').height($wr.height());
+    setTimeout(function() { window.scrollTo(0, 0); }, 0);
 }
 
 function next() {

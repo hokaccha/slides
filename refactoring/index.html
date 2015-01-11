@@ -3,14 +3,10 @@
 <head>
 <meta charset="utf-8">
 <title>リファクタリングのためのテスト</title>
-<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/highlight.css" type="text/css" media="all">
-<script src="asset/js/jquery.js"></script>
-<script src="asset/js/slide.js"></script>
-<script src="js/highlight.pack.js"></script>
-<script src="js/custom.js"></script>
+<link rel="stylesheet" href="../_asset/css/slide.css" type="text/css" media="all">
+<script src='../_asset/js/highlight.pack.js'></script>
+<script src='../_asset/js/jquery.js'></script>
+<script src='../_asset/js/slide.js'></script>
 </head>
 <body>
 <div class="wrapper">
@@ -19,12 +15,12 @@
   <h1>リファクタリングの<br>ためのテスト</h1>
   <p class="author">Kazuhito Hokamura</p>
   <p class="date">2014/06/21</p>
-  <p class="at">Remixing 1st Round</p>
+  <p class="at"><a href="http://remixing.doorkeeper.jp/events/12351">Remixing 1st Round</a></p>
 </div></div>
 
 <div class="page plain"><div>
   <h2>自己紹介</h2>
-  <div class="right"><img src="img/hokaccha.jpg" width="300" height="300"></div>
+  <div class="right"><img src="../_asset/img/hokaccha.jpg" width="300" height="300"></div>
   <ul class="list">
     <li>外村 和仁</li>
     <li>@hokaccha</li>
@@ -34,7 +30,6 @@
 </div></div>
 
 <div class="page plain"><div>
-  <p class="center"><a href="http://www.codegrid.net/">http://www.codegrid.net/</a></p>
   <p class="center"><img src="img/codegrid.png"></p>
 </div></div>
 
@@ -76,7 +71,7 @@
 
 <div class="page plain"><div>
 <h2>平均を求める関数</h2>
-<pre class="javascript"><code>function average(arr) {
+<pre><code class="javascript">function average(arr) {
   var result;
   var sum = 0;
 
@@ -92,13 +87,13 @@
 
 <div class="page plain"><div>
 <h2>動作確認</h2>
-<pre class="javascript"><code>console.log(average([10, 20])); //=&gt; 15
+<pre><code class="javascript">console.log(average([10, 20])); //=&gt; 15
 console.log(average([10, 20, 30])); //=&gt; 20</code></pre>
 </div></div>
 
 <div class="page plain"><div>
 <h2>平均を求める関数</h2>
-<pre class="javascript"><code>function average(arr) {
+<pre><code class="javascript">function average(arr) {
   var sum = arr.reduce(function(a, b) { return a + b; });
   return sum / arr.length;
 }</code></pre>
@@ -106,7 +101,7 @@ console.log(average([10, 20, 30])); //=&gt; 20</code></pre>
 
 <div class="page plain"><div>
 <h2>動作確認</h2>
-<pre class="javascript"><code>console.log(average([10, 20])); //=&gt; 15
+<pre><code class="javascript">console.log(average([10, 20])); //=&gt; 15
 console.log(average([10, 20, 30])); //=&gt; 20</code></pre>
 </div></div>
 
@@ -116,7 +111,7 @@ console.log(average([10, 20, 30])); //=&gt; 20</code></pre>
 
 <div class="page plain"><div>
 <h2>テストコード</h2>
-<pre><code>describe('average()', function() {
+<pre><code class="javascript">describe('average()', function() {
   it('平均値が返ること', function() {
     expect(average([10, 20])).to.be(15);
     expect(average([10, 20, 30])).to.be(20);
@@ -165,7 +160,7 @@ console.log(average([10, 20, 30])); //=&gt; 20</code></pre>
 
 <div class="page plain"><div>
 <h2>確認して削除する関数</h2>
-<pre><code>function confirmAndRemove(el) {
+<pre><code class="javascript">function confirmAndRemove(el) {
   if (window.confirm('消すよ？')) {
     $(el).remove();
   }
@@ -174,7 +169,7 @@ console.log(average([10, 20, 30])); //=&gt; 20</code></pre>
 
 <div class="page plain"><div>
   <h2>window.confirmをダミーに差し替える</h2>
-<pre><code>// window.confirmを全く別のフェイク関数に置き換える
+<pre><code class="javascript">// window.confirmを全く別のフェイク関数に置き換える
 var stub = sinon.stub(window, 'confirm');
 
 // window.confirmが呼ばれたらtrueを返す
@@ -187,7 +182,7 @@ stub.restore();</code></pre>
 </div></div>
 
 <div class="page plain"><div>
-<pre class="javascript"><code>describe('confirmAndRemove()', function() {
+<pre><code class="javascript">describe('confirmAndRemove()', function() {
   beforeEach(function() {
     // 要素を作る
     this.parent = document.createElement('div');
@@ -245,7 +240,7 @@ stub.restore();</code></pre>
 
 <div class="page plain"><div>
   <h2>要素が消えたかをspyでチェック</h2>
-<pre><code>// jQueryのremove関数をspy化
+<pre><code class="javascript">// jQueryのremove関数をspy化
 var spy = sinon.spy(jQuery.fn, 'remove');
 
 // テスト対象メソッド呼び出し
@@ -269,7 +264,7 @@ expect(spy.calledOnce).to.be(true);</code></pre>
 
 <div class="page plain"><div>
   <h2>内部実装を変更した</h2>
-<pre><code>function confirmAndRemove(el) {
+<pre><code class="javascript">function confirmAndRemove(el) {
   if (window.confirm('消すよ？')) {
     // jQueryとか使わない
     el.parentNode.removeChild(el);
@@ -287,11 +282,11 @@ expect(spy.calledOnce).to.be(true);</code></pre>
 
 <div class="page plain"><div>
 <h3>内部実装のテスト</h3>
-<pre class="javascript"><code>// jQueryのremoveメソッドが呼ばれたかを検証
+<pre><code class="javascript">// jQueryのremoveメソッドが呼ばれたかを検証
 expect(removeSpy.calledOnce).to.be(true);</code></pre>
 
 <h3>振る舞いのテスト</h3>
-<pre class="javascript"><code>// 要素が削除されたかを検証
+<pre><code class="javascript">// 要素が削除されたかを検証
 expect(parentElem.childNodes.length).to.be(0);</code></pre>
 </div></div>
 
@@ -334,7 +329,7 @@ expect(parentElem.childNodes.length).to.be(0);</code></pre>
 
 <div class="page plain"><div>
   <h2>Todoアプリのコード</h2>
-<pre><code>$(function() {
+<pre><code class="javascript">$(function() {
   var $form = $('.todoForm');
   var $list = $('.todoList');
 
@@ -380,7 +375,7 @@ expect(parentElem.childNodes.length).to.be(0);</code></pre>
 
 <div class="page plain"><div>
   <h2>NightwatchによるE2Eテストのコード</h2>
-<pre><code>module.exports = {
+<pre><code class="javascript">module.exports = {
   'Todo App Testing': function (client) {
     client
       // 対象のページをブラウザで開く

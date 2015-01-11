@@ -3,12 +3,10 @@
 <head>
 <meta charset="utf-8">
 <title>YUIDoc</title>
-<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-<script src="asset/js/jquery.js"></script>
-<script src="asset/js/slide.js"></script>
-<script src="js/custom.js"></script>
+<link rel="stylesheet" href="../_asset/css/slide.css" type="text/css" media="all">
+<script src='../_asset/js/highlight.pack.js'></script>
+<script src='../_asset/js/jquery.js'></script>
+<script src='../_asset/js/slide.js'></script>
 </head>
 <body>
 <div class="wrapper">
@@ -19,6 +17,7 @@
   <h1>JavaScript Documentation</h1>
   <p class="author">Kazuhito Hokamura</p>
   <p class="date">2012.08.15</p>
+  <p class="at">社内勉強会</p>
 </div></div>
 
 <div class="page spread"><div>
@@ -53,13 +52,13 @@ $ yuidoc -o path/to/out path/to/js
 </div></div>
 
 <div class="page spread"><div>
-  <iframe src="http://yui.github.com/yuidoc/api/"></iframe>
+  <iframe width="90%" height="500" src="http://yui.github.com/yuidoc/api/"></iframe>
 </div></div>
 
 <div class="page plain"><div>
   <h2>書き方</h2>
   <p>コード内のコメントに決まった書式で記述する</p>
-<pre><code><strong>/**
+<pre><code class="javascript"><strong>/**
 * Userを管理するクラス
 *
 * @class User
@@ -72,7 +71,7 @@ function User() {
 
 <div class="page plain"><div>
   <h2>メソッドのドキュメント</h2>
-<pre><code>/**
+<pre><code class="javascript">/**
 * 名前のデータを文字列で返す
 * 
 * <strong>@method getName</strong>
@@ -85,7 +84,7 @@ User.prototype.getName = function () {
 
 <div class="page plain"><div>
   <h2>クラスメソッドの宣言</h2>
-<pre><code>/**
+<pre><code class="javascript">/**
 * 条件からユーザーを探す
 *
 * @method find
@@ -99,7 +98,7 @@ User.find = function(cond) {
 
 <div class="page plain"><div>
   <h2>パラメーターの指定</h2>
-<pre><code>/**
+<pre><code class="javascript">/**
 * 条件からユーザーを探す
 *
 * @method find
@@ -114,7 +113,7 @@ User.find = function(cond) {
 
 <div class="page plain"><div>
   <h2>パラメーターのネスト</h2>
-<pre><code>/**
+<pre><code class="javascript">/**
 * 条件からユーザーを探す
 *
 * @method find
@@ -131,7 +130,7 @@ User.find = function(cond) {
 
 <div class="page plain"><div>
   <h2>オプショナルなパラメーター</h2>
-<pre><code>/**
+<pre><code class="javascript">/**
 * 条件からユーザーを探す
 * @method find
 * @param cond {Object}
@@ -149,7 +148,7 @@ User.find = function(cond, option) {
 
 <div class="page plain"><div>
   <h2>markdownとしてパースされる</h2>
-<pre><code>/**
+<pre><code class="javascript">/**
 * 条件からユーザーを探す
 *
 * <strong>### 名前から探す場合</strong>
@@ -195,7 +194,7 @@ User.find = function(cond, option) {
 
 <div class="page plain"><div>
   <h2>イベントのドキュメント</h2>
-<pre><code>/**
+<pre><code class="javascript">/**
 * データを設定したとき発火するイベント
 *
 * <strong>@event change</strong>
@@ -205,7 +204,7 @@ User.find = function(cond, option) {
 </div></div>
 
 <div class="page spread"><div>
-  <iframe src="./demo/sample/out/index.html"></iframe>
+  <iframe width="90%" height="500" src="./demo/sample/out/index.html"></iframe>
 </div></div>
 
 <div class="page spread"><div>
@@ -214,7 +213,7 @@ User.find = function(cond, option) {
 
 <div class="page plain"><div>
 <p>YUIDoc version 0.3.19+</p>
-<pre><code><strong>###*
+<pre><code class="coffee"><strong>###*
 # This is the description for foo class.
 #
 # @class User
@@ -229,7 +228,7 @@ class User
 </div></div>
 
 <div class="page spread"><div>
-  <iframe src="./demo/sample_coffee/out/index.html"></iframe>
+  <iframe width="90%" height="500" src="./demo/sample_coffee/out/index.html"></iframe>
 </div></div>
 
 <div class="page spread"><div>

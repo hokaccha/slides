@@ -2,13 +2,11 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>CSSによるアニメーションとイージング</title>
-<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-<script src='asset/js/jquery.js'></script>
-<script src='asset/js/slide.js'></script>
-<script src='js/custom.js'></script>
+<title>知らないとはまるHTML5の落とし穴</title>
+<link rel="stylesheet" href="../_asset/css/slide.css" type="text/css" media="all">
+<script src='../_asset/js/highlight.pack.js'></script>
+<script src='../_asset/js/jquery.js'></script>
+<script src='../_asset/js/slide.js'></script>
 </head>
 <body>
 <div class='wrapper'>
@@ -17,6 +15,7 @@
 	<h1>知らないとはまるHTML5の落とし穴</h1>
 	<p class='author'>外村 和仁（ピクセルグリッド）</p>
 	<p class='date'>2011.06.18</p>
+    <p class="at"><a href="http://m2.cap-ut.co.jp/event/col01.html">HTML5+CSS3 制作現場の実践アプローチ大公開！ @ まにカレ</a></p>
 </div></div>
 
 <div class='page plain'><div>
@@ -49,7 +48,7 @@
 <div class='page plain'><div>
 	<h2>HTML5の新要素とは？</h2>
 	<p>これまでのHTMLになかった要素</p>
-	<pre><code>article     aside   audio   canvas  details
+	<pre><code class="no-highlight">article     aside   audio   canvas  details
 figcaption  figure  footer  header  hgroup
 mark        meter   nav     output  progress
 section     time    video</code></pre>
@@ -119,7 +118,7 @@ footer, header, hgroup, nav, section {
 <div class='page plain'><div>
 	<h2>解決方法</h2>
 	<p>JavaScriptのcreateElementであらかじめ要素を<br>つくることで対応可能</p>
-	<pre><code>document.createElement('section');</code></pre>
+	<pre><code class="javascript">document.createElement('section');</code></pre>
 	<p><img src="img/html5_5.png" alt="" width="300px"></p>
 </div></div>
 
@@ -128,7 +127,7 @@ footer, header, hgroup, nav, section {
 	<p><a href="http://code.google.com/p/html5shiv/">http://code.google.com/p/html5shiv/</a></p>
 	<p>IEのバグ対応用のスクリプト。<br>読み込むだけでＯＫ。</p>
 
-	<pre style="font-size:0.7em"><code>&lt;!--[if lt IE 9]&gt;
+	<pre style="font-size:0.7em"><code class="html">&lt;!--[if lt IE 9]&gt;
 &lt;script src=&quot;//html5shim.googlecode.com/svn/trunk/html5.js&quot;&gt;&lt;/script&gt;
 &lt;![endif]--&gt;
 </code></pre>
@@ -141,21 +140,21 @@ footer, header, hgroup, nav, section {
 <div class='page plain'><div>
 	<h2>innerHTMLの問題</h2>
 	<p>このようなコードで追加したHTML5の新要素にIE6〜8でDOMが壊れる（スタイルが効かない）</p>
-	<pre><code>var div = document.createElement('div');
+	<pre><code class="javascript">var div = document.createElement('div');
 div.innerHTML = <strong>'&lt;section&gt;section&lt;/section&gt;'</strong>;
 document.getElementById('box').appendChild(div);</code></pre>
-	<pre><code>$('.box').append(<strong>'&lt;section&gt;section&lt;/section&gt;'</strong>);</code></pre>
+	<pre><code class="javascript">$('.box').append(<strong>'&lt;section&gt;section&lt;/section&gt;'</strong>);</code></pre>
 </div></div>
 
 <div class='page plain'><div>
 	<h2>HTML5 innerShiv</h2>
 	<p><a href="http://jdbartlett.github.com/innershiv/">http://jdbartlett.github.com/innershiv/</a></p>
 	<p>innerHTMLでIEのDOMが壊れるバグを回避する<br>ライブラリ</p>
-	<pre style="font-size:0.83em"><code>var div = document.createElement('div');
+	<pre><code class="javascript">var div = document.createElement('div');
 div.appendChild( <strong>innerShiv('&lt;section&gt;section&lt;/section&gt;')</strong> );
 document.getElementById('box').appendChild(div);</code></pre>
 	
-	<pre style="font-size:0.81em"><code>$('.box').append( <strong>innerShiv('&lt;section&gt;section&lt;/section&gt;')</strong> );</code></pre>
+	<pre><code class="javascript">$('.box').append( <strong>innerShiv('&lt;section&gt;section&lt;/section&gt;')</strong> );</code></pre>
 </div></div>
 
 <div class='page plain'><div>
@@ -182,12 +181,12 @@ document.getElementById('box').appendChild(div);</code></pre>
 
 <div class='page plain'><div>
 	<h3>index.html</h3>
-<pre style="font-size:0.9em"><code>&lt;!DOCTYPE html&gt;
+<pre><code>&lt;!DOCTYPE html&gt;
 &lt;html lang="ja" manifest="cache.appcache"&gt;
 ...
 &lt;/html&gt;</code></pre>
 	<h3>cache.appcache</h3>
-<pre style="font-size:0.9em"><code>CACHE MANIFEST
+<pre><code>CACHE MANIFEST
 /img/image.png
 /js/jquery.js
 /css/style.css</code></pre>
@@ -334,7 +333,7 @@ js/script.js</code></pre>
 
 <div class='page plain'><div>
 	<h2>WebStorageの例</h2>
-<pre><code>// 値のセット
+<pre><code class="javascript">// 値のセット
 sessionStorage['foo'] = 'bar';
 
 // 値の取得
@@ -346,7 +345,7 @@ delete sessionStorage['foo'];</code></pre>
 
 <div class='page plain'><div>
 	<h2>WebStorageの例</h2>
-<pre><code>// 値のセット
+<pre><code class="javascript">// 値のセット
 sessionStorage.setItem('foo', 'bar');
 
 // 値の取得
@@ -363,7 +362,7 @@ sessionStorage.removeItem('foo');</code></pre>
 <div class='page plain'><div>
 	<h2>Same-Originポリシー</h2>
 	<p>オリジン（プロトコル、ドメイン、ポート）を<br>またいでデータにアクセスできない</p>
-	<pre><code>http://www.pxgrid.com:80/</code></pre>
+	<pre><code class="no-highlight">http://www.pxgrid.com:80/</code></pre>
 	<table class="origin">
 		<tr>
 			<th>プロトコル</th>
@@ -537,7 +536,7 @@ sessionStorage.removeItem('foo');</code></pre>
 </div></div>
 
 <div class='page spread'><div>
-	<h2 style="font-size: 1.2em;">ありがとうございました</h2>
+	<h2>ありがとうございました</h2>
 </div></div>
 
 </body>

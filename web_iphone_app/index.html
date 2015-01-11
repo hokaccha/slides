@@ -3,25 +3,22 @@
 <head>
 <meta charset="utf-8">
 <title>Web制作のノウハウでつくるiPhoneアプリ</title>
-<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-<script src='asset/js/jquery.js'></script>
-<script src='asset/js/slide.js'></script>
-<script src='js/custom.js'></script>
+<link rel="stylesheet" href="../_asset/css/slide.css" type="text/css" media="all">
+<script src='../_asset/js/highlight.pack.js'></script>
+<script src='../_asset/js/jquery.js'></script>
+<script src='../_asset/js/slide.js'></script>
+<style>
+.popup { display: none }
+</style>
 </head>
 <body>
 <div class='wrapper'>
-
-<div class='page front'><div>
-<img src="img/lp13.png" alt="LP13">
-</div></div>
 
 <div class='page top'><div>
     <h1>Web制作のノウハウでつくるiPhoneアプリ</h1>
     <p class='author'>外村 和仁（ピクセルグリッド）</p>
     <p class='date'>2011.01.22</p>
-    <p class="at">CSS Nite LP13</p>
+    <p class="at"><a href="http://lp13.cssnite.jp/">CSS Nite LP13</a></p>
 </div></div>
 
 <div class='page plain'><div>
@@ -139,31 +136,6 @@
     <p>WindowsでもMacでも開発可能</p>
 </div></div>
 
-<!--
-<div class='page plain'><div>
-    <h2>ネイティブアプリ</h2>
-    <div style="zoom:0.8">
-    <div>
-        <h3>利点</h3>
-        <ul class="list">
-            <li>App Storeで公開できる（課金が可能）</li>
-            <li>OSの固有機能にアクセスできる（カメラや電話など）</li>
-            <li>複雑なアニメーションのゲームなどもハイパフォーマンスでつくれる</li>
-            <li><span role="button" class="help" data-target="nativeui">ネイティブUI</span>が使用可能</li>
-        </ul>
-    </div>
-    <div>
-        <h3>問題点</h3>
-        <ul class="list">
-            <li>Objective-Cを覚える必要がある</li>
-            <li>Macがないと開発できない</li>
-            <li>マルチプラットフォームで展開できない</li>
-        </ul>
-    </div>
-    </div>
-</div></div>
--->
-
 <div class='popup nativeui'><div>
     <div class="header">
         <h2>ネイティブUIとは？</h2>
@@ -175,42 +147,6 @@
         <li><img src="img/nativeui3.png" alt=""></li>
     </ul>
 </div></div>
-
-<!--
-<div class='page plain'><div>
-    <h2>ネイティブUIとは</h2>
-    <ul class="zoomPhotoList">
-        <li><img src="img/nativeui1.png" alt=""></li>
-        <li><img src="img/nativeui2.png" alt=""></li>
-        <li><img src="img/nativeui3.png" alt=""></li>
-    </ul>
-</div></div>
--->
-
-<!--
-<div class='page plain'><div>
-    <h2>Webアプリ</h2>
-    <div style="zoom:0.75">
-    <div>
-        <h3>利点</h3>
-        <ul class='list'>
-            <li>審査なしで公開できる</li>
-            <li>Windowsでも開発できる</li>
-            <li>Web制作の技術（HTML/CSS/JavaScript）がそのまま使える</li>
-            <li>マルチプラットフォームで展開できる</li>
-        </ul>
-    </div>
-    <div>
-        <h3>問題点</h3>
-        <ul class='list'>
-            <li>App Storeで配布できない（アプリ単体での課金が難しい）</li>
-            <li>OSの固有機能にアクセスできない</li>
-            <li>モバイルSafari固有の問題でUIの作成が難しい</li>
-        </ul>
-    </div>
-    </div>
-</div></div>
--->
 
 <div class='page plain'><div>
     <h2>ネイティブアプリとWebアプリの比較</h2>
@@ -286,36 +222,6 @@
         <li><img src="img/running04.png" alt="running04"></li>
     </ul>
 </div></div>
-
-<!--
-<div class='page plain'><div>
-    <h2>フルスクリーンモードの違い</h2>
-    <ul class='list'>
-        <li>メニューバーやアドレスバーが表示されなくなる</li>
-        <li>リンクは全てSafariが立ち上がるので画面遷移はJavaScript行う必要がある</li>
-        <li>戻るボタンやURLの入力ボックスがない</li>
-        <li>ステータスバーの色指定ができる（通常、黒、半透明）</li>
-    </ul>
-</div></div>
-
-<div class='page plain'><div>
-    <h2>ステータスバーの色指定</h2>
-    <pre><code>&lt;meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="black"&gt; </code></pre>
-    <p>contentにはdefault, black, black-translucentが指定可能</p>
-</div></div>
-
-<div class='page plain'><div>
-    <h2>フルスクリーンモード</h2>
-    <ul class="zoomPhotoList">
-        <li><img src="img/running01.png" alt="running01"></li>
-        <li><img src="img/running02.png" alt="running02"></li>
-        <li><img src="img/running03.png" alt="running03"></li>
-        <li><img src="img/running04.png" alt="running04"></li>
-    </ul>
-</div></div>
--->
 
 <div class='page spread' style="zoom:0.8"><div>
     <h2>WebアプリをApp Store<br>に申請したい！</h2>
@@ -428,9 +334,8 @@
     </table>
 </div></div>
 
-<div class='page plain'><div>
-    <h2>Demo</h2>
-    <p style="font-size: 2em;">Running Appを<br>PhoneGapで<br>アプリ化してみます</p>
+<div class='page spread'><div>
+    <h2>DEMO</h2>
 </div></div>
 
 <div class='page spread'><div>
@@ -446,25 +351,6 @@
         <li>※まだ公開されていないのでお見せできません</li>
     </ul>
 </div></div>
-
-<!--
-<div class='page plain'><div>
-    <h2>アプリかブラウザの判別</h2>
-    <p>ブラウザで見るのとほぼ同じとはいえ、若干条件分岐が必要な部分もあったのでURLの最後に?noappとつけることで対応した</p>
-    <pre><code>var noapp = location.search === '?noapp';</code></pre>
-</div></div>
-
-<div class='page plain'><div>
-    <h2>例えばAjaxでのURLなど</h2>
-    <p>アプリからはクロスドメインでのAjaxが可能だがブラウザから見た場合はできないの分岐する</p>
-    <pre><code>if (noapp) {
-    request_url = 'dummy.json';
-}
-else {
-    request_url = 'http://***/data.json';
-}</code></pre>
-</div></div>
--->
 
 <div class='page plain'><div>
     <h2>Webアプリとの挙動の違い</h2>
@@ -564,7 +450,7 @@ else {
 
 <div class='page plain'><div>
     <h2>Titaniumの記述例</h2>
-<pre style="zoom:0.65;"><code>// タブグループの作成
+<pre><code class="javascript">// タブグループの作成
 var tabGroup = <strong>Titanium.UI.createTabGroup()</strong>;
 
 // タブの作成
@@ -656,8 +542,10 @@ tabGroup.open();</code></pre>
 </div></div>
 
 <div class='page spread'><div>
-    <h2 style="font-size: 1.2em;">ありがとうございました</h2>
+    <h2>ありがとうございました</h2>
 </div></div>
+
+</div>
 
 </body>
 </html>
