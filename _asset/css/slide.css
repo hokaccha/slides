@@ -1,0 +1,348 @@
+html, body {
+  height: 100%;
+}
+
+body {
+    font-size: 2.3em;
+    font-family: sans-serif;
+    margin: 0;
+    color: #FFF;
+}
+
+.wrapper {
+    display: none;
+    min-height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #333;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(to bottom, #222, #444);
+}
+
+.page > div {
+    padding-bottom: 0.5em;
+}
+
+.page a:hover {
+    color: #C00;
+}
+
+.page a {
+    color: #14b9ff;
+}
+
+.page em {
+    font-style: normal;
+    font-weight: bold;
+}
+
+.page strong {
+    font-weight: normal;
+    color: #f5394a;
+}
+
+.page p {
+    padding: 0 1em;
+    margin: 1em 0;
+}
+
+.page pre {
+    font-size: 0.65em;
+    line-height: 1.8;
+    color: #000;
+    margin: 1em;
+    padding: 0.5em;
+    border: 2px solid #999;
+    background: #EFEFEF;
+}
+
+.page pre code {
+    font-family: monaco, osaka-mono, monospace;
+}
+
+.page li {
+    margin: 0.5em 0;
+}
+
+.page ul {
+    list-style: none;
+}
+
+.page .list li {
+    padding-left: 1.3em;
+    background: url('../img/arrow.png') no-repeat 0 0.43em;
+    background-size: 0.75em 0.75em;
+}
+
+.page ol {
+    padding-left: 2.5em;
+}
+
+.top {
+    padding: 1em 2em;
+}
+
+.top h1 {
+    font-size: 2em;
+    color: #df871e;
+}
+
+.top p {
+    margin: 0.3em 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+.plain h2 {
+    border-bottom: 2px solid #df871e;
+    padding: 0.6em 0.3em 0.2em;
+    margin: 0 0 0.3em 0;
+}
+
+.spread {
+    font-size: 1.2em;
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.spread > div {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.spread h2 {
+    font-size: 1.8em;
+}
+
+.front > div img {
+    width: 100%;
+    height: 100%;
+}
+
+.selfphoto {
+    position: absolute;
+    right: 0;
+}
+
+.center {
+    text-align: center;
+}
+
+h3 {
+    margin-bottom: 0;
+    color: #ff9b22;
+    font-size: 1.1em;
+}
+
+table {
+    background: #EEE;
+    color: #000;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.5em;
+}
+
+th {
+    background: #DDD;
+}
+
+td, th {
+    text-align: center;
+    border: 1px solid #000;
+	padding: 0.5em;
+}
+
+.right {
+    float: right;
+}
+
+table {
+    margin-top: 2em;
+}
+
+.page ol ol {
+	padding-left: 2em;
+}
+.page ol span {
+	margin-right: 0.5em;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+blockquote {
+	background: url(../img/blockquote.gif) #FFF no-repeat 20px 20px;
+	-webkit-background-size: 100px;
+	-moz-background-size: 100px;
+	-o-background-size: 100px;
+	-ms-background-size: 100px;
+	background-size: 100px;
+	color: #000;
+	padding: 0 .5em 1em 120px;
+	border: 1px solid #999;
+	font-size: 0.9em;
+}
+
+blockquote cite {
+	display: block;
+	text-align: right;
+	text-align: right;
+	font-size: .8em;
+	padding: 0 1.5em .5em;
+}
+
+time {
+	font-size: 0.5em;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+}
+
+table.origin {
+	font-size: 0.7em;
+	width: 94.5%;
+	margin: 0 auto;
+}
+table.origin td {
+	text-align: left;
+}
+
+.progress {
+  width: 100%;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #CCC;
+}
+
+pre *::selection {
+  background: rgb(255, 255, 119);
+}
+
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  background: #F0F0F0;
+}
+
+pre code,
+pre .ruby .subst,
+pre .tag .title,
+pre .lisp .title {
+  color: black;
+}
+
+pre .string,
+pre .title,
+pre .constant,
+pre .parent,
+pre .tag .value,
+pre .rules .value,
+pre .rules .value .number,
+pre .preprocessor,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .instancevar,
+pre .aggregate,
+pre .template_tag,
+pre .django .variable,
+pre .smalltalk .class,
+pre .addition,
+pre .flow,
+pre .stream,
+pre .bash .variable,
+pre .apache .tag,
+pre .apache .cbracket,
+pre .tex .command,
+pre .tex .special,
+pre .erlang_repl .function_or_atom {
+  color: #800;
+}
+
+pre .comment,
+pre .annotation,
+pre .template_comment,
+pre .diff .header,
+pre .chunk {
+  color: #888;
+}
+
+pre .number,
+pre .date,
+pre .regexp,
+pre .literal,
+pre .smalltalk .symbol,
+pre .smalltalk .char,
+pre .go .constant,
+pre .change {
+  color: #080;
+}
+
+pre .label,
+pre .javadoc,
+pre .ruby .string,
+pre .decorator,
+pre .filter .argument,
+pre .localvars,
+pre .array,
+pre .attr_selector,
+pre .important,
+pre .pseudo,
+pre .pi,
+pre .doctype,
+pre .deletion,
+pre .envvar,
+pre .shebang,
+pre .apache .sqbracket,
+pre .nginx .built_in,
+pre .tex .formula,
+pre .erlang_repl .reserved,
+pre .input_number {
+  color: #1d1dff;
+}
+
+pre .css .tag,
+pre .javadoctag,
+pre .phpdoc,
+pre .yardoctag {
+  font-weight: bold;
+}
+
+pre .keyword {
+  color: #0f0088;
+}
+
+pre .keyword,
+pre .id,
+pre .phpdoc,
+pre .title,
+pre .built_in,
+pre .aggregate,
+pre .smalltalk .class,
+pre .winutils,
+pre .bash .variable,
+pre .apache .tag,
+pre .go .typename,
+pre .tex .command {
+  font-weight: bold;
+}
+
+pre .nginx .built_in {
+  font-weight: normal;
+}
+
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}

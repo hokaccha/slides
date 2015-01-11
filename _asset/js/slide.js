@@ -1,19 +1,25 @@
 $(function() {
 
+window.Slide = {
+	next: next,
+	prev: prev
+};
+
 window.lock = false;
 
 var pages = $('.page'),
 	$d    = $(document),
 	$w    = $(window);
+	$wr   = $('.wrapper');
 
 function get_page() {
-	return parseInt(location.hash.replace(/^#page/, '')) || 1;
+	return parseInt(location.hash.replace(/^#page/, ''), 10) || 1;
 }
 
 function set_page() {
 	var page = get_page();
 	pages.not(':hidden').hide();
-	pages.eq(page - 1).fadeIn();
+	pages.eq(page - 1).fadeIn().filter('.spread').height($wr.height());
 }
 
 function next() {
@@ -36,10 +42,6 @@ function prev() {
 	}
 }
 
-function height_adjust() {
-	$('body').height( $w.height() );
-}
-
 // set id attr to page
 pages.each(function(i) {
 	var page_number = i + 1;
@@ -47,8 +49,7 @@ pages.each(function(i) {
 });
 
 // attach event
-$w.bind('hashchange', set_page)
-	.bind('resize', height_adjust);
+$w.bind('hashchange', set_page);
 
 $d.bind('click', next)
 	.bind('keydown', function(e) {
@@ -66,7 +67,7 @@ $d.bind('click', next)
 		}
 	});
 
-$('.wrapper').click(function() {
+$wr.click(function() {
   // http://kimizuka.hatenablog.com/entry/2013/12/20/075448
 });
 
@@ -77,7 +78,16 @@ $('a').click(function(e) {
 });
 
 // initialize
+$wr.show();
 set_page();
-height_adjust();
+
+// highlight
+$('pre').click(function(e) {
+  e.stopPropagation();
+});
+$('code').each(function() {
+  var $el = $(this);
+  hljs.highlightBlock($el.get(0));
+});
 
 });

@@ -3,12 +3,15 @@
 <head>
 <meta charset="utf-8">
 <title>CSSによるアニメーションとイージング</title>
-<link rel="stylesheet" href="asset/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="themes/pxgrid/css/slide.css" type="text/css" media="all">
-<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
-<script src='asset/js/jquery.js'></script>
-<script src='asset/js/slide.js'></script>
-<script src='js/custom.js'></script>
+<link rel="stylesheet" href="../_asset/css/slide.css" type="text/css" media="all">
+<script src='../_asset/js/highlight.pack.js'></script>
+<script src='../_asset/js/jquery.js'></script>
+<script src='../_asset/js/slide.js'></script>
+<style>
+.browsers { text-align: center; padding-top: 100px }
+.browsers img { width: 160px; }
+.timingfunc { background: #FFF; text-align: center; padding: 20px; }
+</style>
 </head>
 <body>
 <div class='wrapper'>
@@ -27,16 +30,6 @@
         <li>フロントエンドエンジニア</li>
         <li>Twitter: <a href="http:/wtwitter.com/hokaccha">@hokaccha</a></li>
     </ul>
-</div></div>
-
-<div class='page plain'><div>
-    <h2>自己紹介</h2>
-    <div class="books">
-    <img src="img/html5_book.jpg" height="380">
-    <img src="img/CSS3_cover_0429.png" height="380">
-    <img src="img/mdn.png" height="380">
-    <img src="img/hatena.png" height="380">
-    </div>
 </div></div>
 
 <div class='page plain'><div>
@@ -79,7 +72,7 @@
 <div class='page plain'><div>
     <h2>Transitionsの例</h2>
     <div class="demo1"></div>
-<pre><code>.demo1 {
+<pre><code class="css">.demo1 {
     width: 100px;
     height: 100px;
     background: red;
@@ -119,7 +112,7 @@
 <div class='page plain'><div>
     <h2>Animationsの例</h2>
     <div class="demo2"></div>
-    <pre><code>.demo2 {
+    <pre><code class="css">.demo2 {
     width: 100px;
     height: 100px;
     background: red;
@@ -203,10 +196,10 @@
 <div class='page plain'><div>
     <h2>CSSでのイージングの指定</h2>
     <h3>3次ベジェ関数</h3>
-    <pre><code>transition-timing-function: cubic-bezier(n, n, n, n);</code></pre>
+    <pre><code class="css">transition-timing-function: cubic-bezier(n, n, n, n);</code></pre>
     <p>※ n: 0〜1 の数値</p>
     <h3>キーワード</h3>
-    <pre><code>transition-timing-function: ease-in-out;</code></pre>
+    <pre><code class="css">transition-timing-function: ease-in-out;</code></pre>
 </div></div>
 
 <div class='page plain'><div>
@@ -264,7 +257,7 @@
     <h2>JavaScriptでcubic-bezierを実装する</h2>
 	<p>P1x、P1y、P2x、P2yを入力値としてイージングの関数を返す関数を実装する</p>
 
-<pre><code>function cubicBezier(p1x, p1y, p2x, p2y) {
+<pre><code class="javascript">function cubicBezier(p1x, p1y, p2x, p2y) {
     return function(x, t, b, c, d) {
         // なんか小難しい処理
     }
